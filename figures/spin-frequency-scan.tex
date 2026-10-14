@@ -1,0 +1,40 @@
+% Exact single-spin frequency response from Eq. (4.8).
+% The horizontal coordinate is x=(omega-omega_res)*tau and the
+% fixed pulse area is alpha=Omega_0*tau=0.5.
+\begingroup
+\definecolor{spinScanBlue}{HTML}{0072B2}
+\pgfmathdeclarefunction{spinScanProbability}{1}{%
+ \pgfmathparse{0.25/(0.25+#1*#1)*%
+   sin(deg(0.5*sqrt(0.25+#1*#1)))^2}%
+}
+\begin{tikzpicture}[
+ x=4.4mm,y=500mm,>=stealth,line cap=round,line join=round,
+ every node/.style={font=\small,inner sep=1.5pt}
+]
+ \path[use as bounding box] (-14,-0.017) rectangle (14,0.082);
+
+ \draw[->,line width=0.45pt] (-12,0)--(12.8,0);
+ \draw[->,line width=0.45pt] (-12,0)--(-12,0.074);
+ \node[anchor=west] at (12.8,-0.008)
+      {$(\omega-\omega_{\mathrm{res}})\tau$};
+ \node[anchor=south] at (-12,0.074) {$P_\uparrow$};
+
+ \foreach \x in {-10,-5,0,5,10}{
+  \draw[line width=0.35pt] (\x,0)--(\x,-0.0015);
+  \node[anchor=north] at (\x,-0.002) {$\x$};
+ }
+ \foreach \y/\labeltext in {0.02/{0.02},0.04/{0.04},0.06/{0.06}}{
+  \draw[line width=0.35pt] (-12,\y)--(-12.18,\y);
+  \node[anchor=east] at (-12.25,\y) {$\labeltext$};
+ }
+
+ \draw[black!35,dash pattern=on 2pt off 1.5pt,line width=0.45pt]
+       (0,0)--(0,{spinScanProbability(0)});
+ \draw[spinScanBlue,line width=0.9pt]
+       plot[domain=-12:12,samples=401]
+       (\x,{spinScanProbability(\x)});
+ \fill[spinScanBlue] (0,{spinScanProbability(0)}) circle[radius=0.55mm];
+ \node[anchor=south west] at (0.5,0.061)
+       {$\omega=\omega_{\mathrm{res}}$};
+\end{tikzpicture}
+\endgroup

@@ -1,0 +1,603 @@
+\FloatBarrier
+\section{Orbital States in the Effective-Mass Approximation}
+\label{app:effective-mass}
+\label{sec:confinement-single-electron}
+
+Section~\ref{sec:quantum-dot-introduction} uses
+Eq.~\eqref{eq:dot-orbital-eigenproblem} to describe a localized orbital.
+This appendix derives that equation from the crystal problem and then
+shows how to obtain bound orbitals from a specified confining potential.
+
+
+Our goal is to derive a Schr\"odinger equation for a confined
+conduction electron without resolving its wave function inside
+every crystal cell. The lattice will enter through an effective
+mass, while the dot potential will determine a slowly varying
+envelope. The main issue is how to derive that envelope equation
+when the envelope itself is unknown.
+
+We first expand the microscopic state in a complete basis with
+ordinary numerical coefficients. Projection gives equations for
+those coefficients; a Fourier transform then gives coupled
+equations for the envelopes. Finally, we express the small
+other-band components in terms of the conduction-band envelope
+and substitute them back. This is a fixed-reference
+Luttinger--Kohn construction~\cite{LuttingerKohn1955}.
+We work in one dimension to expose each step and give the
+three-dimensional result at the end.
+
+\subsection{The crystal reference and the confined state}
+\label{sec:em-crystal-reference}
+
+Consider the spinless, one-electron Hamiltonian
+\begin{equation}
+  H_{\mathrm{free}}=\frac{p^2}{2m_e}+V_{\mathrm{lat}}(x),
+  \qquad p=-i\hbar\partial_x,
+  \qquad V_{\mathrm{lat}}(x+a)=V_{\mathrm{lat}}(x),
+  \label{eq:em-crystal-hamiltonian}
+\end{equation}
+where $a$ is the lattice period, $m_e$ is the vacuum electron
+mass, and $V_{\mathrm{lat}}$ is a real local potential energy.
+Here ``free'' means without dot
+confinement, not without the crystal lattice. We take this
+crystal model and its Bloch eigenstates as given:
+\begin{equation}
+  H_{\mathrm{free}}\chi_{n,k}=E_n(k)\chi_{n,k},
+  \qquad
+  \chi_{n,k}(x)=e^{ikx}u_{n,k}(x),
+  \qquad u_{n,k}(x+a)=u_{n,k}(x).
+  \label{eq:em-bloch-states}
+\end{equation}
+Throughout this appendix, $n$ and $m$ label crystal bands, not
+the discrete orbitals of a quantum dot.
+
+Choose a nondegenerate conduction-band minimum at $k_0$, with
+band index $\mathrm c$. We abbreviate
+$E_n=E_n(k_0)$ and $\chi_n=\chi_{n,k_0}$.
+Adding a dot potential gives the eigenvalue problem
+\begin{equation}
+  H=H_{\mathrm{free}}+V_{\mathrm{conf}}(x),
+  \qquad H\psi=E\psi.
+  \label{eq:em-confined-problem}
+\end{equation}
+If the potential supports a bound state, $\psi$ is localized,
+whereas the reference state $\chi_{\mathrm c}$ is extended.
+The eventual approximation concerns small changes in band
+character near $k_0$; it does not require the localized state
+to be close to the extended state in norm.
+
+Locally, wherever $\chi_{\mathrm c}\ne0$, one can write
+$\psi=\chi_{\mathrm c}F$ exactly. Product differentiation gives
+\begin{equation}
+  \left[-\frac{\hbar^2}{2m_e}\partial_x^2
+        -\frac{\hbar^2}{m_e}\frac{\chi_{\mathrm c}'}{\chi_{\mathrm c}}
+             \partial_x+V_{\mathrm{conf}}\right]F
+       =(E-E_{\mathrm c})F.
+  \label{eq:em-exact-quotient}
+\end{equation}
+Here a prime denotes an $x$ derivative. This is not yet an
+effective-mass equation: $F$ can contain microscopic variations,
+and the quotient can be singular at nodes of $\chi_{\mathrm c}$.
+Dropping the coefficient involving $\chi_{\mathrm c}'$ would
+leave $m_e$, not produce a material-dependent mass. We therefore
+resolve the microscopic components before making an approximation.
+
+\subsection{A complete basis at a fixed reference wave vector}
+\label{sec:em-complete-basis}
+
+\paragraph{Completeness within one cell.}
+Substituting the Bloch form into Eq.~\eqref{eq:em-bloch-states}
+gives an eigenproblem for the periodic part:
+\begin{equation}
+  H(k)u_{n,k}=E_n(k)u_{n,k},
+  \qquad H(k)=\frac{(p+\hbar k)^2}{2m_e}+V_{\mathrm{lat}}.
+  \label{eq:em-cell-hamiltonian}
+\end{equation}
+At fixed $k_0$, this is one operator on $[0,a]$ with periodic
+boundary conditions on both the function and its derivative.
+Fixing $k_0$ fixes an operator parameter; it does not select
+one of its eigenstates. The band index enumerates all of them.
+
+For a sufficiently regular real periodic potential, this
+self-adjoint cell operator has a discrete spectrum and a complete
+orthonormal eigenbasis. The mathematical reason is that it has
+compact resolvent: for a constant $C$ chosen to make $H(k_0)+C$
+positive, the inverse $(H(k_0)+C)^{-1}$ is compact. In the
+zero-potential Fourier basis its eigenvalues tend to zero as
+the Fourier wave vector grows; a bounded periodic potential
+preserves this property. The spectral theorem then supplies
+the complete basis, rather than self-adjointness alone.
+We use the cell-average normalization
+\begin{equation}
+  \langle u_{n,k_0},u_{m,k_0}\rangle_{\mathrm{cell}}
+    \equiv\frac1a\int_0^a u_{n,k_0}^*(x)u_{m,k_0}(x)\,dx
+    =\delta_{nm}.
+  \label{eq:em-cell-normalization}
+\end{equation}
+For example, when $V_{\mathrm{lat}}=0$, the periodic eigenfunctions
+can be chosen as $e^{iGx}$, with $G=2\pi\ell/a$ and integer
+$\ell$. These are precisely the Fourier basis of a cell.
+The periodic potential mixes these modes; its complete eigenbasis
+still spans the same function space.
+
+The periodic parts at any other wave vector belong to this
+same space. Consequently,
+\begin{equation}
+  u_{j,k_0+q}(x)=\sum_n b_{nj}(q)u_{n,k_0}(x),
+  \qquad
+  b_{nj}(q)=\langle u_{n,k_0},u_{j,k_0+q}\rangle_{\mathrm{cell}}.
+  \label{eq:em-cell-basis-change}
+\end{equation}
+Here $j$ is another band index. With all bands retained, this
+is an exact change between two orthonormal cell bases.
+It does not claim that $u_{j,k_0+q}$ is an eigenfunction of $H(k_0)$.
+
+\paragraph{Completeness across the crystal.}
+The fixed-$k_0$ states $\chi_n$ alone do not span arbitrary
+wave functions over the entire crystal. To include changes from
+cell to cell, introduce
+\begin{equation}
+  B_{nq}(x)=\frac{1}{\sqrt{2\pi}}e^{iqx}\chi_n(x)
+    =\frac{1}{\sqrt{2\pi}}e^{i(k_0+q)x}u_{n,k_0}(x),
+  \qquad q\in\mathcal Q=[-\pi/a,\pi/a).
+  \label{eq:em-global-basis}
+\end{equation}
+The interval $k_0+\mathcal Q$ contains one representative of
+every crystal quasi-momentum modulo $2\pi/a$.
+Each $B_{nq}$ has quasi-momentum $k_0+q$, but is generally not
+an energy eigenstate there. Equation~\eqref{eq:em-cell-basis-change}
+expresses every true Bloch state as a combination of these
+functions at the same $q$, establishing completeness.
+
+To verify orthogonality, expand the periodic product as
+\begin{equation}
+  u_{n,k_0}^*u_{m,k_0}=\sum_G S_{nm}(G)e^{iGx},
+  \qquad
+  S_{nm}(G)=\frac1a\int_0^a
+       u_{n,k_0}^*u_{m,k_0}e^{-iGx}\,dx.
+  \label{eq:em-cell-product}
+\end{equation}
+Integration over the whole line then gives
+\begin{equation}
+  \int_{\mathbb R}B_{nq}^*(x)B_{mq'}(x)\,dx
+    =\sum_G S_{nm}(G)\delta(q'-q+G)
+    =\delta_{nm}\delta(q-q').
+  \label{eq:em-global-orthogonality}
+\end{equation}
+The last equality follows because two points of the half-open
+interval $\mathcal Q$ cannot differ by a nonzero reciprocal
+lattice vector, and $S_{nm}(0)=\delta_{nm}$.
+The continuous basis is delta-normalized; a finite periodic
+crystal gives the corresponding discrete sums.
+
+\subsection{Unknown envelopes and an exact projection}
+\label{sec:em-exact-projection}
+
+We can now expand the unknown state without treating a
+position-dependent function as a numerical coefficient:
+\begin{equation}
+  \psi(x)=\sum_n\int_{\mathcal Q}dq\,A_n(q)B_{nq}(x),
+  \qquad
+  A_n(q)=\int_{\mathbb R}B_{nq}^*(x)\psi(x)\,dx.
+  \label{eq:em-state-expansion}
+\end{equation}
+For fixed labels $n,q$, $A_n(q)$ is an unknown complex number
+independent of $x$. Define its Fourier transform by
+\begin{equation}
+  f_n(x)=\frac{1}{\sqrt{2\pi}}\int_{\mathcal Q}dq\,
+                          A_n(q)e^{iqx},
+  \qquad \phi(x)\equiv f_{\mathrm c}(x).
+  \label{eq:em-envelope-definition}
+\end{equation}
+Rearranging the exact expansion gives
+\begin{equation}
+  \psi=\sum_n\chi_nf_n
+       =\chi_{\mathrm c}\phi+\sum_{n\ne\mathrm c}\chi_nf_n.
+  \label{eq:em-multiband-reconstruction}
+\end{equation}
+Both $\phi$ and the other $f_n$ vary with position and are unknown.
+Their Fourier restriction to the same interval $\mathcal Q$
+is essential: arbitrary functions multiplying the $\chi_n$
+would give a nonunique decomposition. Given $\psi$, the complete
+basis instead determines every $A_n$, and hence every $f_n$,
+uniquely. No assumption of slow variation has yet been made;
+that will require concentration near $q=0$.
+
+Projection must use Eq.~\eqref{eq:em-state-expansion} and
+whole-crystal inner products. At a fixed $x$, the values
+$\chi_n(x)$ are just complex numbers; one cannot compare
+their function-valued coefficients as independent coordinates.
+Nor can $f_m(x)$ be pulled out of the cell integral
+$\int_0^a\chi_n^*(x)\chi_m(x)f_m(x)\,dx$.
+
+\paragraph{The crystal part of the projected equation.}
+Define the momentum matrix elements at the reference wave vector:
+\begin{equation}
+  p_{nm}=\frac1a\int_0^a
+       u_{n,k_0}^*(p+\hbar k_0)u_{m,k_0}\,dx
+       =\frac1a\int_0^a\chi_n^*p\chi_m\,dx,
+  \qquad p_{mn}=p_{nm}^*.
+  \label{eq:em-momentum-elements}
+\end{equation}
+These are numbers, with units of momentum.
+Acting on a basis function and differentiating the factor
+$e^{iqx}$ gives
+\begin{equation}
+  H_{\mathrm{free}}B_{mq}
+    =\left(E_m+\frac{\hbar^2q^2}{2m_e}\right)B_{mq}
+       +\frac{\hbar q}{m_e}\sum_n p_{nm}B_{nq}.
+  \label{eq:em-crystal-action}
+\end{equation}
+The sum arises by expanding $(p+\hbar k_0)u_{m,k_0}$ in the
+complete cell basis. There are no unknown envelopes in that
+cell expansion.
+
+\paragraph{The confining potential and the full equation.}
+Let
+\begin{equation}
+  V_{nm}(q,q')=\int_{\mathbb R}B_{nq}^*(x)
+                           V_{\mathrm{conf}}(x)B_{mq'}(x)\,dx.
+  \label{eq:em-potential-kernel}
+\end{equation}
+Multiplying $H\psi=E\psi$ by $B_{nq}^*$ and integrating now
+produces the exact coupled equations
+\begin{equation}
+  \begin{aligned}
+    0={}&\left(E_n+\frac{\hbar^2q^2}{2m_e}-E\right)A_n(q)
+       +\frac{\hbar q}{m_e}\sum_m p_{nm}A_m(q)\\
+       &+\sum_m\int_{\mathcal Q}dq'\,V_{nm}(q,q')A_m(q').
+  \end{aligned}
+  \label{eq:em-exact-amplitude-equations}
+\end{equation}
+This is a representation of the microscopic problem, not yet
+a reduced model. In particular, both changes of quasi-momentum
+and mixing of the reference-band components are present.
+
+\subsection{The smooth-potential approximation}
+\label{sec:em-smooth-potential}
+
+We now select low-energy states concentrated near $q=0$ and
+a potential varying on lengths much greater than $a$.
+The reason a smooth potential becomes approximately diagonal
+in the reference-band index can be seen from its Fourier transform.
+With the convention
+\begin{equation}
+  \widetilde V(s)=\frac1{2\pi}\int_{\mathbb R}dx\,
+                  e^{-isx}V_{\mathrm{conf}}(x),
+  \label{eq:em-potential-fourier}
+\end{equation}
+Eq.~\eqref{eq:em-cell-product} gives the exact kernel
+\begin{equation}
+  V_{nm}(q,q')=\sum_G S_{nm}(G)
+                           \widetilde V(q-q'-G).
+  \label{eq:em-potential-reciprocal-sum}
+\end{equation}
+For small $q,q'$, every $G\ne0$ samples a Fourier component
+at a lattice-scale wave vector. Smooth confinement has little
+weight there. Retaining $G=0$ gives
+\begin{equation}
+  V_{nm}(q,q')\simeq\delta_{nm}\widetilde V(q-q').
+  \label{eq:em-smooth-kernel}
+\end{equation}
+Thus it is the potential's lack of large-wave-vector components,
+not the constancy of an unknown envelope, that justifies this step.
+
+To obtain a local differential equation, we also neglect weight
+near the ends of $\mathcal Q$ and extend the low-wave-vector
+Fourier integrals to the real line. The convolution theorem then
+turns the potential term into $V_{\mathrm{conf}}f_n$.
+At finite $\mathcal Q$, it would instead be the Fourier projection
+of that product back into $\mathcal Q$; replacing it by the
+local product is valid when the discarded weight is negligible.
+This extension is an approximation, not a second exact basis expansion.
+
+The remaining Fourier identities are
+\[
+  \frac1{\sqrt{2\pi}}\int dq\,qA_n(q)e^{iqx}=-if_n'(x),
+  \qquad
+  \frac1{\sqrt{2\pi}}\int dq\,q^2A_n(q)e^{iqx}=-f_n''(x).
+\]
+Using them in Eq.~\eqref{eq:em-exact-amplitude-equations} gives
+the leading long-wavelength envelope system
+\begin{equation}
+  (\Delta_n+V_{\mathrm{conf}}-\epsilon)f_n
+     -\frac{\hbar^2}{2m_e}f_n''
+     -\frac{i\hbar}{m_e}\sum_m p_{nm}f_m'=0,
+  \quad
+  \Delta_n=E_n-E_{\mathrm c},\quad \epsilon=E-E_{\mathrm c}.
+  \label{eq:em-coupled-envelopes}
+\end{equation}
+Here $\Delta_{\mathrm c}=0$. All envelopes are still unknown
+functions. Equation~\eqref{eq:em-coupled-envelopes} was obtained
+by transforming projected equations for numerical amplitudes,
+not by pulling functions out of a cell integral.
+
+\subsection{Eliminating the other-band envelopes}
+\label{sec:em-band-elimination}
+
+The $n=\mathrm c$ component describes the desired low-energy
+state. The other components have nonzero reference energy
+separations $\Delta_n$. When those separations dominate the
+envelope energy and derivative couplings, their amplitudes can
+be expressed perturbatively in terms of $\phi=f_{\mathrm c}$.
+They need not be known beforehand.
+
+Let $\ell$ be a typical envelope length and
+$\Delta_{\min}=\min_{n\ne\mathrm c}|\Delta_n|>0$.
+We require $\ell\gg a$, envelope kinetic and local energy scales
+small compared with $\Delta_{\min}$, and weak derivative coupling
+to the excluded bands. In particular,
+\begin{equation}
+  \frac{\hbar^2}{2m_e\ell^2},\ |V_{\mathrm{conf}}-\epsilon|
+        \ll\Delta_{\min},
+  \qquad
+  \frac{\hbar|p_{n\mathrm c}|}
+       {m_e\ell|\Delta_n|}\ll1
+       \quad(n\ne\mathrm c),
+  \label{eq:em-elimination-conditions}
+\end{equation}
+with the analogous smallness of derivative couplings within
+the excluded subspace. Local energy conditions concern the
+region appreciably occupied by the state. A nearby degenerate
+band must be retained, not eliminated with a small denominator.
+The $\Delta_n$ can be positive or negative: ``other bands''
+includes bands below the chosen conduction band.
+We retain terms through second order in slow derivatives and
+to leading order in the ratio of envelope energy to band separation.
+
+At the minimum, the conduction-band diagonal momentum vanishes.
+Differentiating the cell eigenvalue equation and using normalization
+gives the Hellmann--Feynman identity
+\begin{equation}
+  \left.\frac{dE_{\mathrm c}(k)}{dk}\right|_{k_0}
+      =\left\langle u_{\mathrm c,k_0},
+        \left.\frac{\partial H(k)}{\partial k}\right|_{k_0}
+          u_{\mathrm c,k_0}\right\rangle_{\mathrm{cell}}
+      =\frac{\hbar}{m_e}p_{\mathrm{cc}}=0.
+  \label{eq:em-zero-group-velocity}
+\end{equation}
+Consequently, the conduction component of
+Eq.~\eqref{eq:em-coupled-envelopes} is
+\begin{equation}
+  -\frac{\hbar^2}{2m_e}\phi''+V_{\mathrm{conf}}\phi
+    -\frac{i\hbar}{m_e}\sum_{n\ne\mathrm c}p_{\mathrm c n}f_n'
+       =\epsilon\phi.
+  \label{eq:em-conduction-envelope}
+\end{equation}
+
+For $n\ne\mathrm c$, the leading source in its equation is
+the derivative of $\phi$. To first order in slow spatial
+variation, balance that source against the band separation:
+\begin{equation}
+  \Delta_nf_n-\frac{i\hbar}{m_e}p_{n\mathrm c}\phi'\simeq0,
+  \qquad
+  f_n\simeq\frac{i\hbar p_{n\mathrm c}}{m_e\Delta_n}\phi'.
+  \label{eq:em-eliminated-envelopes}
+\end{equation}
+Derivatives of these already small components give higher
+orders in their own equations; their local energy corrections
+are suppressed by Eq.~\eqref{eq:em-elimination-conditions}.
+The displayed term is enough to determine the leading
+second-derivative correction in the conduction equation.
+Although $f_n$ is small, setting it to zero before this
+substitution would discard the mass correction.
+
+The crystal parameters are position independent here. Substituting
+$f_n'$ from Eq.~\eqref{eq:em-eliminated-envelopes} into
+Eq.~\eqref{eq:em-conduction-envelope}, with
+$p_{\mathrm c n}=p_{n\mathrm c}^*$, yields
+\begin{equation}
+  \left[-\frac{\hbar^2}{2m_e}
+       +\frac{\hbar^2}{m_e^2}\sum_{n\ne\mathrm c}
+                 \frac{|p_{n\mathrm c}|^2}{\Delta_n}\right]\phi''
+       +V_{\mathrm{conf}}\phi=\epsilon\phi.
+  \label{eq:em-mass-before-definition}
+\end{equation}
+Define the effective mass by collecting the coefficient of
+$-\hbar^2\phi''/2$:
+\begin{equation}
+  \boxed{\frac1{m^*}=\frac1{m_e}
+      +\frac{2}{m_e^2}\sum_{n\ne\mathrm c}
+                    \frac{|p_{n\mathrm c}|^2}{E_{\mathrm c}-E_n}}.
+  \label{eq:em-mass-sum}
+\end{equation}
+The desired single-envelope equation is therefore
+\begin{equation}
+  \boxed{\left[-\frac{\hbar^2}{2m^*}\partial_x^2
+           +V_{\mathrm{conf}}(x)\right]\phi(x)
+          =\epsilon\phi(x)}.
+  \label{eq:em-effective-equation}
+\end{equation}
+The other-band amplitudes describe components of the same
+stationary state in the reference basis, not real transitions
+that populate separate excited states in time. Their coupling
+back to the conduction component changes its kinetic energy.
+
+\subsection{Band curvature and reconstruction of the microscopic state}
+\label{sec:em-curvature-reconstruction}
+
+\paragraph{Why the mass equals the band curvature.}
+Set $V_{\mathrm{conf}}=0$ and examine one small wave-vector
+offset $q$. In the fixed cell basis,
+\begin{equation}
+  H(k_0+q)=H(k_0)+\frac{\hbar q}{m_e}(p+\hbar k_0)
+                       +\frac{\hbar^2q^2}{2m_e}.
+  \label{eq:em-kp-expansion}
+\end{equation}
+The first-order admixture of band $n\ne\mathrm c$ is
+$\hbar q p_{n\mathrm c}/[m_e(E_{\mathrm c}-E_n)]$.
+Feeding it back into the conduction component gives
+\begin{equation}
+  E_{\mathrm c}(k_0+q)-E_{\mathrm c}
+     =\frac{\hbar^2q^2}{2m_e}
+       +\frac{\hbar^2q^2}{m_e^2}
+          \sum_{n\ne\mathrm c}
+             \frac{|p_{n\mathrm c}|^2}{E_{\mathrm c}-E_n}
+       +O(q^3).
+  \label{eq:em-derived-dispersion}
+\end{equation}
+There is no linear term because $p_{\mathrm{cc}}=0$.
+Comparison with Eq.~\eqref{eq:em-mass-sum} gives
+\begin{equation}
+  \frac1{m^*}=\frac1{\hbar^2}
+       \left.\frac{d^2E_{\mathrm c}(k)}{dk^2}\right|_{k_0}.
+  \label{eq:em-curvature-mass}
+\end{equation}
+Thus band-curvature matching and elimination of the reference-band
+components give the same mass. Matching identifies the answer
+from known dispersion; the projection derivation explains
+which microscopic amplitudes generate it.
+
+\paragraph{What the envelope approximates.}
+After solving Eq.~\eqref{eq:em-effective-equation} with the
+appropriate bound-state boundary conditions, reconstruct
+\begin{equation}
+  \psi(x)\simeq\chi_{\mathrm c}(x)\phi(x)
+      +\sum_{n\ne\mathrm c}\chi_n(x)
+          \frac{i\hbar p_{n\mathrm c}}{m_e\Delta_n}\phi'(x).
+  \label{eq:em-first-corrector}
+\end{equation}
+The leading approximation is $\psi\simeq\chi_{\mathrm c}\phi$;
+the displayed derivative term is its first microscopic correction.
+Where division by $\chi_{\mathrm c}$ is permitted,
+\begin{equation}
+  F=\frac{\psi}{\chi_{\mathrm c}}
+    \simeq\phi+\sum_{n\ne\mathrm c}
+       \frac{\chi_n}{\chi_{\mathrm c}}
+       \frac{i\hbar p_{n\mathrm c}}{m_e\Delta_n}\phi'.
+  \label{eq:em-quotient-reconstruction}
+\end{equation}
+This gives the relation between the exact multiplicative
+correction $F$ and the leading smooth envelope $\phi$.
+They are not exactly the same unknown. Equation~\eqref{eq:em-first-corrector}
+also remains meaningful at nodes where the quotient does not.
+
+The complete-basis normalization satisfies
+$\|\psi\|^2=\sum_n\int_{\mathbb R}|f_n(x)|^2\,dx$.
+For weak admixture, $\int|\phi|^2dx=1$ is the leading normalization;
+retaining the other components changes it at second order
+in their relative amplitudes.
+
+\subsection{Three dimensions and the range of validity}
+\label{sec:em-three-dimensions}
+
+In three dimensions, the linear coupling is
+$\hbar\mathbf q\cdot\mathbf p_{nm}/m_e$. Define its Cartesian
+components by
+\[
+  p_{nm}^{\alpha}=\left\langle u_{n,\mathbf k_0},
+       (-i\hbar\partial_{r_\alpha}+\hbar k_{0,\alpha})
+                u_{m,\mathbf k_0}\right\rangle_{\mathrm{cell}},
+  \qquad \alpha=x,y,z,
+\]
+where the cell inner product is now the integral divided by
+the cell volume. The same elimination gives a real symmetric
+inverse-mass tensor:
+\begin{equation}
+  (\mathbf M^{-1})_{\alpha\beta}
+    =\frac{\delta_{\alpha\beta}}{m_e}
+      +\frac{2}{m_e^2}\operatorname{Re}
+          \sum_{n\ne\mathrm c}
+          \frac{p_{\mathrm c n}^{\alpha}p_{n\mathrm c}^{\beta}}
+               {E_{\mathrm c}-E_n}
+    =\frac1{\hbar^2}
+       \left.\frac{\partial^2E_{\mathrm c}}
+                    {\partial k_\alpha\partial k_\beta}
+       \right|_{\mathbf k_0}.
+  \label{eq:em-mass-tensor}
+\end{equation}
+Accordingly,
+\begin{equation}
+  \left[-\frac{\hbar^2}{2}\sum_{\alpha,\beta}
+         (\mathbf M^{-1})_{\alpha\beta}
+              \partial_{r_\alpha}\partial_{r_\beta}
+        +V_{\mathrm{conf}}(\mathbf r)\right]\phi
+      =\epsilon\phi.
+  \label{eq:em-three-dimensional-equation}
+\end{equation}
+At a nondegenerate minimum with positive curvature, the tensor
+is positive definite. This is the constant inverse-mass tensor used
+in Eq.~\eqref{eq:dot-orbital-eigenproblem}. In rotated coordinates
+$s_j$ along its principal axes, with eigenvalues $1/m_j$ for
+$j=1,2,3$, the kinetic operator reduces to
+$-\sum_{j=1}^{3}\hbar^2\partial_{s_j}^2/(2m_j)$.
+These axes need not coincide with the device coordinates $x,y,z$.
+
+The complete expansion and its projection were exact within
+the stated local, spinless crystal model. The reduced equation
+additionally assumes low wave-vector offsets, smooth potential
+coupling, and weak admixture of separated bands, retaining the
+leading quadratic dispersion. Strong confinement can require
+higher dispersion terms; near-degenerate bands require coupled
+envelopes rather than the scalar mass formula.
+
+For silicon, the restriction to one minimum is a separate
+single-valley assumption. Other valleys are not removed by an
+energy denominator at that minimum. Atomic-scale interfaces can
+couple valleys and require a multivalley description; a bulk
+effective-mass tensor alone does not determine valley splitting~\cite{Zwanenburg2013}.
+Spatially changing materials, nonlocal crystal operators, and
+spin--orbit terms also require extensions of the model used here.
+
+\subsection{From a three-dimensional well to bound orbitals}
+\label{sec:device-bound-orbitals}
+
+We first consider one valley $\nu$ and neglect coupling to other
+valleys. The potential $V_{\mathrm{conf},\nu}$ is supplied by the
+electrostatic calculation in Appendix~\ref{app:device-confinement};
+we now find its bound states. Assuming smooth confinement on the lattice scale,
+energies near this conduction-band minimum, and weak mixing with
+other bands, the envelope Hamiltonian is
+\begin{equation}
+ h_\nu=-\frac{\hbar^2}{2}\nabla\cdot
+                  [\mathbf M_\nu^{-1}(\mathbf r)\nabla]
+              +V_{\mathrm{conf},\nu}(\mathbf r),
+ \qquad
+ h_\nu F_{n\nu}=\epsilon_{n\nu}F_{n\nu}.
+ \label{eq:device-envelope-hamiltonian}
+\end{equation}
+$\mathbf M_\nu$ is the effective-mass tensor, and $F_{n\nu}$ is the
+slowly varying spatial envelope of orbital $n$.
+For a constant tensor this is the Hamiltonian of
+Eq.~\eqref{eq:dot-orbital-eigenproblem}, whose relation to the microscopic
+crystal problem has been derived above.
+A spatially varying mass is written in divergence form so that
+the kinetic operator respects the appropriate interface matching.
+
+Strong vertical confinement can simplify this three-dimensional
+problem. Suppose, for illustration, that one valley has a separable
+potential $V_z(z)+V_\parallel(x,y)$. Assume additionally that the
+mass tensor is constant and its principal axes align with the device
+coordinates $x,y,z$, with corresponding masses $m_x,m_y,m_z$. First solve
+\begin{equation}
+ \left[-\frac{\hbar^2}{2m_z}\frac{d^2}{dz^2}+V_z(z)\right]\zeta_0(z)
+       =\epsilon_z\zeta_0(z).
+ \label{eq:device-vertical-state}
+\end{equation}
+If the vertical excitation gap is large compared with the energies
+being used, the electron stays in this state. Writing
+$F_n(x,y,z)=f_n(x,y)\zeta_0(z)$ then gives
+\begin{equation}
+ \left[-\frac{\hbar^2}{2m_x}\partial_x^2
+       -\frac{\hbar^2}{2m_y}\partial_y^2
+       +V_\parallel(x,y)\right]f_n
+        =(\epsilon_n-\epsilon_z)f_n.
+ \label{eq:device-lateral-state}
+\end{equation}
+The lateral potential governs motion in the material plane
+within the chosen vertical state. A well in this potential
+supports localized dot orbitals.
+
+In a general device, a gate voltage changes both the vertical
+state and lateral confinement. The full three-dimensional
+equation includes this coupled response. A reduced-dimensional
+model is useful when the vertical excitation gap is sufficiently
+large and its dependence on the lateral coordinates is treated
+consistently.
+
+The resulting orbital energies and tails have different uses.
+The energy gap to an excited orbital determines whether that orbital
+can be omitted from a low-energy model. The tails extending into a
+barrier determine coupling to another dot. Both must be resolved
+numerically. Artificial hard walls are acceptable only where moving
+them farther away no longer changes the states or couplings of interest.

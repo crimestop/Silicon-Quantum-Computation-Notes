@@ -1,0 +1,535 @@
+\FloatBarrier
+\section{Converting Spin States into Readout Probabilities}
+\label{app:spin-readout}
+\label{sec:readout-calibration}
+
+Spin readout requires the possible spin states to produce distinguishable
+charge records. This appendix develops the conversion, timing, and
+assignment of those records for the encodings in
+Section~\ref{sec:initialization-readout}, then relates repeated outcomes
+to logical-state probabilities. For an array, the sensor responses
+must also distinguish which qubits produced the charge signals.
+The final section develops the separation of several outcomes and
+the recovery of their joint probabilities, supporting the readout
+requirements in Section~\ref{sec:platform-array-selection}.
+
+The sensor is a separate conducting device whose current changes
+when nearby target electrons move. For a sensor dot, the Coulomb
+term $\sum_i U_{i\mathrm s}N_i n_{\mathrm s}$ shifts its addition
+energy when the target occupations $N_i$ change. At fixed sensor
+source and drain voltages, the local current response is
+\begin{equation}
+ \delta I_{\mathrm s}\simeq
+ \frac{\partial I_{\mathrm s}}{\partial\mu_{\mathrm s}}
+             \sum_i U_{i\mathrm s}\delta N_i .
+ \label{eq:calibration-sensor-charge-response}
+\end{equation}
+Here $n_{\mathrm s}$ is the sensor occupation, $\mu_{\mathrm s}$
+its addition energy and $U_{i\mathrm s}$ the interaction energy
+with target dot $i$. The sensor is placed on a sloping part of its
+current curve, as in Section~\ref{sec:measurement-charge-sensor}.
+
+To read a spin, we must first make the two possible spin states
+produce different target charge records. An electron can leave
+for one single-spin state, or a pair can enter a doubly occupied
+dot only when it is a singlet. We choose the voltage and duration
+of that conversion, then infer the spin outcome from the
+resulting sensor trace.
+
+\subsection{A single-spin qubit}
+\label{sec:calibration-single-spin-readout}
+
+The spin state is initially stored in an occupied dot isolated from
+its reservoir. To read it, raise the dot potential and reopen the
+reservoir barrier so that an up electron can leave but a down
+electron cannot. With the notation of
+Section~\ref{sec:calibration-single-spin-initialization}, the
+readout setting $\mathbf V^{\mathrm R}$ must satisfy
+\begin{equation}
+ \mu_\downarrow=\epsilon_d-\frac{E_Z}{2}
+   <\mu_{\mathrm R}<
+ \mu_\uparrow=\epsilon_d+\frac{E_Z}{2},
+ \qquad
+ \mu_{\mathrm R}-\frac{E_Z}{2}<\epsilon_d<
+       \mu_{\mathrm R}+\frac{E_Z}{2}.
+ \label{eq:calibration-readout-window}
+\end{equation}
+Keep the second-electron addition threshold above the reservoir.
+The plunger sets $\epsilon_d$ and the barrier sets the tunnel
+rates; use their joint voltage response to reach this condition.
+
+At zero temperature, the reservoir has empty states at
+$\mu_\uparrow$ but occupied states at $\mu_\downarrow$.
+An up electron can therefore escape. Once the dot is empty, a
+down electron can enter, giving the charge sequence
+\[
+ \uparrow:\quad N=1\longrightarrow0\longrightarrow1,
+ \qquad
+ \downarrow:\quad N=1.
+\]
+The information is the temporary empty interval, not the final
+electron number. A nearby sensor has different mean signals
+$s_0$ and $s_1$ for an empty and occupied target. A simple record
+model is
+\begin{equation}
+ s(t)=s_0+(s_1-s_0)N(t)+\xi(t),
+ \label{eq:calibration-single-spin-record}
+\end{equation}
+where $\xi(t)$ is detector noise. Thus the up-spin record can
+contain an excursion to $s_0$, while the down-spin record stays
+near $s_1$. Resolved empty and occupied intervals in charge
+reference traces at these readout voltages determine $s_0$ and
+$s_1$; using the same voltages also fixes the direct gate response
+of the sensor.
+
+To locate the readout interval, measure the two first-electron
+thresholds relative to $\mu_{\mathrm R}$, then compare records
+after down-spin preparation and after a spin-flip pulse that
+prepares up. Vary the readout plunger voltage while keeping the
+reservoir contact fixed. Choose a setting between the thresholds,
+with margins against thermal activation. This window distinguishes
+an already present spin through its ability to leave~\cite{Elzerman2004}.
+
+The basic readout is now specified: move the isolated electron to
+$\mathbf V^{\mathrm R}$, allow spin-selective tunneling for a time
+$t_r$, and record whether a temporary empty interval occurs.
+An excursion reports up; no excursion reports down in the ideal
+conversion. The finite-time and relaxation errors in that rule
+determine the choice of $t_r$ in
+Section~\ref{sec:calibration-readout-duration-choice}.
+
+\subsection{A singlet--triplet qubit}
+\label{sec:calibration-st-readout}
+
+The two logical states $S_{11}$ and $T_{0,11}$ initially have the
+same charge configuration. To distinguish them, lower the energy
+of double occupation on dot 2 while keeping the reservoirs closed.
+Spin-conserving tunneling connects $S_{11}$ to $S_{02}$. A triplet
+cannot place both electrons in the same lowest orbital--valley
+state, because its symmetric spin state requires an antisymmetric
+spatial state. Its lowest doubly occupied state is higher in
+energy. Choose the detuning so that
+\begin{equation}
+ E(S_{02})<E(S_{11}),\qquad
+ E(T_{02,m})>E(T_{0,11})
+ \quad\hbox{for relevant triplet final states}.
+ \label{eq:calibration-pair-readout-window}
+\end{equation}
+Both inequalities refer to the same readout voltages. Together
+with small spin mixing during conversion, they allow
+$S_{11}\to S_{02}$ while keeping $T_{0,11}$ in $(1,1)$.
+This is the spin-dependent obstruction to charge transfer called
+Pauli spin blockade.
+
+The voltage pulse reverses the singlet-separation ramp of
+Section~\ref{sec:calibration-st-initialization}. Follow the
+singlet charge anticrossing into $(0,2)$ without waiting long
+enough for substantial singlet--triplet mixing or relaxation.
+At the endpoint, a sensor with local response
+$s=s_{\mathrm{bg}}+\kappa_1N_1+\kappa_2N_2+\xi$
+has mean levels
+\[
+ s_{11}=s_{\mathrm{bg}}+\kappa_1+\kappa_2,\qquad
+ s_{02}=s_{\mathrm{bg}}+2\kappa_2,\qquad
+ s_{02}-s_{11}=\kappa_2-\kappa_1.
+\]
+The coefficients $\kappa_i$ are signal changes per electron on
+dot $i$. The sensor must respond differently to the two dots.
+If the converted state persists, averaging the plateau signal
+distinguishes singlet from triplet.
+
+To set the readout voltage, locate the $(1,1)$--$(0,2)$ boundary
+and scan across it using singlet and triplet reference preparations.
+The singlet reference comes from double-occupation loading.
+For a $T_0$ reference, apply the gradient-induced $x$ rotation of
+Eq.~\eqref{eq:st-axis-limits} to a separated singlet: when exchange
+is negligible, a wait $\pi\hbar/|\Delta E_Z|$ interchanges $S$ and
+$T_0$. Determine $|\Delta E_Z|$ from the period of
+$P_{T_0}(t)=\sin^2(\Delta E_Zt/2\hbar)$ while varying this wait;
+the charge-conversion contrast sets the observed oscillation amplitude.
+Compare the two charge-transfer probabilities as functions of the
+readout voltage. Choose the interval in which the singlet transfers
+but the triplet remains blocked. For the coherent conversion used
+here, select the ramp speed from
+the charge-following and spin-preservation conditions in
+Section~\ref{sec:calibration-st-initialization}. After the ramp,
+record the charge plateau before appreciable triplet unblocking.
+
+The resulting map is $S_{11}\mapsto(0,2)$ and
+$T_{0,11}\mapsto(1,1)$. The ramp performs the conversion; the
+subsequent plateau supplies the sensor record. A hold that instead
+relies on irreversible singlet transfer is a different implementation,
+treated separately below when choosing its readout duration.
+
+\subsection{An exchange-only qubit}
+\label{sec:calibration-eo-readout}
+
+Read the spin of the pair on dots 1--2 while dot 3 remains occupied.
+For logical 0, the pair is a singlet and can undergo
+$(1,1,1)\rightarrow(0,2,1)$; for logical 1, it is a triplet and
+remains blocked in $(1,1,1)$. Suppress $J_{23}$ during conversion
+so that exchange with dot 3 does not change the pair being measured.
+Use the pair-readout energy window of
+Eq.~\eqref{eq:calibration-pair-readout-window}, adding the fixed
+occupation of dot 3 to each charge state and measuring the energies
+with that electron present. The sensor contrast is now
+$s_{021}-s_{111}=\kappa_2-\kappa_1$; the unchanged third-dot
+contribution cancels. The same voltage and duration tests then
+apply. Within the logical space, pair singlet and pair triplet
+are the two outcomes even though logical 1 need not be a product
+of a definite spin on dot 3 and a definite triplet component.
+
+This readout distinguishes pair singlet from pair triplet, but
+does not determine the third spin. In particular, every state
+in Eq.~\eqref{eq:calibration-eo-preparation-state} produces the
+same pair-singlet result, regardless of $p_3$. Testing preparation
+in the fixed-$m=+1/2$ encoding therefore also requires the separate
+polarization measurement described in
+Section~\ref{sec:calibration-eo-initialization}.
+
+\subsection{Choosing a duration that preserves the spin contrast}
+\label{sec:calibration-readout-duration-choice}
+
+The conversion conditions allow the desired charge motion, but do
+not guarantee that it happens before recording ends. Waiting longer
+can recover slow desired events while also admitting unwanted ones.
+We now hold the readout voltages fixed and choose the recording
+time from the probabilities of these competing events.
+
+\subsubsection{A single spin: escape before relaxation}
+For an up spin, the useful event is escape to the reservoir.
+Relaxation to down before escape destroys that indication.
+For a down spin, thermally activated escape gives a false indication.
+The time should allow the first process and suppress the other two.
+
+For a reservoir at temperature $T$, a weak spin-conserving tunnel
+contact with bare rate $\Gamma_s^{(0)}$ for spin
+$s\in\{\uparrow,\downarrow\}$ gives
+\begin{equation}
+ \Gamma_{\mathrm{out},s}
+ =\Gamma_s^{(0)}[1-f(\mu_s)],\qquad
+ f(E)=\frac{1}{1+e^{(E-\mu_{\mathrm R})/(k_{\mathrm B}T)}}.
+ \label{eq:calibration-spin-exit-rates}
+\end{equation}
+Raising both dot addition energies increases the desired up-spin
+exit rate, but eventually also allows a down spin to escape.
+The voltage scan therefore selects the rates, not just the ordering
+of three energies.
+
+The readout duration must allow the desired exit before spin
+relaxation. Write $\Gamma_u=\Gamma_{\mathrm{out},\uparrow}$ and
+$\Gamma_d=\Gamma_{\mathrm{out},\downarrow}$.
+At $E_Z\gg k_BT$, upward spin excitation is negligible and the
+downward relaxation rate is $\gamma_1\simeq T_1^{-1}$ at the
+readout setting. An initial up spin survives without either
+exit or relaxation until time $u$ with probability
+$e^{-(\Gamma_u+\gamma_1)u}$. Its desired exit probability is
+therefore
+\begin{equation}
+ \begin{aligned}
+ P_{\mathrm{exit}}(t_r)
+ &=\int_0^{t_r}\Gamma_u e^{-(\Gamma_u+\gamma_1)u}\,du\\
+ &=\frac{\Gamma_u}{\Gamma_u+\gamma_1}
+          \left[1-e^{-(\Gamma_u+\gamma_1)t_r}\right].
+ \end{aligned}
+ \label{eq:calibration-readout-duration}
+\end{equation}
+This is the competing-rate model of
+Eq.~\eqref{eq:readout-competing-rates} for the present voltage
+setting. To choose a duration,
+consider the regime $\Gamma_d t_r\ll1$, in which an up spin that
+relaxes before escaping is normally missed. A down-spin reference
+produces a false exit with probability $1-e^{-\Gamma_d t_r}$,
+whereas the desired up-spin exit probability is the expression
+above. For equally likely input spins, the conversion error in
+this approximation is
+\begin{equation}
+ \epsilon_{\mathrm{conv}}(t_r)
+ =\frac12\left[
+  1-\frac{\Gamma_u}{k}(1-e^{-kt_r})
+  +1-e^{-\Gamma_d t_r}\right],
+ \qquad k=\Gamma_u+\gamma_1.
+ \label{eq:calibration-conversion-error}
+\end{equation}
+The first contribution decreases with time; the second increases.
+For $\Gamma_u>\Gamma_d>0$, their balance gives
+\begin{equation}
+ \frac{d\epsilon_{\mathrm{conv}}}{dt_r}=0
+ \quad\Longrightarrow\quad
+ t_r^\star=\frac{\ln(\Gamma_u/\Gamma_d)}{k-\Gamma_d}.
+ \label{eq:calibration-optimal-readout-time}
+\end{equation}
+Check $\Gamma_d t_r^\star\ll1$ before using this estimate. For
+example, the illustrative rates
+$(\Gamma_u,\Gamma_d,\gamma_1)=(10^4,10,100)\,\mathrm{s}^{-1}$
+give $t_r^\star\simeq0.685\,\mathrm{ms}$ and about $0.89\%$
+conversion error. Increasing the wait alone does not remove the
+competition with relaxation.
+
+Repeated up/down reference traces determine the exit probabilities
+versus time. A separate relaxation measurement fixes $\gamma_1$;
+the up-spin curve then determines $\Gamma_u$, and the down-spin
+curve determines $\Gamma_d$. Repeat at nearby readout voltages and
+barrier settings, and compare the resulting minimum errors.
+Finally test the same settings with the actual sensor decision rule.
+These formulas assume that an exit event is resolved; an electron
+that leaves and refills too quickly to be detected adds a separate
+missed-event contribution.
+
+\subsubsection{A pair readout implemented by irreversible transfer}
+In the coherent protocol above, a ramp carries $S_{11}$ into $S_{02}$.
+An alternative is to move to a fixed detuning where $S_{02}$ is lower,
+then let tunneling and energy dissipation complete the transfer.
+An initially blocked triplet may also change spin and transfer later.
+The two inputs consequently produce different charge-transfer
+probabilities at intermediate times.
+
+Here the clock starts with the pair still in $(1,1)$ at the conversion
+setting. This is not a rate description of the preceding coherent ramp.
+When the fixed-setting records support an incoherent, one-way model,
+write
+\[
+ S_{11}\xrightarrow{\Gamma_S} S_{02},\qquad
+ T_{0,11}\xrightarrow{\gamma_T}S_{11}
+                        \xrightarrow{\Gamma_S}S_{02}.
+\]
+Here $\Gamma_S$ is the singlet transfer rate including energy
+dissipation, and $\gamma_T$ describes spin-changing processes that
+unblock a triplet. Assume that the converted charge remains
+detectable and that reverse processes are negligible at this
+endpoint. Starting from $S$ gives
+\[
+ p_{02|S}(t)=1-e^{-\Gamma_S t}.
+\]
+Starting from $T_0$, the state must first unblock. Integrating over
+its unblocking time gives, for $\Gamma_S\ne\gamma_T$,
+\begin{align}
+ p_{02|T_0}(t)
+ &=\int_0^t\gamma_Te^{-\gamma_T u}
+                         [1-e^{-\Gamma_S(t-u)}]\,du \notag\\
+ &=1-\frac{\Gamma_S e^{-\gamma_Tt}
+                 -\gamma_Te^{-\Gamma_St}}{\Gamma_S-\gamma_T}.
+ \label{eq:calibration-blockade-conversion}
+\end{align}
+A singlet that has not yet transferred and a triplet that has already
+unblocked both give a wrong charge label. For equally likely inputs,
+their conversion error at a chosen time is
+\[
+ \epsilon_{\mathrm{pair}}(t)
+ =\frac12[1-p_{02|S}(t)+p_{02|T_0}(t)].
+\]
+Thus choosing $t$ to maximize $p_{02|S}-p_{02|T_0}$ minimizes this
+error. That difference is large in the interval
+$\Gamma_S^{-1}\ll t\ll\gamma_T^{-1}$,
+when such an interval exists. Reference time scans determine
+whether this separation of rates is actually available.
+The fitted rates characterize this particular conversion setting.
+Moving the voltage or changing the ramp requires repeating the
+conversion test.
+
+For either pair-conversion implementation, the subsequent sensor
+average must resolve the two levels before the charge contrast is
+lost. Its duration is tested on the actual traces. A measured
+irreversible transfer rate cannot be substituted for the coherent
+ramp condition.
+
+\subsection{Assigning 0 or 1 to the measured record}
+\label{sec:calibration-record-classification}
+
+The two charge configurations produce different mean sensor levels,
+but noise makes the observed records overlap. We must specify
+which feature of a record counts as logical 0 or 1.
+The conversion and its duration are already fixed. We now determine
+how to extract an outcome from its noisy sensor trace; this step
+does not change the physical spin-to-charge mapping.
+
+\subsubsection{Choosing the feature to classify}
+For pair readout, average over a fixed plateau interval of length
+$t_{\mathrm a}$ to obtain $\bar s$. The normalized statistic
+\[
+ x=\frac{\bar s-s_{02}}{s_{11}-s_{02}}
+\]
+is near zero for a converted singlet and near one for a blocked
+triplet. For the three-dot encoding, use $s_{021}$ and $s_{111}$.
+
+Single-spin readout requires a different statistic because the
+empty interval is temporary. After averaging samples over the
+detector response time, one simple choice is
+\[
+ x=\max_{0<t<t_r}\frac{s(t)-s_1}{s_0-s_1}.
+\]
+An empty-dot excursion moves this statistic toward one; an
+occupied-dot record stays near zero. The reference traces must
+use the same sampling, averaging and readout duration, because
+all three affect the chance of a noise excursion or a missed
+short event. For either statistic, a threshold $x_c$ reports
+logical 1 when $x>x_c$.
+
+\subsubsection{Choosing a decision threshold}
+Reference preparations of 0 and 1 give two distributions of $x$.
+Count their misclassified records:
+\[
+ \epsilon_0=P(x>x_c\mid0),\qquad
+ \epsilon_1=P(x\le x_c\mid1).
+\]
+For equally weighted reference states, choose $x_c$ to minimize
+$(\epsilon_0+\epsilon_1)/2$. Keep the voltage pulse, record duration
+and decision rule the same in the subsequent experiment.
+
+The threshold can be selected directly from the two measured
+distributions. To see analytically how their separation controls
+the error, suppose a plateau-averaged signal has Gaussian
+conditional distributions with means $m_0<m_1$ and the same
+standard deviation $\sigma$. At a proposed threshold,
+\[
+ \epsilon_0=\int_{x_c}^{\infty}
+  \frac{e^{-(x-m_0)^2/(2\sigma^2)}}{\sqrt{2\pi}\sigma}\,dx,
+ \qquad
+ \epsilon_1=\int_{-\infty}^{x_c}
+  \frac{e^{-(x-m_1)^2/(2\sigma^2)}}{\sqrt{2\pi}\sigma}\,dx.
+\]
+Differentiating their sum equates the two probability densities,
+giving $x_c=(m_0+m_1)/2$. The error for either state is then
+\[
+ \epsilon_0=\epsilon_1
+ =\frac12\operatorname{erfc}
+       \left(\frac{m_1-m_0}{2\sqrt2\,\sigma}\right).
+\]
+Here $\operatorname{erfc}(z)=(2/\sqrt\pi)\int_z^\infty e^{-u^2}du$.
+This example connects histogram separation to assignment error.
+For non-Gaussian records, the same threshold scan can be performed
+directly by counting the two tails; the Gaussian model is not needed.
+
+\subsubsection{Recovering an outcome probability from repeated records}
+The decision rule produces a count of 1 outcomes. If its conditional
+errors are independently known, a state with
+true logical-1 probability $p$ produces the reported probability
+\begin{equation}
+ p_{\mathrm{obs}}
+ =\epsilon_0(1-p)+(1-\epsilon_1)p,\qquad
+ p=\frac{p_{\mathrm{obs}}-\epsilon_0}
+         {1-\epsilon_0-\epsilon_1}.
+ \label{eq:calibration-assignment-map}
+\end{equation}
+The second relation requires nonzero readout contrast.
+If $n$ repeated trials give the fraction $\hat p_{\mathrm{obs}}$
+of outcome 1, and the assignment probabilities are treated as known,
+the variance of the corrected estimator is
+\begin{equation}
+ \operatorname{Var}(\hat p)
+ =\frac{p_{\mathrm{obs}}(1-p_{\mathrm{obs}})}
+        {n(1-\epsilon_0-\epsilon_1)^2}.
+ \label{eq:calibration-assignment-variance}
+\end{equation}
+The inverse map removes a known bias but amplifies statistical
+uncertainty when the two records are difficult to distinguish.
+It cannot recover information from zero-contrast readout.
+An uncertain reference preparation gives a mixture of the two
+distributions, so its histogram alone does not separately determine
+preparation error and readout error. Initial calibration can use
+well-understood loading and relaxation limits; precision claims
+require the reference-state errors to be established as well.
+This distinction matters when deciding what a measured gate
+probability actually verifies.
+
+\subsection{From repeated readout to a spin probability}
+\label{sec:measurement-pulse-cycle}
+
+A single readout assigns one outcome to one preparation. To
+measure an outcome probability after a control pulse, repeat the
+whole sequence: prepare the same state, isolate the electrons,
+apply the same control, and then perform the same charge conversion
+and sensor measurement. Reading one spin repeatedly would instead
+probe a state already changed by the first readout.
+
+Let $\rho_0$ be the prepared spin density matrix and $U(\tau)$
+the coherent evolution during a control interval of duration $\tau$.
+For ideal readout with outcome projector $M_a$,
+\begin{equation}
+ P_a(\tau)=\operatorname{Tr}\!\left[
+       M_a U(\tau)\rho_0U^\dagger(\tau)\right].
+ \label{eq:measurement-pulse-born-rule}
+\end{equation}
+The spin-to-charge conversion fixes the measured projector.
+For single-spin readout,
+$M_\uparrow=\ket{\uparrow}\bra{\uparrow}$ and
+$M_\downarrow=\ket{\downarrow}\bra{\downarrow}$.
+For singlet--triplet readout, the converted outcome has
+$M_S=\ket S\bra S$ within the logical space.
+Pair readout of an exchange-only qubit similarly distinguishes
+its logical pair-singlet and pair-triplet states, but does not
+separately identify every leakage state.
+
+A common timing signal starts the voltage sequence and sensor
+recording. For each chosen $\tau$, classify the records from
+$K$ independent trials. The fraction $k_a/K$ of assigned outcomes
+estimates the observed probability; the assignment map in
+Eq.~\eqref{eq:calibration-assignment-map} connects it to $P_a$.
+Keep the preparation and readout settings fixed while changing
+the intervening control. Its Hamiltonian and propagator determine
+how the measured probability varies.
+
+\subsection{Separating several readout outcomes}
+\label{sec:processor-array-readout}
+
+A sensor records a charge-dependent signal, not a qubit label.
+For sensor \(\ell\), a linear model for its mean signal is
+\begin{equation}
+ \overline s_\ell=s_{\ell,0}+\sum_i c_{\ell i}\langle N_i\rangle,
+ \label{eq:processor-sensor-array}
+\end{equation}
+where \(N_i\) is the occupation variable after the chosen
+spin-to-charge conversion and \(c_{\ell i}\) is the sensor
+response to it. If one sensor responds equally to two dots,
+it measures their total charge but cannot tell \(10\) from
+\(01\). A second sensor, unequal response, or a conversion
+at a different time can supply that distinction.
+
+For example, subtract the backgrounds from two sensor
+signals and suppose their response is symmetric:
+\[
+ \begin{pmatrix}\bar s_1\\\bar s_2\end{pmatrix}
+ =\begin{pmatrix}c&d\\d&c\end{pmatrix}
+   \begin{pmatrix}\langle N_1\rangle\\\langle N_2\rangle\end{pmatrix}.
+\]
+The sum and difference of the occupations are
+\begin{equation}
+ \langle N_1\rangle+\langle N_2\rangle
+       =\frac{\bar s_1+\bar s_2}{c+d},\qquad
+ \langle N_1\rangle-\langle N_2\rangle
+       =\frac{\bar s_1-\bar s_2}{c-d}.
+ \label{eq:processor-sensor-inversion}
+\end{equation}
+This inversion needs \(c\ne\pm d\). When \(c\) is close to
+\(d\), the difference estimate strongly amplifies signal
+noise. An array thus needs sufficiently distinct response
+patterns, not simply a count of sensors equal to the count
+of qubits.
+
+These equations determine mean occupations, not the joint
+probabilities of single-shot outcomes. For example, a distribution
+with \(P_{00}=P_{11}=1/2\) and one with
+\(P_{01}=P_{10}=1/2\) both have
+\(\langle N_1\rangle=\langle N_2\rangle=1/2\), but the first
+always has even parity and the second always has odd parity.
+Their identical marginal occupations therefore do not determine
+their different correlations. To estimate
+\(P_{00},P_{01},P_{10},P_{11}\), first
+classify the pair of outcomes in each run, then average those
+classifications. One sensor can in principle classify all
+four if its levels \(s_0,s_0+c_1,s_0+c_2,s_0+c_1+c_2\)
+are distinguishable. If \(c_1=c_2\), its \(01\) and \(10\)
+levels coincide. Sequential conversion can separate them
+in time, provided the later qubit retains its spin state
+until its readout.
+
+Readout capacity also sets a time cost. If \(N_m\) qubits
+must be measured, at most \(R_m\) independent results can be
+obtained at once, and one readout group takes \(t_r\), then
+\[
+ T_{\mathrm{meas}}\ge
+ \left\lceil\frac{N_m}{R_m}\right\rceil t_r.
+\]
+Conversion, reset, and shared-control delays may increase
+this bound. Qubits awaiting measurement must retain their
+state for those extra rounds.

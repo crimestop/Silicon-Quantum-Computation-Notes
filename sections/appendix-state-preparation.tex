@@ -1,0 +1,395 @@
+\FloatBarrier
+\section{Preparing Spin-Qubit States}
+\label{app:state-preparation}
+\label{sec:initialization-calibration}
+
+This appendix develops the preparation conditions used in
+Section~\ref{sec:initialization-readout}: the selected charge window,
+the relaxation or loading time, and the transfer into the encoded state.
+
+Preparing a qubit input requires fixing three things: the number of
+electrons, their spin state and, for an encoded qubit, how they are
+distributed among the dots. Loading selects the charge sector;
+relaxation or spin-selective loading selects the spin state; an
+isolated charge-transfer ramp can then redistribute the electrons
+without exchanging them with a reservoir. We use these processes to
+prepare $\ket{\downarrow}$ for a single-spin qubit, a separated
+singlet for a singlet--triplet qubit, and a pair singlet with the
+chosen third-spin state for an exchange-only qubit.
+
+For each encoding below, we first construct that preparation, then
+use measured rates or gaps to choose its duration. The output is a
+state at the holding voltages, ready for a gate. The loading window,
+the hold time, and the separation speed are different controls and
+will be determined from different physical conditions.
+
+\subsection{A single-spin qubit}
+\label{sec:calibration-single-spin-initialization}
+
+We want one electron in the lower Zeeman state. Keep a static field
+$B$ along $z$, with the convention $E_Z=g_{\mathrm e}\mu_BB>0$,
+where $g_{\mathrm e}$ is the electron $g$ factor. In the
+one-electron spin space,
+\begin{equation}
+ H_Z=\frac{E_Z}{2}
+   \bigl(\ket{\uparrow}\bra{\uparrow}
+         -\ket{\downarrow}\bra{\downarrow}\bigr).
+ \label{eq:calibration-initialization-zeeman}
+\end{equation}
+Thus $\ket0=\ket{\downarrow}$ has lower energy. The protocol first
+loads an electron, of either spin, and then lets it release any
+spin excitation energy to a cold environment. Loading fixes the
+electron number; energy relaxation fixes the spin.
+
+\subsubsection{Selecting the loading voltages}
+Let $V_{\mathrm P}$ control mainly the dot well and $V_{\mathrm B}$
+mainly the barrier to one reservoir. Keep the reservoir contact
+voltage fixed, so its chemical potential $\mu_{\mathrm R}$ stays
+fixed. Retain one orbital--valley state with two spin states and
+assume the omitted levels are inaccessible during loading.
+A minimal charge model is
+\[
+ H_{\mathrm d}
+ =\epsilon_d(\mathbf V)(n_\uparrow+n_\downarrow)
+   +\frac{E_Z}{2}(n_\uparrow-n_\downarrow)
+   +U n_\uparrow n_\downarrow ,
+\]
+where $n_\sigma$ is the occupation of spin state $\sigma$ and
+$U>0$ is the double-occupation energy cost. With the empty-dot
+energy set to zero, the energies are
+\[
+ E_\downarrow=\epsilon_d-\frac{E_Z}{2},\qquad
+ E_\uparrow=\epsilon_d+\frac{E_Z}{2},\qquad
+ E_2=2\epsilon_d+U.
+\]
+The first-electron addition energies are
+$\mu_\sigma=E_\sigma$. The second-electron costs are
+$E_2-E_\uparrow=\epsilon_d+U-E_Z/2$ and
+$E_2-E_\downarrow=\epsilon_d+U+E_Z/2$.
+
+First choose an emptying setting $\mathbf V^{\mathrm E}$ with
+$\epsilon_d-E_Z/2>\mu_{\mathrm R}$ and a barrier that permits
+tunneling. An electron can then leave, and the sensor should report
+an empty dot. Next lower the dot energies to a loading setting
+$\mathbf V^{\mathrm L}$ satisfying
+\begin{equation}
+ \epsilon_d+\frac{E_Z}{2}<\mu_{\mathrm R}
+       <\epsilon_d+U-\frac{E_Z}{2}.
+ \label{eq:calibration-loading-window}
+\end{equation}
+Both first-electron spin states can load; even the cheaper
+second-electron process cannot. This window requires $U>E_Z$ in
+the model. Choose margins larger than the reservoir thermal energy
+$k_BT_e$ and the tunnel broadening, and keep the first-electron
+excited orbital/valley thresholds above $\mu_{\mathrm R}$.
+The more general condition for excluding a second electron is
+that every accessible second-electron addition cost exceed
+$\mu_{\mathrm R}$, as in
+Eq.~\eqref{eq:measurement-exclude-further-loading}.
+
+The loading pulse is the voltage change
+$\mathbf V^{\mathrm E}\to\mathbf V^{\mathrm L}$, followed by a
+hold of duration $t_L$. For example, if the measured local response
+with the barrier voltage fixed is
+$d\epsilon_d=-e\alpha_{\mathrm P}\,dV_{\mathrm P}$ with
+$\alpha_{\mathrm P}>0$, increasing $V_{\mathrm P}$ lowers both spin
+levels. The required increment is
+$\Delta V_{\mathrm P}=-\Delta\epsilon_d/(e\alpha_{\mathrm P})$.
+If the barrier is also changed, use its energy response in the
+same voltage calculation. The charge-transition positions and
+energy measurements in Section~\ref{sec:measurement-bias-spectroscopy}
+and Appendix~\ref{app:dot-spectroscopy} locate the window; there is no device-independent loading voltage.
+
+\subsubsection{Loading one electron and retaining it}
+At $\mathbf V^{\mathrm L}$, keep the reservoir barrier open enough
+for an electron to enter. For weak tunneling, the total rate out
+of the empty state is
+\[
+ \Gamma_{\mathrm{in}}
+ =\sum_{\sigma=\uparrow,\downarrow}
+        \Gamma_\sigma^{(0)}f_{\mathrm R}(\mu_\sigma),\qquad
+ f_{\mathrm R}(E)=\frac{1}{1+e^{(E-\mu_{\mathrm R})/(k_BT_e)}}.
+\]
+Here $\Gamma_\sigma^{(0)}$ is the loading rate for that spin when
+the reservoir states at the required energy are occupied.
+Lowering the barrier increases their wave-function overlap with
+the dot and hence the tunnel rate. The Fermi factor accounts for
+whether the reservoir can supply an electron at that energy. Under the
+loading-window conditions, unloading is suppressed and the
+empty-dot probability obeys
+\[
+ \dot p_{\mathrm{empty}}=-\Gamma_{\mathrm{in}}p_{\mathrm{empty}},
+ \qquad p_{\mathrm{empty}}(t_L)=e^{-\Gamma_{\mathrm{in}}t_L}.
+\]
+Use the charge waiting-time measurement at this loading setting to
+determine $\Gamma_{\mathrm{in}}$: the measured fraction of empty
+records after a wait $t_L$ follows the exponential above.
+The preparation uses that measured rate to choose its loading time.
+A target empty-dot probability $q_{\mathrm{empty}}$ requires
+$t_L\ge\ln(1/q_{\mathrm{empty}})/\Gamma_{\mathrm{in}}$.
+
+After loading, raise the reservoir barrier to suppress electron
+exchange for the remaining sequence. Compensate its shift of the
+dot energy with the plunger, using the response method of
+Appendix~\ref{app:virtual-gates}. Keep the dot in
+the one-electron region while closing the barrier; do not return
+to the emptying setting. Verify retention by varying the hold
+time and checking that the charge remains one.
+
+\subsubsection{Removing the spin excitation}
+Under $H_Z$ alone, an up spin remains an up spin: its phase changes
+but its population does not. Raising the tunnel barrier isolates
+the electron from particle exchange, not from the crystal.
+Weak spin--orbit coupling admixes orbital or valley excitations
+with opposite spin into the Zeeman states. A lattice displacement
+can then have a nonzero matrix element between these mixed states.
+An upper spin state can become a lower one while emitting a phonon
+of energy $E_Z$. A phonon is one quantum of
+lattice vibration; such spin relaxation has been observed in
+silicon dots~\cite{Yang2013SpinValley}.
+
+An effective model for this energy exchange is
+\[
+ H_{\mathrm{env}}=\sum_k\hbar\omega_k b_k^\dagger b_k,\qquad
+ H_{\mathrm{int}}=\sum_k
+ \left(c_k\ket{\downarrow}\bra{\uparrow}b_k^\dagger
+       +c_k^*\ket{\uparrow}\bra{\downarrow}b_k\right).
+\]
+The operator $b_k^\dagger$ creates a phonon in mode $k$;
+$c_k$ is an effective coupling energy that includes the spin
+admixture. The two terms describe emission and absorption near
+$\hbar\omega_k=E_Z$. This resonant, weak-coupling model explains
+the relaxation process; its coupling strengths need not be
+calculated microscopically to measure the relaxation time.
+
+For a thermal phonon environment at temperature $T$, the emission
+and absorption factors are $\bar n+1$ and $\bar n$, with
+$\bar n=[e^{E_Z/(k_BT)}-1]^{-1}$. Consequently,
+\[
+ \frac{\gamma_\uparrow}{\gamma_\downarrow}=e^{-E_Z/(k_BT)},\qquad
+ \dot p_\uparrow=-\gamma_\downarrow p_\uparrow
+                         +\gamma_\uparrow(1-p_\uparrow).
+\]
+The rates are taken constant at the chosen hold voltages.
+Writing $T_1=(\gamma_\downarrow+\gamma_\uparrow)^{-1}$ gives
+\begin{equation}
+ p_\uparrow(t)=p_\uparrow^{\mathrm{eq}}
+   +[p_\uparrow(0)-p_\uparrow^{\mathrm{eq}}]e^{-t/T_1},
+ \qquad
+ p_\uparrow^{\mathrm{eq}}=\frac{1}{1+e^{E_Z/(k_BT)}}.
+ \label{eq:calibration-initialization-wait}
+\end{equation}
+Here $t$ starts after loading and isolation. At $k_BT\ll E_Z$,
+the environment can accept the excitation energy but rarely
+supplies it, so the final state is predominantly down.
+
+\subsubsection{Choosing the wait and completing the preparation}
+The relaxation model explains why a wait prepares the lower state.
+Its measured parameters now determine how long that wait must be.
+Use the waiting-time measurement of
+Section~\ref{sec:measurement-relaxation} at these same hold
+voltages to determine $T_1$ and the long-time population.
+To reach $p_\uparrow(t)\le q$ when
+$p_\uparrow(0)>q>p_\uparrow^{\mathrm{eq}}$, choose
+\[
+ t\ge T_1\log
+ \frac{p_\uparrow(0)-p_\uparrow^{\mathrm{eq}}}
+      {q-p_\uparrow^{\mathrm{eq}}}.
+\]
+A longer wait cannot reach a target below the equilibrium
+population. With $p_\uparrow$ conditioned on successful loading,
+the total failure probability is
+$p_{\mathrm{empty}}+(1-p_{\mathrm{empty}})p_\uparrow$.
+The complete sequence is therefore: empty at $\mathbf V^{\mathrm E}$,
+load at $\mathbf V^{\mathrm L}$ for $t_L$, close the reservoir barrier
+while retaining one electron, and wait at the holding voltages for
+the time just calculated. It produces one predominantly down-spin
+electron. The loading rate controls the probability of a missing
+electron; $T_1$ and the equilibrium population control the remaining
+spin error.
+
+\subsection{A singlet--triplet qubit}
+\label{sec:calibration-st-initialization}
+
+The logical zero is the singlet
+$\ket S=(\ket{\uparrow\downarrow}-\ket{\downarrow\uparrow})/\sqrt2$
+with one electron in each dot. We prepare it by first placing both
+electrons in the same lowest orbital--valley state of dot 2.
+Their spatial state is then symmetric, so fermionic antisymmetry
+requires a spin singlet. Separating this pair without rotating its
+spins produces the desired $(1,1)$ singlet.
+
+\subsubsection{Loading the pair singlet}
+Begin with dot 1 empty and one electron in dot 2, prepared as in
+Section~\ref{sec:calibration-single-spin-initialization}. Let its
+energy be $E_{01,\downarrow}$. The possible final two-electron
+states include the singlet $S_{02}$ and triplets that require a
+different orbital or valley state. Use a magnetic field and
+confinement for which the singlet remains the lowest
+two-electron state. The relevant addition energies are
+\[
+ \mu_{2S}=E(S_{02})-E_{01,\downarrow},\qquad
+ \mu_{2T,\min}=\min_m E(T_{02,m})-E_{01,\downarrow}.
+\]
+Here $m$ labels the triplet spin component. Lower the right-dot
+potential with its plunger, and keep its reservoir barrier open,
+until
+\[
+ \mu_{2S}<\mu_{\mathrm R}<\mu_{2T,\min}.
+\]
+Also keep the third-electron addition energy above
+$\mu_{\mathrm R}$. With thermal margins, an incoming electron can
+complete the lowest-orbital singlet but cannot load an excited
+triplet or a third electron. The charge sensor verifies that two
+electrons have loaded; a loading-time scan sets the hold duration
+by the same exponential waiting probability as for one electron.
+Then close the reservoir barrier while retaining $(0,2)$.
+The excitation measurement supplies the singlet--triplet energy
+interval needed to choose this loading window.
+
+\subsubsection{Separating the electrons by adiabatic evolution}
+Keep the pair isolated from the reservoirs and allow interdot
+tunneling. We want to move one electron from dot 2 to dot 1 while
+retaining the singlet spin state. Changing the relative plunger
+voltages raises the energy of $S_{02}$ relative to $S_{11}$.
+With tunneling, their crossing becomes an avoided crossing.
+If the voltages change sufficiently slowly, the system follows
+the lower instantaneous eigenstate as it changes from both electrons
+in dot 2 to one electron in each dot. This is adiabatic charge transfer.
+
+First consider the singlet space alone. In the basis
+$(\ket{S_{11}},\ket{S_{02}})$, use
+\begin{equation}
+ H_S(t)=
+ \begin{pmatrix}0&g\\g&\delta_c(t)\end{pmatrix},\qquad
+ g=\sqrt2\,t_c,\quad
+ \delta_c=E(S_{02})-E(S_{11}).
+ \label{eq:calibration-singlet-charge-ramp}
+\end{equation}
+The factor $\sqrt2$ comes from the two spin-conserving tunneling
+terms that connect the singlets. The voltage response
+$d\delta_c=\sum_j(\partial\delta_c/\partial V_j)dV_j$ sets a
+ramp from $\delta_c^{\mathrm i}<0$ to $\delta_c^{\mathrm f}>0$;
+the interdot barrier controls $g$. Choose endpoints with
+$|\delta_c^{\mathrm i,f}|\gg g$ to make their charge states nearly
+pure, and compensate the barrier response if $g$ is to stay fixed.
+
+\subsubsection{Choosing the speed for adiabatic charge transfer}
+Let $\ket{-(t)}$ and $\ket{+(t)}$ be the instantaneous lower and
+upper eigenstates of $H_S(t)$. Their energies and gap are
+\[
+ E_\pm=\frac{\delta_c\pm\sqrt{\delta_c^2+4g^2}}2,
+ \qquad \Delta_c=E_+-E_-=\sqrt{\delta_c^2+4g^2}.
+\]
+At the chosen negative-detuning endpoint, $\ket{-}$ is close to
+$\ket{S_{02}}$; at the positive-detuning endpoint, it is close to
+$\ket{S_{11}}$. Adiabatic evolution therefore gives
+\[
+ \ket{\psi(t_{\mathrm i})}\simeq\ket{S_{02}}
+ \quad\longrightarrow\quad
+ \ket{\psi(t_{\mathrm f})}\simeq e^{i\gamma}\ket{S_{11}},
+\]
+where $\gamma$ is an overall phase. The speed must suppress
+transitions from $\ket{-}$ to $\ket{+}$ during this evolution.
+For fixed $g>0$, the usual local adiabatic criterion is
+\begin{equation}
+ \frac{\hbar|\bra{+}\dot H_S\ket{-}|}{(E_+-E_-)^2}
+ =\frac{\hbar g|\dot\delta_c|}
+      {(\delta_c^2+4g^2)^{3/2}}\ll1.
+ \label{eq:calibration-charge-ramp-condition}
+\end{equation}
+Here $\dot H_S=\operatorname{diag}(0,\dot\delta_c)$ gives
+$|\bra{+}\dot H_S\ket{-}|=g|\dot\delta_c|/\Delta_c$.
+The gap is smallest at $\delta_c=0$, where it equals $2g$;
+the condition there is $\hbar|\dot\delta_c|\ll8g^2$.
+Farther from the avoided crossing, the larger gap permits a faster
+change of $\delta_c$ while maintaining charge adiabaticity.
+
+\subsubsection{Preserving the singlet during the transfer}
+The adiabatic condition above concerns the two singlet charge states.
+We also need the spin to remain a singlet.
+If the two dots have different Zeeman splittings, define
+$\Delta E_Z=E_{Z,1}-E_{Z,2}$. Within $(S,T_0)$ their difference
+supplies the term $\Delta E_Z X_{\mathrm{ST}}/2$.
+For $|\Delta E_Z|\ll g$, its mixing is small near the charge
+anticrossing, where the lower singlet is separated from $T_0$
+by an energy of order $g$.
+After the pulse reaches the separated region where
+$J\ll|\Delta E_Z|$, a time $t_{\mathrm{low}}$ there rotates
+$S$ toward $T_0$ with probability
+$\sin^2(\Delta E_Zt_{\mathrm{low}}/2\hbar)$.
+To keep that unwanted probability below $q_s\ll1$, require
+$|\Delta E_Z|t_{\mathrm{low}}/(2\hbar)\lesssim\sqrt{q_s}$.
+A suitable ramp is therefore slow enough near the charge avoided
+crossing to separate the electrons adiabatically, but spends little
+time in the low-exchange region where the gradient rotates their spin.
+These requirements concern different energy scales: we preserve
+adiabaticity for the charge transfer while limiting unwanted
+singlet--triplet evolution.
+The period of singlet--triplet oscillations at negligible exchange
+determines $|\Delta E_Z|$.
+
+\subsubsection{Completing and testing the preparation}
+The tunnel-coupling measurement and the voltage response of
+$\delta_c$ supply the inputs for the ramp. Use Eq.~\eqref{eq:calibration-charge-ramp-condition}
+to choose the crossing speed. The measured $\Delta E_Z$ limits
+the low-exchange exposure. Test these choices by separating and
+returning a singlet while scanning the ramp durations. Charge
+readout at the separated point tests incomplete transfer; singlet
+return tests spin preservation together with the return ramp.
+The return probability alone does not assign an error to each ramp
+separately. The preparation itself ends at the separated $(1,1)$
+setting; the return ramp is a test carried out in separate repetitions.
+
+\subsection{An exchange-only qubit}
+\label{sec:calibration-eo-initialization}
+
+For the fixed-$m=+1/2$ encoding, the target is
+$\ket{0_{\mathrm E}}=\ket{S_{12}}\ket{\uparrow}_3$.
+The pair singlet has total spin zero, so the third spin supplies
+the required total $z$ component. Prepare dot 3 with one electron
+and retain it while loading the singlet on dots 1--2. The pair
+then follows $(0,2,1)\rightarrow(1,1,1)$.
+
+Raise the 2--3 barrier to make $t_{23}$, and hence $J_{23}$,
+negligible during this preparation. Otherwise
+$J_{23}\mathbf s_2\cdot\mathbf s_3$ can change the pair spin while
+the singlet is being prepared. Compensate the barrier's energy
+shifts to retain the chosen occupations. Apply the singlet-loading
+window and separation ramp of
+Section~\ref{sec:calibration-st-initialization}, measuring the
+pair energies with dot 3 occupied because its Coulomb interaction
+shifts them.
+
+\subsubsection{Preparing the specified third spin}
+The pair protocol alone has not yet prepared the fixed-$m$ target:
+dot 3 must also be up. One route is to
+load and relax it into $\ket{\downarrow}_3$, then apply a calibrated
+single-spin $\pi$ pulse with $J_{23}$ suppressed. This route requires
+a separately addressable spin drive; the construction of its
+$\pi$ pulse is given in Section~\ref{sec:calibration-spin-rotations}.
+Spin-selective readout of dot 3 tests the resulting polarization.
+If its up-spin probability is $p_3$, an otherwise ideal pair preparation gives
+\begin{equation}
+ \rho_{\mathrm{prep}}
+ =\ket{S_{12}}\bra{S_{12}}\otimes
+  \left[p_3\ket{\uparrow}\bra{\uparrow}
+       +(1-p_3)\ket{\downarrow}\bra{\downarrow}\right]_3.
+ \label{eq:calibration-eo-preparation-state}
+\end{equation}
+The population in the intended fixed-$m=+1/2$ sector is $p_3$.
+
+\subsubsection{What changes if the third spin is not polarized?}
+The fixed-$m$ preparation just described is complete only when $p_3$
+is sufficiently close to one. Leaving the third spin unpolarized
+defines a different preparation, using the subsystem encoding
+explained in
+Section~\ref{sec:exchange-only-spam}, and its gate sequences must
+respect that choice~\cite{Blumoff2022,Weinstein2023}.
+Within the total-spin-$1/2$ subspace, isotropic exchange has the
+form $H_{\mathrm{logical}}\otimes I_m$: it rotates the encoded
+qubit identically in the two $m$ sectors. The state above then
+contains a pure logical zero with an unprepared $m$ degree of
+freedom. A magnetic-field gradient need not have this form, so the
+unpolarized-subsystem interpretation also requires testing the
+non-exchange terms during the gate.

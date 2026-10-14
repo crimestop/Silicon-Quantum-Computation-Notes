@@ -1,0 +1,250 @@
+\FloatBarrier
+\section{Calibration Feedback}
+\label{app:calibration-feedback}
+
+\label{sec:automated-tuning-workflows}
+
+The voltage response in Section~\ref{sec:electron-number-control} and
+the pulse settings in Section~\ref{sec:quantum-gates} refer to a chosen
+operating point. This supplementary calculation explains how measured
+errors can update those settings when the operating point drifts.
+
+A charge transition or spin resonance can drift after a gate pulse has
+been calibrated. Correcting one electrode voltage may also shift another
+dot or change a tunnel coupling. A feedback update must therefore relate
+the measured discrepancies to the physical quantities that each voltage
+changes, and its stopping criterion must account for measurement
+uncertainty. This appendix develops that update for a two-spin experiment
+and for a local vector of device parameters.
+
+The experiment uses the preparation and readout methods of
+Appendices~\ref{app:state-preparation} and~\ref{app:spin-readout},
+and the spin gates of Appendix~\ref{app:single-spin-control}.
+
+\subsection{Assembling a complete two-spin experiment}
+
+Take two dots, each with a reservoir barrier, and a charge sensor.
+As a concrete target, prepare $\ket{01}$ and apply
+$\sqrt{\mathrm{SWAP}}$. Under the exchange conditions of
+Section~\ref{sec:calibration-two-spin-exchange}, the intended output is
+\[
+ \ket{01}\longmapsto
+ \frac{\ket{01}-i\ket{10}}{\sqrt2}
+\]
+up to a common phase. This example requires charge control,
+initialization, a single-spin flip, exchange, and two spin readouts.
+We first establish those controls, then assemble their pulses.
+
+\subsubsection{Establishing the charge settings}
+Put the sensor on a current flank and verify its response by loading
+and emptying a target dot, using
+Section~\ref{sec:measurement-charge-sensor}. With the reservoir
+barriers open enough for equilibration, trace target transitions
+towards depletion and establish the empty reference before counting
+inward to $(1,1)$. A featureless image alone does not identify zero
+occupation: a closed barrier can also hide transitions.
+The measured transition positions and responses supply the loading
+and holding voltages of Appendix~\ref{app:state-preparation}
+and the compensated exchange direction of
+Appendix~\ref{app:virtual-gates}.
+
+\subsubsection{Obtaining initial spin controls and refining their references}
+Load and relax both spins at those settings.
+The resonance and Rabi methods of Section~\ref{sec:measurement-rabi}
+give the frequency and duration of a spin-flip pulse.
+An oscillation period can be estimated with imperfect readout contrast.
+The resulting flip then supplies an up-spin reference to improve the
+readout voltage and decision rule in Appendix~\ref{app:spin-readout}.
+Repeat the spin tests with those improved references.
+This is a mutual refinement of preparation, drive and readout, not
+an assumption that each was already perfect before the others existed.
+
+Measure $J(v)$ along the compensated path and select the complete
+exchange pulse with area $\pi/2$, including the ramps, as in
+Section~\ref{sec:calibration-two-spin-exchange}.
+These measurements have now supplied all pulse parameters for the
+chosen trial.
+
+\subsubsection{Running the trial with fixed settings}
+For each repetition, load and relax both spins to $\ket{00}$,
+retain the electrons by closing the reservoir barriers, and apply
+$R_{x,2}(\pi)$ to prepare $\ket{01}$ up to a common phase.
+Apply the compensated exchange pulse, return to weak exchange,
+and read both spins with the stored spin-to-charge procedures.
+The ideal population prediction is
+\[
+ P_{01}=P_{10}=\frac12,\qquad P_{00}=P_{11}=0.
+\]
+For this test, keep the preparation and readout pulses fixed while
+varying or correcting the exchange pulse.
+
+Those populations test the transfer but not its relative phase.
+The correlation measurements of
+Appendix~\ref{app:gate-verification}, with analysis rotations
+chosen for the intended output, test its coherence as well.
+This separates executing the trial from the extra measurements
+needed to verify the gate.
+
+Store the voltage vectors, ramps, hold times, drive frequency and
+phase convention, and the readout rule used for this trial.
+If a later test fails, remeasure the associated parameter:
+a charge-boundary shift changes the voltage setting, a resonance
+shift changes the spin-drive reference, and a changed exchange
+oscillation changes the exchange pulse. The charge-control stages
+can be automated~\cite{Baart2016,Zubchenko2025}; the feedback
+calculation below describes how measured errors can drive those
+updates.
+
+\subsection{Calculating a voltage correction from measured errors}
+
+Suppose the charge map shows that the first dot's addition energy
+is too low, while an exchange measurement indicates insufficient
+coupling. Changing one barrier can improve the coupling while
+shifting both dot energies. A feedback step uses all measured
+responses to make these corrections together.
+
+Near the target, let $\mathbf q(\mathbf V)$ contain an equal
+number of independent measured quantities and adjustable voltages.
+For example, use the two specified addition-energy offsets relative
+to the reservoirs and the interdot tunnel coupling, controlled by
+two plungers and one barrier. Their target values encode the
+loading or gate condition already chosen above.
+Perturb one electrode at a time and remeasure the quantities,
+giving the local response
+\begin{equation}
+ R_{ag}\simeq
+ \frac{q_a(\mathbf V+\Delta V_g\mathbf e_g)
+       -q_a(\mathbf V-\Delta V_g\mathbf e_g)}
+      {2\Delta V_g},
+ \label{eq:calibration-feedback-response}
+\end{equation}
+where $\mathbf e_g$ changes only voltage $g$. Each measurement
+uses the charge-transition or tunnel-coupling methods of
+Appendices~\ref{app:charge-stability}
+and~\ref{app:tunnel-coupling}, respectively.
+
+Write the current discrepancy as
+$\mathbf r=\mathbf q^\star-\mathbf q(\mathbf V)$.
+For a small change,
+\[
+ \mathbf q(\mathbf V+\delta\mathbf V)
+ =\mathbf q(\mathbf V)+R\delta\mathbf V
+                  +O(\|\delta\mathbf V\|^2).
+\]
+Canceling the first-order discrepancy requires
+$R\delta\mathbf V=\mathbf r$. If $R$ is nonsingular, this gives
+the feedback step
+\begin{equation}
+ \mathbf V_{\mathrm{new}}
+ =\mathbf V+\eta R^{-1}
+          [\mathbf q^\star-\mathbf q(\mathbf V)],
+ \qquad 0<\eta\le1.
+ \label{eq:calibration-feedback-update}
+\end{equation}
+The factor $\eta$ limits the step to the measured linear interval
+and permitted voltages. Substitution into the expansion gives
+\[
+ \mathbf r_{\mathrm{new}}
+ =(1-\eta)\mathbf r+O(\|\delta\mathbf V\|^2).
+\]
+Thus $\eta=1$ cancels the first-order residual when the response is
+accurate; smaller steps trade a slower correction for a better local
+approximation. Remeasure $\mathbf q$ after applying the step.
+If the residual does not decrease, reduce the step or determine
+$R$ again. A singular $R$ means the selected controls do not give
+independent local changes of all the requested quantities.
+
+\subsubsection{A simultaneous energy and tunnel-coupling correction}
+As a worked update, take two addition-energy offsets and
+$q_3=\ln(t_c/t_{\mathrm{ref}})$, where $t_{\mathrm{ref}}$ is a
+fixed energy used only to make the logarithm dimensionless.
+Suppose the measured local responses are
+\begin{equation}
+ \begin{pmatrix}
+ \delta\mu_1/(\mu\mathrm{eV})\\
+ \delta\mu_2/(\mu\mathrm{eV})\\
+ \delta\ln(t_c/t_{\mathrm{ref}})
+ \end{pmatrix}
+ =
+ \begin{pmatrix}
+ -100&-25&-10\\
+ -20&-80&-15\\
+ 0.05&0.04&0.50
+ \end{pmatrix}
+ \begin{pmatrix}
+ \delta V_1/(\mathrm{mV})\\
+ \delta V_2/(\mathrm{mV})\\
+ \delta V_{\mathrm B}/(\mathrm{mV})
+ \end{pmatrix}.
+ \label{eq:calibration-feedback-example}
+\end{equation}
+All entries in this displayed, scaled equation are dimensionless.
+The first two rows use the addition-energy response from
+Appendix~\ref{app:virtual-gates}; the last row
+adds illustrative measurements of the tunnel-coupling response.
+To request changes $(40,-40,0.10)$ on the left-hand side, solve
+the system to obtain
+\[
+ (\delta V_1,\delta V_2,\delta V_{\mathrm B})
+ \simeq(-0.572,\ 0.604,\ 0.209)\,\mathrm{mV}.
+\]
+This shifts the two energies oppositely while increasing $t_c$
+by a factor $e^{0.10}\simeq1.105$. Changing only the barrier
+would also shift the dot energies. Apply this full step only if
+it stays within the interval used to establish the local response;
+otherwise multiply all three changes by the same smaller $\eta$.
+Remeasure the two transition positions and the charge-distribution
+curve to compute the actual new residual.
+
+\subsubsection{The same update for a pulse angle}
+The signed-angle measurement in
+Section~\ref{sec:calibration-spin-corrections} supplies a scalar
+error instead of a vector of charge and coupling errors.
+For a pulse angle, the same first-order calculation gives
+\[
+ a_{0,\mathrm{new}}=a_0+
+ \eta\,\frac{\theta^\star-\theta(a_0)}{d\theta/da_0},
+\]
+where $a_0$ is the rectangular pulse amplitude, $\theta(a_0)$ comes from
+the oscillation measurement, and $\theta^\star$ is the target angle.
+Measure the derivative using nearby amplitudes with the same
+pulse shape and duration.
+
+\subsection{Deciding whether the correction is resolved and sufficient}
+
+A small measured residual can mean that the control is accurate,
+or that the data are too noisy to resolve its error. We therefore
+compare the residual with a tolerance tied to the intended operation,
+and require the measurement uncertainty to be smaller than that
+tolerance.
+
+Before running either loop, specify tolerances $d_a$ for the
+measured quantities and require
+$|q_a-q_a^\star|\le d_a$ on a new measurement, with measurement
+uncertainty small enough to judge that tolerance. Gate-angle or
+conditional-phase tolerances are separate from charge-setting
+tolerances. If a later check fails, repeat the measurement associated
+with that failure: a shifted charge boundary requires retuning the
+voltage setting; a shifted spin resonance requires updating the
+drive reference. Changing a setting also invalidates downstream
+calibrations whose Hamiltonian parameters changed. This dependency,
+rather than a universal retuning schedule, determines what must be
+measured again.
+
+The tolerance should be connected to the operation being requested.
+For a coherent angle error $\eta_\theta$ about the intended axis,
+Eq.~\eqref{eq:calibration-average-fidelity} gives
+$1-F_{\mathrm{avg}}\simeq\eta_\theta^2/6$. Allocating an error
+$r_{\mathrm{angle}}$ to this mechanism therefore sets the
+angle tolerance
+$|\eta_\theta|\lesssim\sqrt{6r_{\mathrm{angle}}}$.
+In the signed sequence of
+Eq.~\eqref{eq:calibration-signed-angle-error}, $n$ trials near
+$P_1=1/2$ have counting uncertainty approximately
+$1/(2\sqrt n)$. The inferred angle uncertainty is then
+$1/(m\sqrt n)$ before assignment corrections and other errors.
+This relation determines how many repetitions can resolve the
+chosen tolerance. Increasing $m$ helps only while the repeated
+sequence still obeys the small-error model and retains contrast.
+The stopping test consequently concerns both the measured residual
+and whether the measurement is precise enough to resolve it.

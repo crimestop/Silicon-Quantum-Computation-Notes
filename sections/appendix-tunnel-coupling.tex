@@ -1,0 +1,201 @@
+\FloatBarrier
+\section{Measuring Interdot Tunneling}
+\label{app:tunnel-coupling}
+\label{sec:measurement-tunnel-spectroscopy}
+
+The exchange result in Section~\ref{sec:exchange-virtual-tunneling}
+depends on the coherent interdot tunnel coupling. This appendix shows
+how to determine that parameter from the charge distribution of one
+electron shared between two dots.
+
+Consider one electron confined to two neighboring dots. Let
+$\epsilon_1$ and $\epsilon_2$ be the energies of the states
+localized in the left and right dots. Changing the gate voltages
+varies their energy difference $\varepsilon=\epsilon_1-\epsilon_2$,
+called detuning. We follow $n_L$, the probability of finding
+the electron in the left dot, as a function of $\varepsilon$.
+First consider the ground state at zero temperature. Without
+tunneling, the electron occupies whichever dot has lower energy:
+\[
+ n_L(\varepsilon)=
+ \begin{cases}
+  1,&\varepsilon<0,\\
+  0,&\varepsilon>0.
+ \end{cases}
+\]
+
+Tunneling couples these two localized states. Let
+$t_c=|t_{12}|$ be the magnitude of its matrix element, in energy
+units. A large energy difference favors localization in the
+lower-energy dot, while for $|\varepsilon|$ comparable to $t_c$
+the ground state contains substantial contributions from both
+dots. At a fixed nonzero $t_c$, the curve of $n_L$ against
+$\varepsilon$ therefore falls continuously from near 1 to near 0,
+instead of making a step at zero. A larger $t_c$ sustains this
+mixing at a larger energy difference, so the fall spans a wider
+interval of $\varepsilon$. We determine $t_c$ from the shape
+of this $n_L(\varepsilon)$ curve. A charge sensor with different
+responses to occupation of the two dots lets us infer $n_L$
+from its mean signal.
+
+\subsection{Equilibrium charge distribution}
+\label{sec:measurement-equilibrium-charge}
+Keep one orbital--valley state per dot and a fixed spin state.
+The localized charge states are $\ket L=\ket{1,0}$ and
+$\ket R=\ket{0,1}$. Removing their common mean energy and
+choosing the relative basis phase gives
+\begin{equation}
+ H_c=\begin{pmatrix}\varepsilon/2&-t_c\\-t_c&-\varepsilon/2\end{pmatrix},
+ \qquad
+ E_\pm=\pm\frac{\Delta_c}{2},\quad
+ \Delta_c=\sqrt{\varepsilon^2+4t_c^2}.
+ \label{eq:measurement-charge-anticrossing}
+\end{equation}
+For $t_c>0$, define $0<\theta<\pi$ by
+$\cos\theta=\varepsilon/\Delta_c$ and
+$\sin\theta=2t_c/\Delta_c$. The normalized eigenstates are
+\begin{equation}
+ \ket g=\sin\frac\theta2\ket L+\cos\frac\theta2\ket R,
+ \qquad
+ \ket e=\cos\frac\theta2\ket L-\sin\frac\theta2\ket R,
+ \label{eq:measurement-charge-eigenstates}
+\end{equation}
+with energies $E_-$ and $E_+$, respectively. At zero temperature
+the electron occupies $\ket g$, so the mean left-dot occupation is
+\begin{equation}
+ n_L^{(g)}=|\langle L|g\rangle|^2
+       =\frac12\left(1-\frac{\varepsilon}
+                            {\sqrt{\varepsilon^2+4t_c^2}}\right).
+ \label{eq:measurement-ground-charge-occupation}
+\end{equation}
+It approaches one for $\varepsilon\ll-2t_c$, one half at zero,
+and zero for $\varepsilon\gg2t_c$. Its central slope is
+$dn_L^{(g)}/d\varepsilon|_0=-1/(4t_c)$: increasing $t_c$ makes
+the fall in $n_L^{(g)}$ less steep as a function of $\varepsilon$,
+quantifying the broader transition described above.
+
+Finite temperature also broadens this curve by populating
+$\ket e$, whose left-dot occupation is
+$n_L^{(e)}=(1+\varepsilon/\Delta_c)/2$.
+If the two levels reach thermal equilibrium at temperature $T_e$,
+then $p_e/p_g=e^{-\Delta_c/(k_BT_e)}$ and $p_e+p_g=1$.
+Taking $n_L=p_g n_L^{(g)}+p_e n_L^{(e)}$ gives
+\begin{equation}
+ n_L\equiv\langle\widehat N_1\rangle
+    =\frac12\left[1-\frac{\varepsilon}{\Delta_c}
+                  \tanh\!\left(\frac{\Delta_c}{2k_BT_e}\right)\right].
+ \label{eq:measurement-charge-polarization}
+\end{equation}
+For $t_c\ll k_BT_e$, this approaches
+$n_L=1/[1+e^{\varepsilon/(k_BT_e)}]$, which hardly depends on
+$t_c$. A thermally dominated curve cannot accurately resolve a
+much smaller coupling even when the temperature is known.
+
+\subsection{From the sensor record to the coupling}
+Because the total charge remains one,
+$\langle\widehat N_2\rangle=1-n_L$. Substitution into the
+sensor model of Eq.~\eqref{eq:measurement-sensor-signal} gives
+\begin{equation}
+ \overline s=s_{\mathrm{bg}}+\kappa_2
+                         +(\kappa_1-\kappa_2)n_L.
+ \label{eq:measurement-interdot-sensor-signal}
+\end{equation}
+The bar denotes an average of repeated or stationary records.
+The sensor must have $\kappa_1\ne\kappa_2$ to detect redistribution
+at fixed total charge. After subtracting the smooth gate-dependent
+background, call the signal $s'$. Its values far on the left- and
+right-occupied sides are $s_L=\kappa_1$ and $s_R=\kappa_2$.
+The normalized measured curve is then
+\begin{equation}
+ n_L=\frac{s'-s_R}{s_L-s_R}.
+ \label{eq:measurement-normalized-charge-signal}
+\end{equation}
+
+Load one electron and close its barriers to the reservoirs.
+Keep the interdot barrier setting fixed and scan a chosen plunger
+voltage $v$ across the redistribution region. Allow the two-level
+system to relax at each setting before averaging the sensor signal.
+Use a scan range in which $t_c$ is approximately constant and
+the detuning is approximately linear,
+$\varepsilon=\eta(v-v_0)$; here $v_0$ is the equal-energy setting
+and $\eta=\partial\varepsilon/\partial v$ has units of energy
+per voltage. The common shift of the two dot energies does not
+affect this fixed-charge model.
+
+Record both nearly localized ends of the scan. There the dot
+occupation is nearly constant, so the remaining signal slope
+comes from the direct gate response. For a narrow scan with an
+approximately linear background, fit the two ends with a common
+slope and separate offsets, then subtract that common slope.
+The two corrected plateaus supply $s_L$ and $s_R$; any common
+constant offset cancels in the normalization. Normalize using
+Eq.~\eqref{eq:measurement-normalized-charge-signal}, then compare
+the measured curve with Eq.~\eqref{eq:measurement-charge-polarization}.
+For independently known $\eta$ and $T_e$, the remaining shape
+parameter is $t_c$; $v_0$ sets the center. In the low-temperature
+limit the central slope gives directly
+\[
+ t_c=\frac{|\eta|}{4|dn_L/dv|_{v_0}},
+\]
+while fitting the full curve uses more of the data. This is a
+measurement of coupling through the equilibrium charge distribution,
+without transport through the double dot~\cite{DiCarlo2004}.
+
+\subsection{Spectroscopy with an oscillating gate}
+\label{sec:measurement-charge-drive-spectroscopy}
+There is also a frequency-based measurement. An oscillating gate
+voltage changes the relative energies of the two dots. Because
+$\ket g$ and $\ket e$ are superpositions of the localized states,
+this perturbation can drive transitions between them. Populating
+$\ket e$ changes the mean charge distribution, which the same
+sensor can detect~\cite{Petta2004Charge}.
+
+Suppose the drive changes detuning by
+$A_\varepsilon\cos(2\pi ft)$ while leaving $t_c$ approximately
+fixed. With $\tau_z=\ket L\bra L-\ket R\bra R$,
+\begin{equation}
+ H_d(t)=\frac{A_\varepsilon}{2}\cos(2\pi ft)\tau_z,
+ \qquad
+ \langle e|\tau_z|g\rangle=\sin\theta=\frac{2t_c}{\Delta_c}.
+ \label{eq:measurement-charge-drive}
+\end{equation}
+Thus the transition matrix element is nonzero. The weak-drive
+resonance condition is the same two-level condition derived in
+Section~\ref{sec:transverse-spin-control}, now with gap $\Delta_c$:
+\begin{equation}
+ hf=\Delta_c(\varepsilon),\qquad
+ \varepsilon_{\mathrm{res}}
+      =\pm\sqrt{(hf)^2-4t_c^2},\quad hf\geq2t_c.
+ \label{eq:measurement-photon-assisted-tunneling}
+\end{equation}
+Take $k_BT_e\ll\Delta_c$, so the drive-off state is approximately
+$\ket g$. Under a weak continuous drive, excitation competes with
+relaxation and produces a mean excited-state population $p_e$.
+A sensor averaging over many drive periods measures the population
+contribution; the rapidly oscillating coherence averages away.
+Since $n_L^{(e)}-n_L^{(g)}=\varepsilon/\Delta_c$, the change is
+\begin{equation}
+ \delta\overline s=(\kappa_1-\kappa_2)p_e
+                         \frac{\varepsilon}{\Delta_c}.
+ \label{eq:measurement-charge-resonance-signal}
+\end{equation}
+The resonantly increased population therefore gives a sensor
+feature away from zero detuning. At zero detuning both eigenstates
+have equal mean dot charge, so this particular signal vanishes
+even though the drive matrix element is nonzero.
+
+At a fixed weak drive amplitude and frequency $f$, scan $v$ and
+subtract the drive-off sensor record from the drive-on record.
+Locate the narrow features on the two sides of $v_0$, and repeat
+for several frequencies. Their resonance positions obey
+\begin{equation}
+ (hf)^2=\eta^2(v_{\mathrm{res}}-v_0)^2+4t_c^2.
+ \label{eq:measurement-charge-resonance-fit}
+\end{equation}
+For a symmetric local response, the midpoint of each pair gives
+$v_0$. Plotting $(hf)^2$ against $(v_{\mathrm{res}}-v_0)^2$
+gives slope $\eta^2$ and intercept $4t_c^2$. This determines both
+$|\eta|$ and $t_c$, even when the feature at the minimum gap is
+invisible. Use resolved, weak-drive resonances for which the
+charge-contrast factor varies little across each linewidth;
+otherwise a signal extremum need not coincide with the resonance.

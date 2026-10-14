@@ -1,0 +1,252 @@
+\FloatBarrier
+\section{How Voltages Set and Preserve Model Parameters}
+\label{app:voltage-response}
+\label{sec:device-parameter-dependence}
+
+A gate electrode changes the potential over a finite part of the
+device. Its voltage can therefore shift a dot level, reshape a
+localized orbital and change tunneling through a nearby barrier
+at the same time. Moving an addition threshold in
+Section~\ref{sec:electron-number-control} requires knowing its voltage
+response. Tuning the exchange barrier at fixed thresholds in
+Section~\ref{sec:exchange-virtual-tunneling} requires coordinating
+several electrodes. This appendix derives the parameter responses
+and then solves for the voltage combinations that produce a specified
+change. The same construction is extended to an array, where the
+selection problem of Section~\ref{sec:platform-array-selection}
+requires constraints on affected neighbours as well as on the target.
+
+\subsection{How much does a gate voltage move an energy level?}
+
+Consider a concrete operation: increase the voltage
+on the metal electrode above a dot. The resulting electric
+potential change lowers the electron potential energy.
+The oxide, surrounding conductors, and electron position determine
+how strongly the dot responds.
+
+Let $\mathbf V$ denote the collection of gate voltages.
+For a small change around a specified operating point, define
+the dimensionless response $\eta_g(\mathbf r)$ by
+\begin{equation}
+ \delta\Phi_0(\mathbf r)
+    =\sum_g\eta_g(\mathbf r)\,\delta V_g,
+ \qquad
+ \eta_g(\mathbf r)=
+       \frac{\partial\Phi_0(\mathbf r)}{\partial V_g}.
+ \label{eq:device-voltage-response}
+\end{equation}
+It is obtained by changing a gate boundary voltage in the
+electrostatic problem. It can be calculated by differencing
+nearby solutions; if the charge response is nonlinear, it
+depends on the chosen operating point.
+
+For a normalized, nondegenerate eigenstate $w_a$ of an isolated
+dot, assume initially that voltage dependence enters only through
+$-e\Phi_0$. Differentiating its eigenvalue equation gives the
+Hellmann--Feynman relation
+\begin{equation}
+ \frac{\partial\epsilon_a}{\partial V_g}
+    =\bra{w_a}\frac{\partial h_1}{\partial V_g}\ket{w_a}
+    =-e\int d^3r\,|w_a(\mathbf r)|^2\eta_g(\mathbf r).
+ \label{eq:device-hellmann-feynman}
+\end{equation}
+Terms containing derivatives of $w_a$ cancel by normalization
+and the eigenvalue equation. Thus the electron samples the
+gate's potential response over its probability distribution.
+
+The resulting voltage-to-energy conversion is called a
+\emph{lever arm}. Using a dimensionless convention,
+\begin{equation}
+ \alpha_{ag}\equiv-\frac1e
+           \frac{\partial\epsilon_a}{\partial V_g},
+ \qquad
+ \delta\epsilon_a=-e\sum_g\alpha_{ag}\delta V_g.
+ \label{eq:device-lever-arm}
+\end{equation}
+Some literature instead quotes $e\alpha_{ag}$, an energy per
+voltage. The convention must be stated.
+If voltage also changes interface couplings or other terms in
+$h_1$, their derivatives must be included in
+Eq.~\eqref{eq:device-hellmann-feynman}.
+
+An addition threshold depends on the energies of two many-electron
+states. Its voltage response is
+\begin{equation}
+ \frac{\partial\mu_N}{\partial V_g}
+    =\frac{\partial E_N}{\partial V_g}
+      -\frac{\partial E_{N-1}}{\partial V_g}.
+ \label{eq:device-addition-response}
+\end{equation}
+For example, a second electron in a frozen single orbital has
+addition energy $\epsilon+U$, so its shift contains both
+$\partial\epsilon/\partial V_g$ and $\partial U/\partial V_g$.
+This is why converting a charge transition into a model
+parameter requires identifying which energy difference is
+being measured.
+
+\subsection{Changing tunneling and repulsion}
+
+Changing the electrode between two dots changes the barrier
+through which their wave functions extend. Its most direct
+effect is therefore on $t_{12}$.
+
+A one-dimensional barrier gives a useful estimate. Let $s$
+measure distance along a tunneling path, $V_b(s)$ be its potential
+energy, and $E_0$ the approximate bound-state energy. In the
+forbidden interval $s_1<s<s_2$, where $V_b>E_0$, an effective
+mass $m_b$ gives the leading exponential dependence
+\begin{equation}
+ |t_{12}|\ \propto\
+ \exp\!\left[-\int_{s_1}^{s_2}
+       \frac{\sqrt{2m_b[V_b(s)-E_0]}}{\hbar}\,ds\right].
+ \label{eq:device-wkb-hopping}
+\end{equation}
+This WKB estimate explains why a modest change in barrier height
+or width can strongly change tunneling. The prefactor and the
+actual multidimensional coupling should be calculated from the
+wave functions. Here $t_{12}$ is a coherent Hamiltonian matrix
+element with units of energy.
+
+Gate voltages also change the orbital sizes and positions,
+so they change the interaction integrals.
+For a family of similarly shaped orbitals of radius $\ell$
+in a uniform dielectric,
+$U$ scales roughly as $e^2/(4\pi\epsilon_{\mathrm d}\ell)$.
+Spreading an orbital out reduces the cost of placing two
+electrons in it. For well-separated dots at distance $R$,
+the unscreened direct interaction scales as
+$V_{12}\sim e^2/(4\pi\epsilon_{\mathrm d}R)$.
+The scaling estimates apply to unscreened interactions in a
+uniform dielectric. Nearby metals modify them through the
+screening described in Eq.~\eqref{eq:device-image-screening}.
+
+Consequently, geometry affects more than the shape of
+$V_{\mathrm{conf}}$. Oxide thickness affects gate control and
+screening; dot separation affects tunneling and interdot
+repulsion; interface structure affects the valley states.
+The integrals must be recalculated, or their changes justified
+as negligible, when these inputs change appreciably.
+
+\subsection{Why one physical control changes several model parameters}
+
+Consider a two-dot device with a plunger above each dot and
+an electrode between them. Changing the middle electrode may
+increase tunneling while also shifting both dot energies.
+This simultaneous response to one gate voltage is called
+\emph{gate cross-coupling}.
+To keep the energies fixed, one can simultaneously adjust the
+two plungers. Near a reference voltage setting, the required
+compensation obeys
+\begin{equation}
+ \delta\epsilon_i
+    =\sum_g
+       \frac{\partial\epsilon_i}{\partial V_g}\delta V_g=0,
+ \qquad i=1,2.
+ \label{eq:device-compensation}
+\end{equation}
+For the Hubbard on-site energies, evaluate the derivatives
+including the voltage dependence of the chosen localized basis.
+Independent plunger responses allow these two linear equations
+to determine compensating voltages locally. The interaction
+parameters $U_i,V_{12}$ and orbital shapes can still vary along
+this compensated voltage change.
+
+The exchange coupling inherits these simultaneous changes.
+For two dots with equal $U$, define
+$D=U-V_{12}$ and $\varepsilon=\epsilon_1-\epsilon_2$.
+Writing Eq.~\eqref{eq:exchange-detuning} with
+$t_c=|t_{12}|$ and $V=V_{12}$ gives
+\begin{equation}
+ J_{\mathrm{se}}(\varepsilon)
+    =\frac{4|t_{12}|^2D}{D^2-\varepsilon^2},
+ \qquad D>|\varepsilon|,\quad
+ |t_{12}|\ll D-|\varepsilon|.
+ \label{eq:device-exchange-control}
+\end{equation}
+Holding $t_{12}$ and $D$ fixed, the first derivative with respect
+to detuning vanishes at $\varepsilon=0$.
+This explains why operation near equal dot energies can reduce
+first-order sensitivity to detuning fluctuations~\cite{Reed2016}.
+The sensitivity to changes in the tunnel amplitude and
+interaction energy follows, at this point, from the first-order relation
+\begin{equation}
+ \frac{\delta J_{\mathrm{se}}}{J_{\mathrm{se}}}
+       =2\frac{\delta|t_{12}|}{|t_{12}|}
+          -\frac{\delta D}{D}.
+ \label{eq:device-exchange-sensitivity}
+\end{equation}
+A voltage that changes the barrier can therefore tune exchange
+even when the dot energies remain aligned.
+
+The spin splitting can change as well. If a dot moves through
+the field of a micromagnet, its mean field changes. For a scalar,
+position-independent electron $g$ factor $g_{\mathrm e}$ and a
+retained normalized orbital $w_i$, the Zeeman vector is
+\begin{equation}
+ \mathbf b_i
+    =g_{\mathrm e}\mu_B\int d^3r\,|w_i(\mathbf r)|^2\mathbf B(\mathbf r).
+ \label{eq:device-averaged-zeeman}
+\end{equation}
+Here $\mu_B$ is the Bohr magneton and $\mathbf B$ is the applied
+plus micromagnet field.
+Changing $w_i$ changes $\mathbf b_i$ even when the magnet is
+unchanged. This connects the device calculation back to
+electrically driven spin control in Section~\ref{sec:transverse-spin-control}.
+
+\input{sections/appendix-virtual-gates}
+
+\subsection{Compensating a voltage change across an array}
+\label{sec:processor-array-compensation}
+
+Changing the detuning of a target pair may shift the spin gaps
+and exchange couplings of neighbouring dots. Near an operating point,
+collect the relevant energies and couplings in a vector \(q\),
+and the electrode voltages in \(V\). Their measured local
+response is
+\[
+ \delta q_a=\sum_g R_{ag}\delta V_g.
+\]
+To change one target quantity while holding others fixed,
+the requested \(\delta q\) must specify both the target and
+the spectator constraints. The requested change must lie in the
+range of the measured response matrix. This extends the virtual-gate construction of
+Eq.~\eqref{eq:calibration-response-matrix} from two addition energies
+to all parameters that the operation must change or preserve.
+The response may be short-ranged, but its spatial extent is an
+experimental property rather than a consequence of drawing
+nearby electrodes.
+
+Consider a square plunger-to-addition-energy response
+\(\delta\boldsymbol\mu=G\delta\mathbf V\), with
+\(G=D+K\). The diagonal matrix \(D\) describes each
+plunger's response on its own dot; \(K\) contains cross
+responses. If we use only \(D^{-1}\), the voltage
+\(D^{-1}\delta\boldsymbol\mu\) produces an extra energy
+shift \(KD^{-1}\delta\boldsymbol\mu\). For
+\(\|D^{-1}K\|<1\), a Neumann expansion cancels these
+successive cross effects:
+\begin{equation}
+ G^{-1}
+ =[I-D^{-1}K+(D^{-1}K)^2-\cdots]D^{-1}.
+ \label{eq:processor-local-compensation}
+\end{equation}
+The equivalent iteration is
+\[
+ \delta\mathbf V^{(k+1)}
+ =D^{-1}\bigl(\delta\boldsymbol\mu-K\delta\mathbf V^{(k)}\bigr).
+\]
+If \(K\) connects only neighbouring dots, each additional
+order reaches farther through the array. When the response is
+strong or long-ranged, the truncated local inverse may be
+inadequate and the wider matrix must be used.
+
+This inverse is only as current as its measured response.
+Changing a barrier can alter the two neighbouring spin gaps,
+their exchange, and the reference distribution of a shared
+sensor. Before reusing a gate pulse, recheck the observables
+that depend on that barrier; a changed sensor distribution
+must be separated from a changed gate outcome. A feedback
+procedure for updating calibrated controls is developed in
+Eq.~\eqref{eq:calibration-feedback-update}. Its use in an array
+also requires tracking which other calibrated operations depend
+on the control being updated.

@@ -1,0 +1,31 @@
+% Connectivity only: arrows between reservoirs and dots indicate tunneling.
+\begingroup
+\small
+\setlength{\unitlength}{1mm}
+\linethickness{0.5pt}
+\begin{picture}(150,94)
+ \put(0,88){\makebox(150,5)[l]{\bfseries (a) Transport through the target}}
+ \put(10,63){\framebox(34,15){\shortstack{source reservoir\\$\mu_{\mathrm S}$}}}
+ \put(61,63){\framebox(28,15){target dot}}
+ \put(106,63){\framebox(34,15){\shortstack{drain reservoir\\$\mu_{\mathrm D}$}}}
+ \put(44,70.5){\vector(1,0){17}}
+ \put(89,70.5){\vector(1,0){17}}
+ \put(39,79){\makebox(72,5){electron transfer}}
+ \put(10,53){\makebox(130,5){external circuit: bias source and current amplifier}}
+
+ \put(0,42){\makebox(150,5)[l]{\bfseries (b) A separate charge sensor}}
+ \put(10,25){\framebox(34,11){target reservoir}}
+ \put(61,25){\framebox(28,11){target dot 1}}
+ \put(106,25){\framebox(34,11){target dot 2}}
+ \put(44,30.5){\vector(1,0){17}}
+ \put(89,30.5){\vector(1,0){17}}
+ \put(75,11){\multiput(0,0)(0,2.3){6}{\line(0,1){1.2}}}
+ \qbezier[18](123,25)(103,18)(83,11)
+ \put(7,13){\makebox(60,8){electrostatic interaction}}
+ \put(10,0){\framebox(34,11){sensor source}}
+ \put(61,0){\framebox(28,11){sensor dot}}
+ \put(106,0){\framebox(34,11){sensor drain}}
+ \put(44,5.5){\vector(1,0){17}}
+ \put(89,5.5){\vector(1,0){17}}
+\end{picture}
+\endgroup

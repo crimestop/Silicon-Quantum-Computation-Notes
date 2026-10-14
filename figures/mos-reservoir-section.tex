@@ -1,0 +1,85 @@
+% Idealized reservoir--dot cross-section and matching potential profile.
+% Coordinates are in millimetres.
+\begingroup
+\small
+\setlength{\unitlength}{1mm}
+\linethickness{0.4pt}
+\begin{picture}(150,123)
+ \put(0,117){\makebox(150,5)[l]{\bfseries (a) Material cross-section}}
+
+ % Material fills.
+ \put(12,63){\color{blue!3}\rule{126mm}{27mm}}
+ \put(26,90){\color{black!7}\rule{112mm}{7mm}}
+ \put(12,84){\color{black!25}\rule{14mm}{13mm}}
+ \put(34,97){\color{black!15}\rule{39mm}{10mm}}
+ \put(81,97){\color{black!15}\rule{16mm}{10mm}}
+ \put(108,97){\color{black!15}\rule{27mm}{10mm}}
+
+ % Shared material boundaries, drawn once at their exact coordinates.
+ \put(12,63){\line(1,0){126}}
+ \put(12,63){\line(0,1){34}}
+ \put(138,63){\line(0,1){34}}
+ \put(26,90){\line(1,0){112}}
+ \put(12,97){\line(1,0){126}}
+ \put(12,84){\line(1,0){14}}
+ \put(26,84){\line(0,1){13}}
+
+ % Gate sides and tops share the oxide top at y=97.
+ \put(34,97){\line(0,1){10}}
+ \put(73,97){\line(0,1){10}}
+ \put(34,107){\line(1,0){39}}
+ \put(81,97){\line(0,1){10}}
+ \put(97,97){\line(0,1){10}}
+ \put(81,107){\line(1,0){16}}
+ \put(108,97){\line(0,1){10}}
+ \put(135,97){\line(0,1){10}}
+ \put(108,107){\line(1,0){27}}
+
+ \put(64,91){\makebox(56,5){insulating oxide}}
+ \put(17,65){\makebox(24,5)[l]{silicon}}
+ \put(12,84){\makebox(14,13){contact}}
+ \put(34,97){\makebox(39,10){\shortstack{accumulation\\gate}}}
+ \put(81,97){\makebox(16,10){\shortstack{barrier\\gate}}}
+ \put(108,97){\makebox(27,10){\shortstack{plunger\\gate}}}
+
+ % Populated layer and localized orbital; labels sit inside their regions.
+ \put(26,84){\color{blue!23}\rule{48mm}{5mm}}
+ \put(26,84){\makebox(48,5){reservoir}}
+ \put(122,86){\color{orange!75!black}\oval(21,6)}
+ \put(111.5,83){\makebox(21,6){dot}}
+ \put(77,87){\color{blue!65!black}\vector(1,0){31}}
+ \put(108,84){\color{blue!65!black}\vector(-1,0){31}}
+ \put(77,78){\makebox(32,5){tunneling}}
+ \put(145,77){\vector(0,1){20}}
+ \put(143,98){\makebox(6,5){$z$}}
+ \put(111,58){\vector(1,0){25}}
+ \put(139,55){\makebox(6,5){$x$}}
+
+ \put(0,48){\makebox(150,5)[l]{\bfseries
+                              (b) Electron potential energy along the layer}}
+ \put(18,6){\vector(1,0){122}}
+ \put(18,6){\vector(0,1){35}}
+ \put(0,37){\makebox(16,7){$V_{\mathrm{conf}}$}}
+ \put(141,3){\makebox(6,5){$x$}}
+ \put(36,27){\makebox(36,5){reservoir}}
+ \put(77,41){\makebox(26,5){barrier}}
+ \put(111,7){\makebox(26,5){dot well}}
+ \linethickness{0.8pt}
+ \color{blue!65!black}
+ \put(27,24){\line(1,0){38}}
+ \qbezier(65,24)(76,24)(82,33)
+ \qbezier(82,33)(86,40)(90,40)
+ \qbezier(90,40)(98,40)(106,24)
+ \qbezier(106,24)(114,13)(122,13)
+ \qbezier(122,13)(132,13)(137,35)
+
+ % Discrete orbital energies, schematic within the displayed dot well.
+ \linethickness{0.65pt}
+ \color{orange!75!black}
+ \put(112,18){\line(1,0){18}}
+ \put(107.5,23){\line(1,0){25.3}}
+ \color{black}
+ \put(137,15.5){\makebox(10,5)[l]{$\epsilon_0$}}
+ \put(137,20.5){\makebox(10,5)[l]{$\epsilon_1$}}
+\end{picture}
+\endgroup

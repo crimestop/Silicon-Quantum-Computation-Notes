@@ -1,0 +1,44 @@
+% A local honeycomb neighborhood with the usual negatively sloping
+% reservoir transitions and positively sloping interdot transitions.
+\begingroup
+\small
+\setlength{\unitlength}{1mm}
+\begin{picture}(150,87)
+ \put(15,8){\vector(1,0){122}}
+ \put(15,8){\vector(0,1){73}}
+ \put(137,4){\makebox(10,7){$V_1$}}
+ \put(5,78){\makebox(10,7){$V_2$}}
+ \put(66,35){\makebox(25,8){$(1,1)$}}
+ \put(32,26){\makebox(25,8){$(0,1)$}}
+ \put(53,11){\makebox(25,8){$(1,0)$}}
+ \put(90,18){\makebox(25,8){$(2,0)$}}
+ \put(106,44){\makebox(25,8){$(2,1)$}}
+ \put(83,62){\makebox(25,8){$(1,2)$}}
+ \put(28,62){\makebox(25,8){$(0,2)$}}
+ \linethickness{0.9pt}
+ \color{blue!65!black}
+ % Central cell A(51,29), B(83,21), C(103,37),
+ % D(95,61), E(63,69), F(43,53).
+ \qbezier(51,29)(67,25)(83,21)
+ \qbezier(103,37)(99,49)(95,61)
+ \qbezier(95,61)(79,65)(63,69)
+ \qbezier(43,53)(47,41)(51,29)
+ % Reservoir-transition edges extending to adjacent cells.
+ \qbezier(83,21)(85,15)(87,9)
+ \qbezier(103,37)(118,33.25)(133,29.5)
+ \qbezier(63,69)(61,75)(59,81)
+ \qbezier(43,53)(31.5,55.875)(20,58.75)
+ \color{orange!85!black}
+ \qbezier(83,21)(93,29)(103,37)
+ \qbezier(63,69)(53,61)(43,53)
+ \qbezier(51,29)(40,20.2)(29,11.4)
+ \qbezier(95,61)(107,70.6)(119,80.2)
+ \color{black}
+ \put(51,29){\circle*{2}}
+ \put(83,21){\circle*{2}}
+ \put(103,37){\circle*{2}}
+ \put(95,61){\circle*{2}}
+ \put(63,69){\circle*{2}}
+ \put(43,53){\circle*{2}}
+\end{picture}
+\endgroup

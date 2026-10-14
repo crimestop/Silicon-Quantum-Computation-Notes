@@ -1,0 +1,377 @@
+\FloatBarrier
+\section{From Orbital Hamiltonians to Spin Exchange}
+\label{app:exchange-reduction}
+\label{sec:effective-models-numerics}
+
+The general many-electron matrix in
+Appendix~\ref{sec:device-orbital-basis} retains all interactions within
+a chosen orbital space. This appendix develops the more restrictive
+model used to derive the exchange interaction in
+Section~\ref{sec:exchange-virtual-tunneling}. We first specify the
+conditions for a single-spatial-state Hubbard model. We then eliminate
+its high-energy charge states to obtain spin exchange, check the
+splitting against exact diagonalization, and calculate the singlet
+charge admixture that enters interactions between encoded qubits.
+
+\subsection{One spatial state per dot: assumptions of the Hubbard model}
+\label{sec:device-hubbard-reduction}
+
+For two neighboring spin qubits, the relevant charge states include
+one electron on each dot and the doubly occupied states reached by
+moving an electron between them. The one-electron spatial states are
+concentrated near individual dots, but their tails extend into
+neighboring wells and permit tunneling. Repulsion changes the energy
+cost of this transfer. We need a model that retains these charge
+states and the tunneling between them before deriving their effect
+on the spins. Starting from Appendix~\ref{sec:device-orbital-basis},
+we construct such a model for dots with a small number of electrons.
+
+\paragraph{Restricting the spatial states.}
+Choose one orthonormal localized spatial state $w_i$ per dot,
+including its local valley composition, and retain its two spin
+states. We neglect spin-flip tunneling. The retained spatial state
+has energy $\epsilon_i$ and can hold zero, one, or two electrons;
+the doubly occupied state is a spin singlet. We use this same spatial
+basis for the charge configurations being compared. The model
+therefore retains changes in local occupation, including double
+occupation during tunneling.
+
+This restriction assumes that other orbital--valley states have
+negligible thermal occupation and that their mixing into the retained
+states gives corrections below the required accuracy. The condition
+must hold in every charge sector used in the calculation, including
+the doubly occupied states that enter a virtual tunneling process.
+A large single-electron excitation gap alone does not establish this:
+electron repulsion can change the ordering and composition of the
+two-electron states. If excited orbitals or valleys contribute
+appreciably, the local spatial basis must be enlarged.
+
+Putting two opposite-spin electrons on the same dot costs an
+additional repulsion energy $U_i$. Occupying different dots $i,j$
+gives a direct repulsion $V_{ij}$. Write $|w_i(\mathbf r)|^2$
+for the spatial probability density, summed over retained valley
+components when needed. From the pair matrix elements,
+\begin{equation}
+ \begin{aligned}
+ U_i&=\mathcal V_{iiii}
+   =\int d^3r\,d^3r'\,
+       |w_i(\mathbf r)|^2W(\mathbf r,\mathbf r')
+                         |w_i(\mathbf r')|^2,\\
+ V_{ij}&=\mathcal V_{ijij}
+   =\int d^3r\,d^3r'\,
+       |w_i(\mathbf r)|^2W(\mathbf r,\mathbf r')
+                         |w_j(\mathbf r')|^2.
+ \end{aligned}
+ \label{eq:device-density-interactions}
+\end{equation}
+These integrals calculate the repulsion energies from the
+orbital charge distributions and their screened interaction.
+
+\paragraph{Restricting the interaction terms.}
+Within this spatial basis, a further approximation retains only
+$U_i$ and $V_{ij}$ from the pair interaction. This requires the
+remaining pair matrix elements to give negligible corrections to
+the energies or dynamics being calculated. The spatial-state
+truncation alone does not imply this condition.
+Keeping these density interactions together with the one-electron
+tunneling from Eq.~\eqref{eq:device-one-body-matrix} gives the
+\emph{extended Hubbard Hamiltonian}
+\begin{equation}
+ \begin{aligned}
+ H_{\mathrm{Hub}}
+   &=\sum_i\epsilon_i n_i
+     -\sum_{i<j,\sigma}
+        \left(t_{ij}c_{i\sigma}^\dagger c_{j\sigma}
+             +t_{ij}^*c_{j\sigma}^\dagger c_{i\sigma}\right)\\
+   &\quad+\sum_i U_i n_{i\uparrow}n_{i\downarrow}
+          +\sum_{i<j}V_{ij}n_i n_j,\\
+ n_{i\sigma}&=c_{i\sigma}^\dagger c_{i\sigma},
+ \qquad n_i=n_{i\uparrow}+n_{i\downarrow}.
+ \end{aligned}
+ \label{eq:device-extended-hubbard}
+\end{equation}
+The operator $n_i$ counts electrons on dot $i$.
+Each displayed term now has a specific origin: localized-state
+energy, coherent transfer, same-dot repulsion, and interdot
+repulsion. Local Zeeman terms can be added when resolving spins.
+
+On a charge configuration with $N_i=0,1,2$, the operators $n_i$
+and $n_{i\uparrow}n_{i\downarrow}$ have eigenvalues $N_i$ and
+$N_i(N_i-1)/2$, respectively. In the occupation-number basis of
+this Hubbard model, the diagonal matrix element is therefore
+\begin{equation}
+ E_{\mathrm{ch}}(\{N_i\})
+   =\sum_i\epsilon_i N_i
+    +\sum_i U_i\frac{N_i(N_i-1)}2
+    +\sum_{i<j}V_{ij}N_iN_j.
+ \label{eq:dot-array-charge-energy}
+\end{equation}
+Tunneling supplies off-diagonal matrix elements between these basis
+states, so the many-electron eigenenergies require diagonalizing
+$H_{\mathrm{Hub}}$. The expression above relies on the spatial-state
+and interaction restrictions already specified; spin-dependent
+energies are omitted here.
+
+This model omits other allowed pair matrix elements. For example,
+the Coulomb interaction connects the spatial product states
+$w_i(\mathbf r_1)w_j(\mathbf r_2)$ and
+$w_j(\mathbf r_1)w_i(\mathbf r_2)$, with matrix element
+$K_{ij}=\mathcal V_{ijji}$. In the subspace with one electron
+in each orbital and no tunneling, their symmetric spatial
+combination has energy $V_{ij}+K_{ij}$, and their antisymmetric
+combination has energy $V_{ij}-K_{ij}$.
+Fermionic antisymmetry pairs these with a spin singlet and triplet,
+respectively. This \emph{direct Coulomb exchange} therefore contributes
+$E_T-E_S=-2K_{ij}$ through the exchange symmetry of the spatial
+state at zero tunneling. When calculating a small spin-exchange
+splitting, the size of $2K_{ij}$ must be judged against that splitting
+and the accuracy sought; its being small compared with $U_i$ is
+insufficient.
+
+The full interaction can also transfer two electrons together
+between orbitals, or transfer one with an amplitude depending on
+the other electron's orbital. These are called pair hopping and
+occupation-dependent hopping~\cite{Wang2011}. They can be restored
+from $\mathcal V_{ijkl}$ if their effects matter.
+
+The Hubbard model obtained under these conditions still contains
+empty and doubly occupied dots, and allows tunneling to mix charge
+configurations. A Hamiltonian acting only on spins requires the
+further charge-state elimination in
+Appendix~\ref{sec:device-low-energy-reduction}: there we restrict to
+one electron per dot and require the positive double-occupation
+costs to be much larger than the tunnel coupling.
+
+\subsection{Keeping spin states and eliminating costly excitations}
+\label{sec:device-low-energy-reduction}
+
+Starting from the Hubbard Hamiltonian in
+Eq.~\eqref{eq:device-extended-hubbard}, we seek a description in
+which the electron number and lowest orbital--valley state on each
+dot are fixed, while spins remain free to evolve.
+Virtual tunneling through excited charge states shifts the
+energies within this low-energy set. We retain these shifts
+when deriving its effective Hamiltonian.
+
+To derive their effect, let $P$ project onto the states we want
+to keep, and $Q=I-P$ onto the remaining states, with $I$ the identity.
+Write an eigenstate as
+$\ket{\Psi}=\ket p+\ket q$, where
+$\ket p=P\ket\Psi$ and $\ket q=Q\ket\Psi$.
+Its two coupled equations are
+\begin{equation}
+ \begin{aligned}
+ PHP\ket p+PHQ\ket q&=E\ket p,\\
+ QHP\ket p+QHQ\ket q&=E\ket q.
+ \end{aligned}
+ \label{eq:device-block-eigenproblem}
+\end{equation}
+Solving the second for $\ket q$ and substituting into the first
+gives
+\begin{equation}
+ \begin{aligned}
+ \ket q&=(E-QHQ)^{-1}QHP\ket p,\\
+ H_{\mathrm{eff}}(E)&=PHP+
+                PHQ(E-QHQ)^{-1}QHP.
+ \end{aligned}
+ \label{eq:device-effective-resolvent}
+\end{equation}
+The inverse is taken only in the excluded space, away from its
+eigenvalues. Reading the second term from right to left,
+$QHP$ takes a retained state out, the energy denominator weights
+the intermediate amplitude, and $PHQ$ brings it back.
+This is the origin of a virtual correction.
+
+If the coupling between the two subspaces is small compared
+with their energy separation, this expression can be expanded.
+An equivalent construction, the Schrieffer--Wolff transformation,
+produces an energy-independent low-energy Hamiltonian
+order by order~\cite{Bravyi2011}. With one electron per dot
+and approximately spin-rotation-invariant exchange, its leading
+form is
+\begin{equation}
+ H_{\mathrm{spin}}=E_{\mathrm{off}}
+       +\sum_i\mathbf b_i\cdot\mathbf s_i
+       +\sum_{i<j}J_{ij}\mathbf s_i\cdot\mathbf s_j
+       +\delta H_{\mathrm{spin}},
+ \qquad \mathbf s_i=\boldsymbol\sigma_i/2.
+ \label{eq:device-spin-hamiltonian}
+\end{equation}
+$E_{\mathrm{off}}$ is a common energy shift,
+$\mathbf b_i$ is the local Zeeman energy vector, and
+$\boldsymbol\sigma_i$ is the vector of Pauli operators for spin $i$.
+The remainder $\delta H_{\mathrm{spin}}$ contains additional terms,
+such as anisotropic exchange and multispin interactions.
+
+For two dots, a hop from the $(1,1)$ configuration produces
+$(2,0)$ or $(0,2)$. These states are intermediate because
+a second hop returns to $(1,1)$.
+With detuning $\varepsilon=\epsilon_1-\epsilon_2$, their costs
+and leading tunneling-induced exchange are
+\begin{equation}
+ \begin{aligned}
+ \Delta_{20}&=U_1-V_{12}+\varepsilon,
+ &\Delta_{02}&=U_2-V_{12}-\varepsilon,\\
+ J_{\mathrm{se}}&=2|t_{12}|^2
+       \left(\frac1{\Delta_{20}}+\frac1{\Delta_{02}}\right).
+ \end{aligned}
+ \label{eq:device-general-superexchange}
+\end{equation}
+Both costs must be positive and much larger than $|t_{12}|$.
+A small direct-exchange correction contributes $-2K_{12}$ at
+leading order. If a charge, orbital, or valley excitation becomes
+comparable to its coupling to the retained states, it should be
+kept explicitly in the retained space.
+
+\paragraph{Fermionic matrix elements and charge elimination.}
+The exchange result used in Eq.~\eqref{eq:superexchange} follows
+by retaining the singlet's two virtual charge channels. Specialize
+Eq.~\eqref{eq:device-extended-hubbard} to two dots with
+$U_1=U_2=U$, $V_{12}=V$, and real $t_{12}=t_c$.
+Write $H_t$ for its tunneling term.
+The charge costs $\Delta_{20},\Delta_{02}$ are given in
+Eq.~\eqref{eq:virtual-charge-gaps}.
+We evaluate the tunneling matrix elements in the $(1,1)$
+singlet--triplet basis
+\begin{equation}
+  \begin{aligned}
+    \ket{S_{11}}&=\frac{\ket{\uparrow\downarrow}
+                          -\ket{\downarrow\uparrow}}{\sqrt{2}},&
+    \ket{T_{0,11}}&=\frac{\ket{\uparrow\downarrow}
+                            +\ket{\downarrow\uparrow}}{\sqrt{2}},\\
+    \ket{T_{+,11}}&=\ket{\uparrow\uparrow},&
+    \ket{T_{-,11}}&=\ket{\downarrow\downarrow}.
+  \end{aligned}
+  \label{eq:hubbard-spin-states}
+\end{equation}
+The subscript $11$ labels charge occupation; $\ket{T_{11}}$ below
+denotes any triplet. Fix the doubly occupied singlet phases by
+$\ket{D_{20}}=c_{1\uparrow}^\dagger c_{1\downarrow}^\dagger
+\ket{\mathrm{vac}}$ and
+$\ket{D_{02}}=c_{2\uparrow}^\dagger c_{2\downarrow}^\dagger
+\ket{\mathrm{vac}}$, where $\ket{\mathrm{vac}}$ is the empty-dot state.
+For product states, create the dot-1 electron before the dot-2
+electron, so
+$\ket{\uparrow\downarrow}=c_{1\uparrow}^\dagger
+c_{2\downarrow}^\dagger\ket{\mathrm{vac}}$. Applying $H_t$ gives
+\begin{equation}
+  \begin{aligned}
+    H_t\ket{\uparrow\downarrow}
+       &=-t_c(\ket{D_{20}}+\ket{D_{02}}),\\
+    H_t\ket{\downarrow\uparrow}
+       &=+t_c(\ket{D_{20}}+\ket{D_{02}}).
+  \end{aligned}
+  \label{eq:tunneling-product-states}
+\end{equation}
+The two amplitudes add for $\ket{S_{11}}$ and cancel for
+$\ket{T_{0,11}}$. Pauli exclusion blocks the polarized triplets.
+Thus the singlet couples to both doubly occupied states, while
+every triplet is uncoupled:
+\begin{equation}
+  |\bra{D_{20}}H_t\ket{S_{11}}|
+   =|\bra{D_{02}}H_t\ket{S_{11}}|=\sqrt{2}|t_c|,\qquad
+  \bra{D_{20}}H_t\ket{T_{11}}=
+  \bra{D_{02}}H_t\ket{T_{11}}=0.
+  \label{eq:tunnel-singlet-matrix-elements}
+\end{equation}
+
+\paragraph{Eliminating charge excitations.}
+We now calculate the singlet energy shift caused by its two
+tunneling channels. In the basis
+$(\ket{S_{11}},\ket{D_{20}},\ket{D_{02}})$, subtracting
+the reference energy $E_{11}=\epsilon_1+\epsilon_2+V$ gives the matrix
+\begin{equation}
+  M_S=\begin{pmatrix}
+       0&-\sqrt{2}t_c&-\sqrt{2}t_c\\
+       -\sqrt{2}t_c&\Delta_{20}&0\\
+       -\sqrt{2}t_c&0&\Delta_{02}
+      \end{pmatrix}.
+  \label{eq:singlet-charge-matrix}
+\end{equation}
+Let
+$\ket{\widetilde S}=a_S\ket{S_{11}}+a_{20}\ket{D_{20}}
++a_{02}\ket{D_{02}}$ be its normalized low-energy eigenstate,
+with energy shift $\delta E_S$.
+To eliminate the excited charge states, solve for their amplitudes
+$a_{20},a_{02}$ in terms of $a_S$. The eigenvalue equation reads
+\begin{equation}
+  \begin{aligned}
+    \delta E_S a_S&=-\sqrt{2}t_c(a_{20}+a_{02}),\\
+    (\Delta_{20}-\delta E_S)a_{20}&=\sqrt{2}t_c a_S,\\
+    (\Delta_{02}-\delta E_S)a_{02}&=\sqrt{2}t_c a_S.
+  \end{aligned}
+  \label{eq:charge-amplitude-equations}
+\end{equation}
+For $|\delta E_S|\ll\Delta_{20},\Delta_{02}$, the last two equations give
+\begin{equation}
+  a_{20}\simeq\frac{\sqrt{2}t_c}{\Delta_{20}}a_S,\qquad
+  a_{02}\simeq\frac{\sqrt{2}t_c}{\Delta_{02}}a_S.
+  \label{eq:virtual-charge-amplitudes}
+\end{equation}
+Substitution into the first line of
+Eq.~\eqref{eq:charge-amplitude-equations} gives the singlet shift;
+the triplet has no corresponding channel:
+\begin{equation}
+  \delta E_S=-\frac{2t_c^2}{\Delta_{20}}
+              -\frac{2t_c^2}{\Delta_{02}},\qquad
+  \delta E_T=0.
+  \label{eq:singlet-triplet-virtual-shifts}
+\end{equation}
+Their difference is the exchange energy $J=E_T-E_S$ in
+Eq.~\eqref{eq:superexchange}. The correction within $(1,1)$ is
+$-JP_S$, where $P_S=\ket{S_{11}}\bra{S_{11}}$.
+Since $\mathbf s_1\cdot\mathbf s_2$ has singlet and triplet
+eigenvalues $-3/4$ and $1/4$,
+$P_S=I/4-\mathbf s_1\cdot\mathbf s_2$.
+Dropping the common energy shift $-J/4$ gives
+$H_{\mathrm{ex}}=J\mathbf s_1\cdot\mathbf s_2$.
+Squaring the small charge amplitudes, with $|a_S|^2\simeq1$,
+gives the total double-occupation weight in the low-energy singlet:
+\begin{equation}
+  P_D=|a_{20}|^2+|a_{02}|^2
+       \simeq 2t_c^2\left(\frac{1}{\Delta_{20}^2}
+                          +\frac{1}{\Delta_{02}^2}\right)\ll1.
+  \label{eq:double-occupation-weight}
+\end{equation}
+
+\paragraph{Comparison with exact diagonalization.}
+We can check this low-energy expansion against exact
+diagonalization of the two-site Hubbard Hamiltonian.
+Take $U_1=U_2=U$, $V_{12}=V$, zero detuning,
+and real hopping $t_{12}=t$, with Zeeman and direct-exchange
+terms omitted. Set $D=U-V>0$. With two electrons, tunneling
+couples the $(1,1)$ singlet $\ket{S_{11}}$ to the symmetric
+combination of the doubly occupied states,
+$\ket{D_+}=(\ket{\uparrow\downarrow,0}
++\ket{0,\uparrow\downarrow})/\sqrt2$.
+Relative to the triplet energy, the matrix in the basis
+$(\ket{S_{11}},\ket{D_+})$ and its exact singlet--triplet
+splitting are
+\begin{equation}
+ M_S=\begin{pmatrix}0&-2t\\-2t&D\end{pmatrix},
+ \qquad
+ J_{\mathrm{exact}}\equiv E_T-E_S
+     =\frac{\sqrt{D^2+16t^2}-D}{2}.
+ \label{eq:device-exact-hubbard-check}
+\end{equation}
+Diagonalization retains double occupation explicitly. Expanding
+for $|t|\ll D$ gives $J_{\mathrm{exact}}\simeq4t^2/D$, agreeing
+with Eq.~\eqref{eq:device-general-superexchange} when
+$\Delta_{20}=\Delta_{02}=D$.
+
+Virtual processes can also involve more than two dots.
+On a four-dot loop, four successive hops can restore one
+electron per dot while cyclically permuting the spins.
+For comparable hopping amplitudes $t$ and charge gaps $\Delta$,
+the resulting cyclic exchange is of order $t^4/\Delta^3$.
+The effective multispin term thus arises from successive virtual
+transfers generated by one-electron tunneling and pairwise
+repulsion.
+
+Finally, a small model can be constructed either by evaluating
+matrix elements in a chosen basis or by adjusting its parameters
+to reproduce selected energies from a larger calculation.
+The second procedure can incorporate excluded-state effects
+into effective parameters. Matching theoretical energies in
+this way is a theoretical model reduction. Its accuracy must be tested in the states and
+voltage range where the small model will be used.

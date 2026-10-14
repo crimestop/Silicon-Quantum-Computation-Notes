@@ -1,0 +1,282 @@
+\FloatBarrier
+\section{Double-Dot Charge Stability Diagrams}
+\label{app:charge-stability}
+\label{sec:charge-stability-measurements}
+
+Section~\ref{sec:double-dot-loading} uses the charge regions in
+Fig.~\ref{fig:measurement-honeycomb} to choose voltages for preparing
+one electron on each dot. This appendix derives their boundaries
+from the electron-number condition and relates them to measured
+charge-transition lines.
+
+\subsection{Charge regions and their boundaries}
+\label{sec:measurement-double-dot-csd}
+
+For two dots, the desired result is a map of the charge configuration
+$(N_1,N_2)$ as a function of the two plunger voltages $V_1,V_2$.
+This locates settings for loading each dot and for transferring an
+electron between dots. Keep both reservoirs at a common
+$\mu_{\mathrm R}$ and first consider weak interdot tunneling, so
+that the occupations label approximately distinct configurations.
+Let $E_{N_1,N_2}(\mathbf V)$ be the lowest energy of each
+configuration before tunneling mixes it with the others. The
+equilibrium pair minimizes
+\begin{equation}
+ \Omega_{N_1,N_2}(\mathbf V)
+       =E_{N_1,N_2}(\mathbf V)-\mu_{\mathrm R}(N_1+N_2).
+ \label{eq:measurement-double-dot-grand-energy}
+\end{equation}
+This extends the electron-number construction in Section~\ref{sec:electron-number-control}
+to two separately resolved dots.
+
+A boundary occurs when two minimizing configurations have equal
+$\Omega$. Adding an electron from a reservoir to dot 1 gives
+\begin{equation}
+ \mu_1(N_1+1,N_2)\equiv
+ E_{N_1+1,N_2}-E_{N_1,N_2}=\mu_{\mathrm R}.
+ \label{eq:measurement-dot1-boundary}
+\end{equation}
+There is an analogous condition for dot 2. An interdot transfer
+conserves total electron number, so the reservoir term cancels:
+\begin{equation}
+ E_{N_1+1,N_2-1}=E_{N_1,N_2}.
+ \label{eq:measurement-interdot-boundary}
+\end{equation}
+These are different physical events: the first changes the total
+charge, while the second redistributes it.
+
+Repulsion between dots makes the addition threshold of one depend
+on the occupation of the other. A line for adding to dot 1 therefore
+shifts when dot 2 gains an electron. Together with interdot-transfer
+segments, the shifted lines commonly form hexagonal cells, called
+the \emph{honeycomb diagram}~\cite{VanDerWiel2003}.
+Figure~\ref{fig:measurement-honeycomb} shows one cell and its neighbors.
+Its polygon is a region in voltage space, not the spatial shape of
+a dot. Varying orbital spacings, interactions, or gate responses
+changes the cell sizes and slopes.
+
+The slopes follow directly from the boundary equations. Locally
+write the change in the relevant addition threshold as
+\begin{equation}
+ \delta\mu_i=-e(\alpha_{i1}^{(\mu)}\delta V_1
+                  +\alpha_{i2}^{(\mu)}\delta V_2),
+ \qquad
+ \left.\frac{dV_2}{dV_1}\right|_{\mu_i=\mu_{\mathrm R}}
+      =-\frac{\alpha_{i1}^{(\mu)}}{\alpha_{i2}^{(\mu)}}.
+ \label{eq:measurement-csd-slope}
+\end{equation}
+Here $\alpha_{ig}^{(\mu)}=-(1/e)\partial\mu_i/\partial V_g$
+is a dimensionless addition-threshold lever arm. The superscript
+distinguishes it from a single-orbital lever arm in
+Eq.~\eqref{eq:device-lever-arm}. A slope gives their ratio, but
+not an absolute energy scale.
+
+Charge sensing can reveal the boundary lines throughout the map.
+Near-zero-bias sequential transport through the double dot is
+concentrated near the triple points, where three charge regions
+meet; Section~\ref{sec:measurement-bias-triangles} explains this
+transport condition.
+To obtain the map by charge sensing, fix the reservoir and barrier-gate voltages.
+Sweep $V_1$ at a sequence of fixed $V_2$ values and record the
+charge-sensor signal at each pair. The resulting two-dimensional
+record is a \emph{charge stability diagram} (CSD). Its changes can
+be compared with the boundaries just derived. Establish an empty
+reference region, then count loading transitions to assign absolute
+electron numbers. If tunneling becomes too slow, an occupied region
+can appear empty on the measurement timescale; the waiting-time
+test below is therefore part of this assignment.
+
+\subsection{Extracting transition lines from a sensor record}
+\label{sec:measurement-charge-scan}
+
+We want to make the boundaries between charge regions easy to
+identify in the measured voltage map. Recall the local sensor model:
+\begin{equation*}
+ s(t)=s_{\mathrm{bg}}(\mathbf V)
+         +\sum_i\kappa_i N_i(t)+\xi(t).
+ \tag{\ref*{eq:measurement-sensor-signal}}
+\end{equation*}
+Within each region, the fixed occupations give a fixed charge
+contribution $\sum_i\kappa_iN_i$, while $s_{\mathrm{bg}}$ varies
+smoothly with gate voltage. When the scan crosses a boundary where
+dot $i$ gains an electron, the extra charge shifts the sensor's
+addition energy and hence its current. The change $N_i\to N_i+1$
+changes the charge contribution by $\kappa_i$, producing a step on
+top of the smooth background. At finite temperature, the mean
+signal changes smoothly between the two levels.
+
+Differentiating with respect to the scanned gate voltage turns
+this step into a peak or dip, highlighting the boundary as a line
+in the two-dimensional map; within each region, the fixed charge
+contributes no derivative. For zero-mean detector noise, averaging
+the signal and differentiating with respect to $V_g$, with the
+other voltages fixed, gives
+\begin{equation}
+ \frac{\partial\overline s}{\partial V_g}
+   =\frac{\partial s_{\mathrm{bg}}}{\partial V_g}
+      +\sum_i\kappa_i
+          \frac{\partial\langle\widehat N_i\rangle}{\partial V_g}.
+ \label{eq:measurement-csd-response}
+\end{equation}
+
+Clear steps can also be located directly in the original signal;
+differentiation is optional, and numerical differentiation can
+amplify measurement noise.
+
+An interdot transfer from dot 2 to dot 1 changes the signal by
+approximately $\kappa_1-\kappa_2$. Its line can therefore be faint
+when the two sensor couplings are similar.
+
+The voltage derivative can also be measured by applying a small
+gate modulation. Let $S(V_g)$ be the mean sensor signal at a fixed
+gate voltage $V_g$, with all other voltages fixed. Apply
+$V_g(t)=V_g^0+v_{\mathrm{ac}}\cos\omega_m t$ slowly enough that the
+charge follows the modulation. Omitting detector noise for the
+derivation, $s(t)=S[V_g(t)]$. A Taylor expansion about $V_g^0$ gives
+\[
+ s(t)=S(V_g^0)
+       +v_{\mathrm{ac}}S'(V_g^0)\cos\omega_m t
+       +O(v_{\mathrm{ac}}^2).
+\]
+Multiply both sides by $\cos\omega_m t$ and integrate over a time
+$\tau_{\mathrm{av}}$ containing an integer number of modulation
+periods. Keeping the first-order terms gives
+\[
+ \begin{aligned}
+ \frac{1}{\tau_{\mathrm{av}}}
+   \int_0^{\tau_{\mathrm{av}}}s(t)\cos\omega_m t\,dt
+ &\simeq
+ \frac{S(V_g^0)}{\tau_{\mathrm{av}}}
+   \int_0^{\tau_{\mathrm{av}}}\cos\omega_m t\,dt
+ \\
+ &\quad+
+ \frac{v_{\mathrm{ac}}S'(V_g^0)}{\tau_{\mathrm{av}}}
+   \int_0^{\tau_{\mathrm{av}}}\cos^2\omega_m t\,dt
+ \\
+ &=\frac{v_{\mathrm{ac}}}{2}S'(V_g^0).
+ \end{aligned}
+\]
+The two integrals on the right are $0$ and
+$\tau_{\mathrm{av}}/2$, respectively. Writing the time average as
+$\overline f=\tau_{\mathrm{av}}^{-1}
+\int_0^{\tau_{\mathrm{av}}}f(t)\,dt$, we obtain
+\begin{equation}
+ \frac{2}{v_{\mathrm{ac}}}
+    \overline{s(t)\cos\omega_m t}
+       \simeq \left.\frac{dS}{dV_g}\right|_{V_g^0}.
+ \label{eq:measurement-lock-in}
+\end{equation}
+An instrument that performs this reference multiplication and
+averaging is a \emph{lock-in amplifier}. Detector noise adds
+uncertainty to this estimate. The Taylor approximation requires a
+modulation amplitude small compared with the voltage scale over
+which the response varies. If the charge cannot follow the
+modulation, the measured amplitude and phase also contain dynamics.
+
+To locate the charge-transition boundaries experimentally, we
+construct a map of $\partial\overline s/\partial V_1$ or
+$\partial\overline s/\partial V_2$ over the $(V_1,V_2)$ plane.
+There are two ways to obtain this map.
+
+For numerical differentiation, scan $V_1$ at a sequence of fixed
+$V_2$ values and record the mean sensor signal at each voltage
+pair. Divide the signal difference between neighboring samples
+by their voltage separation to estimate the corresponding
+derivative. Plotting these estimates over $(V_1,V_2)$ highlights
+the charge-transition boundaries.
+
+For lock-in measurement, scan the same voltage pairs, but apply
+a small modulation to $V_1$ or $V_2$ at each pair. Record the
+lock-in response and use Eq.~\eqref{eq:measurement-lock-in} to
+obtain the corresponding derivative directly. Choose a modulation
+small compared with the feature width and slow enough for charge
+to follow it.
+
+To map equilibrium charge states, allow the electrons to equilibrate
+at each gate-voltage setting before recording. Otherwise a charge
+transition can be missed because an electron has not yet entered.
+For an initially empty accessible state with constant loading rate
+$\Gamma_{\mathrm{in}}$ and negligible unloading, the probability
+of loading during a waiting time $\tau$ is
+\begin{equation}
+ P_{\mathrm{load}}(\tau)=1-e^{-\Gamma_{\mathrm{in}}\tau}.
+ \label{eq:measurement-loading-probability}
+\end{equation}
+The wait must therefore be long compared with
+$\Gamma_{\mathrm{in}}^{-1}$, as well as any relevant relaxation
+times. To check whether insufficient waiting caused a missing line,
+repeat that region with a longer wait at each voltage setting.
+A line restored by allowing more time to load
+reveals a failure to equilibrate in the faster scan, an important
+test in the last-electron regime~\cite{Thalakulam2010}.
+
+\subsection{Detecting transport cycles: triangles and triple points}
+\label{sec:measurement-bias-triangles}
+
+We want to identify the gate-voltage pairs that support a current
+through two dots in series. First consider positive finite bias,
+$\mu_{\mathrm S}-\mu_{\mathrm D}=eV_b>0$. A forward cycle requires
+an electron to enter dot 1 from the source, transfer to dot 2,
+and leave into the drain. Denote the configurations by
+$A=(N_1,N_2)$, $B=(N_1+1,N_2)$, and $C=(N_1,N_2+1)$.
+The cycle is $A\to B\to C\to A$. Define the addition energies
+$\widetilde\mu_1=E_B-E_A$ and
+$\widetilde\mu_2=E_C-E_A$, with all energies evaluated at the
+chosen bias. At zero temperature and negligible tunnel broadening,
+entry, downhill transfer, and exit require
+\begin{equation}
+ \mu_{\mathrm S}\geq\widetilde\mu_1
+       \geq\widetilde\mu_2\geq\mu_{\mathrm D}.
+ \label{eq:measurement-triangle-window}
+\end{equation}
+The first inequality permits loading, the middle one permits
+interdot transfer from $B$ to $C$ without absorbing energy, since
+$E_C-E_B=\widetilde\mu_2-\widetilde\mu_1$, and the last permits
+unloading.
+In the $(\widetilde\mu_1,\widetilde\mu_2)$ plane they enclose a
+triangle. Approximately linear gate responses map it to a triangle
+in $(V_1,V_2)$, whose extent grows with $eV_b$.
+
+The interior requires a way to release the interdot energy
+difference, for example by emitting a lattice vibration, or phonon.
+Purely elastic transfer between two sharp levels is resonant along
+$\widetilde\mu_1=\widetilde\mu_2$ instead. Excited states create
+additional resonances, and spin selection can block an otherwise
+allowed cycle. A bias triangle is therefore an allowed transport
+region, not necessarily a uniformly bright patch~\cite{VanDerWiel2003}.
+
+Now reduce the bias toward zero. As both reservoir chemical
+potentials approach a common $\mu_{\mathrm R}$,
+Eq.~\eqref{eq:measurement-triangle-window} forces
+\[
+ \widetilde\mu_1=\widetilde\mu_2=\mu_{\mathrm R}.
+\]
+Because $B$ and $C$ each contain one more electron than $A$,
+their grand-energy differences are
+$\Omega_B-\Omega_A=\widetilde\mu_1-\mu_{\mathrm R}$ and
+$\Omega_C-\Omega_A=\widetilde\mu_2-\mu_{\mathrm R}$. Hence
+\begin{equation}
+ \Omega_A=\Omega_B=\Omega_C.
+ \label{eq:measurement-triple-point}
+\end{equation}
+These two independent equalities select isolated points in the
+two-dimensional voltage plane: the finite-bias triangles shrink
+to \emph{triple points}. The nearby complementary cycle through
+$(N_1+1,N_2+1)$ gives the other member of a triple-point pair.
+Near zero bias, the current is confined to small neighborhoods
+of these points, with finite temperature broadening the features.
+At exactly zero DC bias, the net current vanishes; it is the
+linear conductance that has peaks near the triple points.
+
+To locate these transport regions experimentally, connect the two
+dots in series between source and drain, choose a positive finite
+bias, and record the current while scanning the two plunger
+voltages. Keep the reservoir voltages fixed during each map.
+Repeat at successively smaller biases to follow the triangles
+as they shrink toward the triple points. Reversing the bias probes
+transport in the opposite direction. Compare these maps with
+charge-sensor boundaries acquired at the corresponding settings.
+A sensor line can identify a charge transition even where no
+complete transport cycle is resolved. The triangle edges, rather
+than their brightness alone, are the features to compare with
+Eq.~\eqref{eq:measurement-triangle-window}.

@@ -1,0 +1,393 @@
+\FloatBarrier
+\section{Spectroscopy of Dot Excitations}
+\label{app:dot-spectroscopy}
+\label{sec:energy-spectroscopy}
+\label{sec:measurement-excited-states}
+
+The two-level restriction in Section~\ref{sec:platform-encoding} depends
+on the gaps to excluded orbital and valley states. This appendix
+explains how those gaps can be inferred from the opening of additional
+transport or loading channels, including the effect of spin--valley
+mixing near an avoided crossing.
+
+Let $\lvert N,a\rangle$ denote an $N$-electron state, with $a=0$
+for the ground state and $a=1$ for the first excited state.
+A narrow source--drain window allows the transport cycle
+\[
+ \lvert N-1,0\rangle
+ \xrightarrow{\text{source}\to\text{dot}}\lvert N,0\rangle
+ \xrightarrow{\text{dot}\to\text{drain}}\lvert N-1,0\rangle.
+\]
+Increasing the source--drain bias widens the window and can also
+allow the cycle
+\[
+ \lvert N-1,0\rangle
+ \xrightarrow{\text{source}\to\text{dot}}\lvert N,1\rangle
+ \xrightarrow{\text{dot}\to\text{drain}}\lvert N-1,0\rangle.
+\]
+The additional entry process can change the current.
+
+Write $E_{N,a}$ for the energy of $\lvert N,a\rangle$. Starting from an
+$(N-1)$-electron state $b$, the energy needed to add an electron
+and leave the dot in state $a$ is
+\begin{equation}
+ \mu_N^{ab}=E_{N,a}-E_{N-1,b}.
+ \label{eq:measurement-excited-addition}
+\end{equation}
+For both entry processes starting from $b=0$, subtraction cancels
+the initial-state energy:
+\begin{equation}
+ \mu_N^{a0}-\mu_N^{00}=E_{N,a}-E_{N,0}\equiv\Delta_a.
+ \label{eq:measurement-excitation-gap}
+\end{equation}
+All energies in this equality refer to the same electrode settings.
+This is why we compare transitions with a common initial state
+and the same final electron number.
+
+\subsection{Excitation energies from current}
+\label{sec:measurement-excitation-current}
+At zero temperature and positive bias, use the sequential-tunneling
+model with sharp dot levels from
+Section~\ref{sec:measurement-sequential-tunneling}.
+The narrow-window situation described above satisfies
+\[
+ \mu_{\mathrm D}<\mu_N^{00}<\mu_{\mathrm S}<\mu_N^{10},
+\]
+where $a=1$ labels the first excited state. The source has occupied
+electron states at the energy $\mu_N^{00}$ needed for ground-state
+entry, but none at $\mu_N^{10}$. Hold the drain voltage fixed and
+increase $\mu_{\mathrm S}$ by increasing positive $V_b$.
+Entry into state $a$ becomes energetically allowed when
+$\mu_N^{a0}<\mu_{\mathrm S}$; the equality
+$\mu_N^{a0}=\mu_{\mathrm S}$ defines its source-loading boundary.
+These addition energies are evaluated at the applied voltages,
+since changing the bias can also shift the dot energies.
+Figure~\ref{fig:transport-excitation-window}
+shows this opening of a second entry process. An electron entering
+the excited state may leave directly, or first relax to the ground
+state and then leave. Either route can contribute to the current.
+
+\begin{figure}[htbp]
+ \centering
+ \input{figures/transport-excitation-window.tex}
+ \caption{Bias window for transitions from the $(N-1)$-electron
+ ground state to $N$-electron states labeled by $a$. Each point is
+ an addition energy $\mu_N^{a0}=E_{N,a}-E_{N-1,0}$.
+ The wider window includes the addition energies for the ground
+ state ($a=0$) and first excited state ($a=1$). Their difference gives
+ $\Delta_1=\mu_N^{10}-\mu_N^{00}=E_{N,1}-E_{N,0}$.
+ Gray points mark higher excited-state transitions outside the
+ window. Transitions to other charge sectors are excluded.}
+ \label{fig:transport-excitation-window}
+\end{figure}
+
+To see explicitly why the current changes, consider fast relaxation
+within the $N$-electron sector, followed by escape from its ground
+state at rate $\Gamma_{\mathrm D}$. Let every escape return the dot
+to its $(N-1)$-electron ground state. While the ground-state
+transition remains inside the window, the total source entry rate is
+\[
+ \Gamma_{\mathrm{in}}=
+ \begin{cases}
+  \Gamma_{\mathrm S0},&\mu_N^{00}<\mu_{\mathrm S}<\mu_N^{10},\\
+  \Gamma_{\mathrm S0}+\Gamma_{\mathrm S1},
+       &\mu_N^{10}<\mu_{\mathrm S}<\mu_N^{20}.
+ \end{cases}
+\]
+Here $\Gamma_{\mathrm Sa}$ is the entry rate into state $a$ when
+that process is allowed. Rates into orthogonal final states add,
+as explained in Appendix~\ref{sec:amplitudes-to-master-equation}.
+With negligible time spent in the excited
+state before relaxation, the rate equation of
+Section~\ref{sec:measurement-current-derivation} becomes
+\begin{equation}
+ \dot p=\Gamma_{\mathrm{in}}(1-p)-\Gamma_{\mathrm D}p,
+ \qquad
+ I=e\frac{\Gamma_{\mathrm{in}}\Gamma_{\mathrm D}}
+             {\Gamma_{\mathrm{in}}+\Gamma_{\mathrm D}},
+ \label{eq:measurement-excited-channel-current}
+\end{equation}
+where $p$ is the probability of $N$ electrons. The new entry rate
+therefore produces a current step at
+$\mu_N^{10}=\mu_{\mathrm S}$. Finite temperature rounds the step.
+If relaxation is slow, the excited-state occupation needs its own
+rate equation; the current change can then have a different size
+or sign. A state with negligible entry matrix element may produce
+no resolved feature.
+
+In the experiment, first locate the ground-state diamond edge and
+neighboring charge transitions. Then increase positive $V_b$ in
+steps, keeping the drain voltage fixed, and scan $V_g$ at each bias.
+Store the current $I(V_g,V_b)$. Taking its numerical bias derivative
+$\partial I/\partial V_b$ emphasizes the current steps. Their
+positions trace curves in this \emph{differential-conductance map}:
+one follows $\mu_N^{00}=\mu_{\mathrm S}$ and another follows
+$\mu_N^{a0}=\mu_{\mathrm S}$. We compare this pair of source-alignment
+curves, rather than the brightness of arbitrary features in the map.
+
+At a fixed bias, let these two curves occur at $V_g^0$ and $V_g^a$.
+If the addition energies shift with the same approximately constant
+response $\partial\mu/\partial V_g=-e\alpha$ across their separation,
+then
+\begin{equation}
+ \begin{aligned}
+ 0&=\mu_N^{a0}(V_g^a)-\mu_N^{00}(V_g^0)
+       \simeq\Delta_a-e\alpha(V_g^a-V_g^0),\\
+ \Delta_a&\simeq e\alpha(V_g^a-V_g^0).
+ \end{aligned}
+ \label{eq:measurement-excitation-voltage-spacing}
+\end{equation}
+Here $\Delta_a$ is evaluated at $V_g^0$, and $\alpha>0$ is
+determined from the local voltage response as in
+Section~\ref{sec:measurement-bias-spectroscopy}.
+
+Increasing the bias can also permit another electron to enter,
+giving $N\to N+1$ and eventually $N+2$. These are different
+transitions, not excitations at fixed $N$. For the interpretation
+above, other charge sectors must remain inaccessible. In particular,
+to forbid further loading from every occupied $N$-electron state
+$a$, require
+\begin{equation}
+ E_{N+1,0}-E_{N,a}
+   =\bigl(E_{N+1,0}-E_{N,0}\bigr)-\Delta_a
+   >\mu_{\mathrm S}.
+ \label{eq:measurement-exclude-further-loading}
+\end{equation}
+An excited state reduces the cost of adding the next electron, so
+checking only the ground-state cost is insufficient. At finite
+temperature the margin should be large compared with $k_BT_e$.
+Use the neighboring charge boundaries to delimit the scan and
+check this condition as excitations become accessible. If other
+charge states or initial excited states participate, include their
+transitions explicitly before applying
+Eq.~\eqref{eq:measurement-excitation-gap}.
+
+\subsection{Excitation energies from loading probabilities}
+\label{sec:measurement-excitation-loading}
+For a dot coupled to one reservoir, we can instead prepare $N-1$
+electrons and ask whether an electron enters during a fixed time.
+As the gate lowers successive entry thresholds below the reservoir
+chemical potential, more final states become available and loading
+becomes faster. No steady current through the target is needed.
+
+Prepare the $(N-1)$-electron ground state before every trial. Let
+$V_L$ be the gate voltage during loading and $\Gamma_a$ the bare
+entry rate into state $a$. The occupied reservoir states give
+\begin{equation}
+ \Gamma_{\mathrm{load}}(V_L)
+    =\sum_a\Gamma_a f_{\mathrm R}[\mu_N^{a0}(V_L)].
+ \label{eq:measurement-loading-rate-spectrum}
+\end{equation}
+At zero temperature this rate is zero before the first threshold,
+$\Gamma_0$ after the ground-state threshold, and
+$\Gamma_0+\Gamma_1$ after the first excited-state threshold.
+Assume unloading during the loading interval is negligible, either
+because the occupied states lie sufficiently below $\mu_{\mathrm R}$
+or because rapid internal relaxation traps the loaded electron.
+Also exclude further loading using
+Eq.~\eqref{eq:measurement-exclude-further-loading} with
+$\mu_{\mathrm S}$ replaced by $\mu_{\mathrm R}$.
+
+If $q(t)$ is the probability that no electron has yet entered, then
+$\dot q=-\Gamma_{\mathrm{load}}q$ with $q(0)=1$. The probability
+of finding $N$ electrons after a loading time $\tau_L$ is therefore
+\begin{equation}
+ P_N(\tau_L)=1-e^{-\Gamma_{\mathrm{load}}\tau_L},
+ \qquad
+ \Gamma_{\mathrm{load}}=-\frac{\ln[1-P_N(\tau_L)]}{\tau_L}.
+ \label{eq:measurement-pulsed-spectroscopy}
+\end{equation}
+To measure $P_N$, pulse the gate to $V_L$, wait $\tau_L$, then
+close the reservoir barrier to retain the charge during sensor
+readout. The fraction of repeated trials reporting $N$ electrons
+estimates $P_N$. Repeat at different $V_L$ and loading times;
+choose times for which the probability is not saturated at one.
+Equation~\eqref{eq:measurement-pulsed-spectroscopy} then converts
+the counts into a loading-rate curve. Its successive onsets give
+the threshold voltages~\cite{Thalakulam2011}.
+
+If unloading is appreciable, extract the rate from the initial
+growth instead. For times short compared with the tunneling
+waiting times, the rate description gives
+\begin{equation}
+ P_N(V_L,\tau_L)\simeq\Gamma_{\mathrm{load}}(V_L)\tau_L.
+ \label{eq:measurement-short-time-loading}
+\end{equation}
+Entry followed by exit requires two events and contributes only
+at higher order in $\tau_L$. Repeated measurements at several
+short loading times therefore give $\Gamma_{\mathrm{load}}$
+from the initial slope.
+
+Two onsets aligned with the same $\mu_{\mathrm R}$ give a gap by
+the same subtraction as
+Eq.~\eqref{eq:measurement-excitation-voltage-spacing}, using the
+voltage response for this loading configuration. Without an
+independent voltage-to-energy conversion, this experiment determines
+threshold separations in volts, not absolute gaps in energy units.
+
+\subsection{Spin--valley mixing}
+\label{sec:measurement-spin-valley}
+
+Consider loading one electron into a dot whose orbital excitations
+lie outside the energy range being probed. The valley eigenstates
+$\ket{v_-}$ and $\ket{v_+}$ include the interface-induced valley coupling
+described in Section~\ref{sec:device-orbital-valley}. Their
+separation is $\Delta_v>0$. At zero field, each valley has two
+degenerate spin states. As the magnetic field $B$ increases, $\ket{v_-,\uparrow}$
+rises toward $\ket{v_+,\downarrow}$. A spin-dependent coupling
+mixes this pair and prevents their energies from crossing.
+We measure the minimum separation to determine that coupling.
+
+Take the field along $z$, with $B\geq0$ and the same
+$g>0$ in both valleys. Neglect changes of the orbital and valley
+energies with field. Before including spin--valley mixing, the
+four energies, measured relative to $\ket{v_-,\downarrow}$,
+are\footnote{This four-state description is specific to one
+electron. For several electrons, exchange can separate different
+total-spin multiplets already at $B=0$, and one energy can contain
+more than one multiplet.}
+\begin{equation}
+ \begin{array}{c|cc}
+  &\downarrow&\uparrow\\ \hline
+  v_-&0&E_Z\\
+  v_+&\Delta_v&\Delta_v+E_Z
+ \end{array},
+ \qquad E_Z=g\mu_BB.
+ \label{eq:measurement-spin-valley-levels}
+\end{equation}
+The zero-field valley gap is obtained by applying the loading
+spectroscopy of Section~\ref{sec:measurement-excitation-loading} to
+an empty dot. If $\mu_-$ and $\mu_+$ are the addition energies
+into the two valleys, their difference is
+\begin{equation}
+ \Delta_v=\mu_+-\mu_-.
+ \label{eq:measurement-valley-addition-gap}
+\end{equation}
+The two degenerate spins in each valley contribute to the loading
+rate at the same energy. Under the assumed exclusion of orbital
+excitations, these two distinct loading energies correspond to
+the two valleys.
+
+\subsection{The spin--valley avoided crossing}
+As $B$ increases, the spin excitation energy $E_Z$ approaches
+the valley gap $\Delta_v$, bringing $\ket{v_-,\uparrow}$ and
+$\ket{v_+,\downarrow}$ close in energy. Without coupling, the two energies
+would cross at $g\mu_BB=\Delta_v$. A spin-dependent interaction,
+such as spin--orbit interaction, can couple these states.
+Denote this interaction by $V_{\mathrm{sv}}$ and its matrix
+element by
+\[
+ \lambda=\bra{v_-,\uparrow}V_{\mathrm{sv}}\ket{v_+,\downarrow}.
+\]
+
+To describe the crossing, retain this pair of nearly degenerate
+states. The two remaining states lie about $\Delta_v$ below
+and above the pair. Couplings to them therefore give small
+perturbative corrections when their matrix elements are much
+smaller than $\Delta_v$. The other opposite-spin,
+opposite-valley pair, $\ket{v_-,\downarrow}$ and
+$\ket{v_+,\uparrow}$, can also couple, but its separation is
+$\Delta_v+E_Z$, rather than the small difference
+$\Delta_v-E_Z$. Neglecting the off-resonant corrections and
+diagonal shifts from $V_{\mathrm{sv}}$, we obtain, in the basis
+$(\ket{v_-,\uparrow},\ket{v_+,\downarrow})$,
+\begin{equation}
+ H_{\mathrm{cross}}=
+ \begin{pmatrix}E_Z&\lambda\\\lambda^*&\Delta_v\end{pmatrix},
+ \qquad
+ \Delta_\pm=\frac{E_Z+\Delta_v}{2}
+       \pm\sqrt{\frac{(E_Z-\Delta_v)^2}{4}+|\lambda|^2}.
+ \label{eq:measurement-spin-valley-anticrossing}
+\end{equation}
+Here $\Delta_-$ and $\Delta_+$ are the excitation energies
+of the two mixed states, relative to the unperturbed
+$\ket{v_-,\downarrow}$ ground state~\cite{Yang2013SpinValley}.
+Their separation is
+\begin{equation}
+ d(B)=\Delta_+-\Delta_-
+     =\sqrt{(g\mu_BB-\Delta_v)^2+4|\lambda|^2}.
+ \label{eq:measurement-spin-valley-separation}
+\end{equation}
+For nonzero $\lambda$ the levels remain separated even at the
+field where the uncoupled energies coincide: this is the
+\emph{avoided crossing}. If $g$, $\Delta_v$, and $\lambda$
+are approximately constant over the field range,
+\begin{equation}
+ B_*=\frac{\Delta_v}{g\mu_B},
+ \qquad d(B_*)=\min_B d(B)=2|\lambda|.
+ \label{eq:measurement-spin-valley-minimum-gap}
+\end{equation}
+Measuring this minimum separation therefore determines
+the magnitude of the coupling.
+
+\subsection{Extracting the coupling from loading spectra}
+In loading spectroscopy, an electron can enter the empty dot
+and occupy either mixed state. The two processes have the same
+initial state, so their addition-energy difference equals
+$\Delta_+-\Delta_-$, as in
+Section~\ref{sec:measurement-excitation-loading}. We use this
+difference to measure $d(B)$.
+
+At each fixed $B$, use that section's $N=1$ loading protocol,
+keeping entry of a second electron forbidden. Scan the loading
+gate voltage $V_L$ and obtain the loading-rate curve from
+Eq.~\eqref{eq:measurement-short-time-loading}.
+After the ground-state loading step, entry into each mixed
+state adds a further step. Fit these steps with the Fermi
+functions in Eq.~\eqref{eq:measurement-loading-rate-spectrum}
+to locate the two alignment voltages: $V_{L,1}(B)$ for the
+state at $\Delta_-$ and $V_{L,2}(B)$ for the state at $\Delta_+$.
+
+Suppose both addition energies have the same approximately
+constant response $\partial\mu/\partial V_L=-e\alpha_L$,
+with $\alpha_L>0$, across this interval. Then
+Eq.~\eqref{eq:measurement-excitation-voltage-spacing} gives
+\begin{equation}
+ d(B)\simeq e\alpha_L\bigl[V_{L,2}(B)-V_{L,1}(B)\bigr].
+ \label{eq:measurement-spin-valley-voltage-gap}
+\end{equation}
+If $\alpha_L$ is not already known, an independently measured
+spin gap can provide an energy reference. At a field where
+$E_Z\ll\Delta_v$ is resolved, the spin-resonance measurement of
+Section~\ref{sec:measurement-rabi} gives a frequency
+$f_{\mathrm{res}}$ with $hf_{\mathrm{res}}=E_Z$.
+Use the loading measurement at that field to find the voltage
+separation $\delta V_L^s$ between $\ket{v_-,\downarrow}$ and
+$\ket{v_-,\uparrow}$. Their known energy separation gives
+\begin{equation}
+ e\alpha_L\simeq\frac{E_Z}{\delta V_L^s}
+              =\frac{hf_{\mathrm{res}}}{\delta V_L^s}.
+ \label{eq:measurement-spin-loading-calibration}
+\end{equation}
+Using this response for the crossing measurement requires it
+to remain approximately unchanged over the relevant gate and
+field range. The common-response approximation also requires
+the gap to vary negligibly between the two loading voltages.
+
+Repeat the loading scan at fields on both sides of $B_*$,
+with the same gate settings apart from the scan. Convert each
+voltage separation to $d(B)$ and compare the resulting curve
+with Eq.~\eqref{eq:measurement-spin-valley-separation}.
+Its minimum gives $2|\lambda|$; the points on either side
+check the predicted field dependence. Both loading steps must
+be detectable, and their minimum separation must exceed the
+experimental energy resolution for this direct extraction.
+
+The measured coupling quantifies the departure from a pure
+lower-valley spin state. Away from the crossing, where
+$|\lambda|\ll|\Delta_v-E_Z|$, first-order perturbation theory
+gives
+\begin{equation}
+ \ket{\widetilde{\uparrow}}\simeq
+ \ket{v_-,\uparrow}
+ -\frac{\lambda^*}{\Delta_v-E_Z}\ket{v_+,\downarrow},
+ \qquad
+ w_v\simeq\frac{|\lambda|^2}{(\Delta_v-E_Z)^2}.
+ \label{eq:measurement-spin-valley-admixture}
+\end{equation}
+Here $w_v$ is the leading higher-valley weight due to this
+coupling, not a gate-error probability. It estimates how far
+from the crossing the qubit should operate to keep that
+admixture small, using $\lambda$ at the operating field or
+assuming that its variation from the measured crossing is
+negligible.

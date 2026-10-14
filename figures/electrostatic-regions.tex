@@ -1,0 +1,102 @@
+% Electrostatic solution regions and boundary types, in an x-z section.
+% Coordinates are in millimetres. Conductor interiors are shaded grey.
+\begingroup
+\small
+\setlength{\unitlength}{1mm}
+\begin{picture}(150,106)
+ % Unknown-potential regions.
+ \put(8,28){\color{blue!7}\rule{135mm}{31mm}}
+ \put(8,59){\color{black!7}\rule{135mm}{12mm}}
+ \put(8,71){\color{blue!2}\rule{135mm}{25mm}}
+
+ % Ideal conductors: the contact and reservoir form one connected region.
+ \put(17,49){\color{black!20}\rule{16mm}{34mm}}
+ \put(33,49){\color{black!20}\rule{42mm}{7mm}}
+ \put(41,71){\color{black!15}\rule{37mm}{12mm}}
+ \put(87,71){\color{black!15}\rule{19mm}{12mm}}
+ \put(115,71){\color{black!15}\rule{23mm}{12mm}}
+
+ % Sigma: dotted material interfaces stop at conductor surfaces.
+ \color{green!40!black}
+ \multiput(8,59)(1,0){10}{\circle*{0.35}}
+ \multiput(33,59)(1,0){111}{\circle*{0.35}}
+ \multiput(8,71)(1,0){10}{\circle*{0.35}}
+ \multiput(33,71)(1,0){9}{\circle*{0.35}}
+ \multiput(78,71)(1,0){10}{\circle*{0.35}}
+ \multiput(106,71)(1,0){10}{\circle*{0.35}}
+ \multiput(138,71)(1,0){6}{\circle*{0.35}}
+
+ % Gamma_D: solid conductor surfaces facing the solution region.
+ \color{red!65!black}
+ \linethickness{0.8pt}
+ \put(17,49){\line(0,1){34}}
+ \put(17,83){\line(1,0){16}}
+ \put(33,56){\line(0,1){27}}
+ \put(33,56){\line(1,0){42}}
+ \put(75,49){\line(0,1){7}}
+ \put(17,49){\line(1,0){58}}
+ \put(41,71){\line(1,0){37}}
+ \put(41,83){\line(1,0){37}}
+ \put(41,71){\line(0,1){12}}
+ \put(78,71){\line(0,1){12}}
+ \put(87,71){\line(1,0){19}}
+ \put(87,83){\line(1,0){19}}
+ \put(87,71){\line(0,1){12}}
+ \put(106,71){\line(0,1){12}}
+ \put(115,71){\line(1,0){23}}
+ \put(115,83){\line(1,0){23}}
+ \put(115,71){\line(0,1){12}}
+ \put(138,71){\line(0,1){12}}
+
+ % Gamma_N: the outer boundary of the finite computational volume.
+ \color{blue!70!black}
+ \linethickness{0.55pt}
+ \put(8,28){\dashbox{1.5}(135,68){}}
+ \put(8,99){\makebox(90,5)[l]{$\Gamma_{\mathrm N}$: outer boundary}}
+
+ % All text uses the same font size.
+ \color{black}
+ \put(40,87){\makebox(43,5){$\mathcal D_{\mathrm{air}}$: air}}
+ \put(78,62){\makebox(60,5){$\mathcal D_{\mathrm{ox}}$: oxide}}
+ \put(39,34){\makebox(74,5){$\mathcal D_{\mathrm{Si}}$: silicon}}
+ \put(17,64){\makebox(16,7){contact}}
+ \put(33,49){\makebox(42,7){reservoir ($\Phi_{\mathrm R}$)}}
+ \put(41,71){\makebox(37,12){\shortstack{accumulation\\gate}}}
+ \put(87,71){\makebox(19,12){\shortstack{barrier\\gate}}}
+ \put(115,71){\makebox(23,12){\shortstack{plunger\\gate}}}
+ \put(116,49){\color{orange!70!black}\makebox(22,6){dot}}
+
+ % Surface labels point to the boundary, not the conductor interior.
+ \color{red!65!black}
+ \put(87,87){\makebox(19,5){$\mathcal S_g$}}
+ \put(96.5,87){\vector(0,-1){4}}
+ \put(46,40){\makebox(18,5){$\mathcal S_{\mathrm R}$}}
+ \put(55,45){\vector(0,1){4}}
+ \color{green!40!black}
+ \put(78.5,75){\makebox(8,5){$\Sigma$}}
+ \put(82.5,75){\vector(0,-1){4}}
+ \put(82,50){\makebox(8,5){$\Sigma$}}
+ \put(86,55){\vector(0,1){4}}
+
+ % Coordinate axes within the silicon region.
+ \color{black}
+ \linethickness{0.4pt}
+ \put(14,33){\vector(1,0){13}}
+ \put(14,33){\vector(0,1){11}}
+ \put(28,30.5){\makebox(5,5){$x$}}
+ \put(11.5,44){\makebox(5,5){$z$}}
+
+ % Legend: line style, colour, and symbols all identify each boundary type.
+ \color{red!65!black}
+ \linethickness{0.8pt}
+ \put(12,18){\line(1,0){14}}
+ \put(30,15){\makebox(110,6)[l]{$\Gamma_{\mathrm D}$: conductor surfaces}}
+ \color{blue!70!black}
+ \linethickness{0.55pt}
+ \multiput(12,10)(3,0){5}{\line(1,0){2}}
+ \put(30,7){\makebox(110,6)[l]{$\Gamma_{\mathrm N}$: outer boundary}}
+ \color{green!40!black}
+ \multiput(12,2)(1,0){15}{\circle*{0.35}}
+ \put(30,-1){\makebox(110,6)[l]{$\Sigma$: material interfaces}}
+\end{picture}
+\endgroup

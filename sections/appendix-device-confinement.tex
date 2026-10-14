@@ -1,0 +1,169 @@
+\FloatBarrier
+\section{Calculating the Confining Potential}
+\label{app:device-confinement}
+\label{chap:device-models}
+\label{sec:device-electrostatics}
+
+Section~\ref{sec:quantum-dot-introduction} describes how the device
+confines electrons and uses $V_{\mathrm{conf}}$ in the orbital
+Hamiltonian. This appendix calculates that potential from the device
+geometry, material properties, gate voltages, and background charge.
+The gate and reservoir surfaces in
+Fig.~\ref{fig:platform-device-section} set electrostatic boundary
+conditions; solving for the electric potential and adding the material
+band edge gives the electron's potential energy.
+
+
+Our target is the spatial function $V_{\mathrm{conf}}(\mathbf r)$
+in the electron Hamiltonian. We first specify where the electric
+potential $\Phi_0(\mathbf r)$ is to be found and the surfaces on
+which its boundary and interface conditions apply.
+Figure~\ref{fig:device-electrostatic-regions} gives these regions
+and surfaces for the reservoir--barrier--dot arrangement.
+The $x,y$ coordinates lie in the material plane, and $z$ is
+perpendicular to the layers.
+
+\subsection{Define the regions and boundaries}
+We first use a fixed-background electrostatic model. The gates,
+electrical contact, and populated reservoir are treated as ideal
+conductors. For the reservoir, this approximates strong electrostatic
+screening. Each conductor has a constant potential fixed by the
+external circuit.
+
+The unknown potential is calculated in three material regions:
+the silicon outside the idealized reservoir, $\mathcal D_{\mathrm{Si}}$;
+the oxide, $\mathcal D_{\mathrm{ox}}$; and the surrounding air,
+$\mathcal D_{\mathrm{air}}$. These regions, joined at their material
+interfaces, form the solution region $\mathcal D$. The dot lies
+within $\mathcal D_{\mathrm{Si}}$. Its few electrons will be included
+through their explicit interaction in
+Section~\ref{sec:interacting-electron-models}; here we calculate
+their external potential.
+
+The boundary of $\mathcal D$ has two parts. The conductor surfaces
+form $\Gamma_{\mathrm D}$: $\mathcal S_g$ is the surface of gate $g$,
+and $\mathcal S_{\mathrm R}$ is the surface of the connected
+contact--reservoir region. The outer faces that limit the simulated
+volume form $\Gamma_{\mathrm N}$. Thus
+$\partial\mathcal D=\Gamma_{\mathrm D}\cup\Gamma_{\mathrm N}$.
+Within $\mathcal D$, $\Sigma$ denotes the silicon--oxide and
+oxide--air interfaces. Layer thicknesses and conductor sizes and
+positions specify the three-dimensional geometry; the figure shows
+an $x$--$z$ cross-section.
+
+\begin{figure}[!t]
+ \centering
+ \input{figures/electrostatic-regions}
+ \caption{Regions and boundaries of the electrostatic model.
+ The labeled silicon, oxide, and air regions form $\mathcal D$.
+ Solid red lines mark conductor surfaces $\Gamma_{\mathrm D}$;
+ dashed blue lines mark the outer boundary $\Gamma_{\mathrm N}$;
+ dotted green lines mark material interfaces $\Sigma$.
+ The $y$ direction is perpendicular to the drawing; the undrawn
+ front and back outer faces also belong to $\Gamma_{\mathrm N}$.
+ The schematic is not to scale.}
+ \label{fig:device-electrostatic-regions}
+\end{figure}
+
+\subsection{Specify material data and boundary conditions}
+Electric fields displace bound charges in a material. Each
+material's permittivity $\epsilon_{\mathrm d}$ describes the
+resulting polarization. Its value in each part of the device
+defines the function $\epsilon_{\mathrm d}(\mathbf r)$ over
+$\mathcal D$. The material conduction-band edge
+$E_{\mathrm c}^{0}(\mathbf r)$ is another input, incorporating
+band offsets and strain with energies measured from a common reference.
+Band offsets are energy steps at material boundaries. Strain is an
+elastic deformation of the crystal that changes its band energies;
+its effect is included in the supplied material profile.
+
+The remaining source is a prescribed background charge density
+$\rho_{\mathrm{bg}}(\mathbf r)$, measured in charge per unit
+volume. A charge-free baseline sets $\rho_{\mathrm{bg}}=0$
+throughout $\mathcal D$; a specified impurity-charge profile can
+be added here. The reservoir's screening enters through its
+conducting boundary. Its surface charge will adjust to maintain
+the prescribed potential.
+
+On the gate surfaces $\mathcal S_g\subset\Gamma_{\mathrm D}$, impose
+\begin{equation}
+ \left.\Phi_0\right|_{\mathcal S_g}
+       =V_g+\Phi_g^{\mathrm{off}},
+ \label{eq:device-gate-boundary}
+\end{equation}
+where $V_g$ is the applied voltage and
+$\Phi_g^{\mathrm{off}}$ is a specified built-in offset from the
+material and voltage-reference conventions.
+On $\mathcal S_{\mathrm R}$, the contact and reservoir have the
+prescribed potential $\Phi_{\mathrm R}$. This is an electrostatic boundary
+value; the reservoir electrochemical potential $\mu_{\mathrm R}$
+sets the occupation of electron states.
+
+These prescribed conductor values define a function $\Phi_{\mathrm D}$
+on $\Gamma_{\mathrm D}$. All potentials refer to the same reference
+conductor.
+
+On the outer faces $\Gamma_{\mathrm N}$, take zero normal electric
+displacement:
+$\mathbf n\cdot\epsilon_{\mathrm d}\nabla\Phi_0=0$,
+where $\mathbf n$ is the outward normal. The outer faces are placed
+far enough away that moving them farther changes the potential
+near the dot negligibly.
+
+Across the material interfaces $\Sigma$, the solutions in neighboring
+materials must join. We assume these interfaces carry no additional charge,
+such as trapped charge; material polarization is already included
+in $\epsilon_{\mathrm d}$. The potential and normal electric
+displacement are then continuous across each interface.
+
+\subsection{Solve the resulting boundary-value problem}
+The electric field is $\mathbf E=-\nabla\Phi_0$. Substitution
+into Gauss's law gives the problem for the unknown $\Phi_0$:
+\begin{equation}
+ \begin{aligned}
+ -\nabla\cdot[\epsilon_{\mathrm d}\nabla\Phi_0]
+       &=\rho_{\mathrm{bg}}
+            &&\text{in }\mathcal D\setminus\Sigma,\\
+ \Phi_0&=\Phi_{\mathrm D}
+            &&\text{on }\Gamma_{\mathrm D},\\
+ \mathbf n\cdot\epsilon_{\mathrm d}\nabla\Phi_0&=0
+            &&\text{on }\Gamma_{\mathrm N},\\
+ \Phi_{0,1}&=\Phi_{0,2}
+            &&\text{on }\Sigma,\\
+ \epsilon_{\mathrm d,1}\,\partial_n\Phi_{0,1}
+       &=\epsilon_{\mathrm d,2}\,\partial_n\Phi_{0,2}
+            &&\text{on }\Sigma.
+ \end{aligned}
+\label{eq:device-poisson}
+\end{equation}
+The subscripts $1,2$ identify the two sides of each material
+interface; $\partial_n$ uses the same normal direction on both sides.
+The geometry fixes the domain and interfaces, material data
+fix the coefficients, and the preceding steps fix the source
+and every boundary value. With positive permittivity and a
+nonempty fixed-potential boundary on each connected component,
+this is a closed linear problem~\cite{QTCADPoisson}.
+
+\subsection{Convert the electric potential to electron energy}
+The resulting electron potential energy is
+\begin{equation}
+ V_{\mathrm{conf}}(\mathbf r)
+       =E_{\mathrm c}^{0}(\mathbf r)-e\Phi_0(\mathbf r).
+ \label{eq:device-confinement-energy}
+\end{equation}
+Appendix~\ref{sec:device-bound-orbitals} inserts this function into the
+effective-mass Schr\"odinger equation to obtain dot orbitals and energies.
+For several retained valleys, indexed by $\nu$, use their
+respective material profiles:
+$V_{\mathrm{conf},\nu}=E_{\mathrm c,\nu}^{0}-e\Phi_0$.
+
+This construction uses a fixed background charge and ideal
+reservoir screening. To resolve the reservoir's finite charge
+response, include its interior in $\mathcal D$ and supply a
+carrier-density model with its material parameters, temperature,
+and electrochemical potential. The charge then depends on
+$\Phi_0$, and the source and potential are solved
+self-consistently~\cite{QTCADPoisson}. The corresponding treatment
+of quantum-confined electrons is a many-electron mean-field
+approximation, developed in
+Section~\ref{sec:device-schrodinger-poisson}.

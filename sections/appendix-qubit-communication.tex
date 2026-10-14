@@ -1,0 +1,264 @@
+\FloatBarrier
+\section{Communication between Qubits}
+\label{app:qubit-communication}
+
+\label{sec:interqubit-communication}
+
+This appendix expands the final question in
+Section~\ref{sec:platform-array-selection}: how qubits without a direct
+interaction link can participate in a gate.
+
+A circuit can request a gate between qubits whose vertices share
+no interaction edge. The missing edge is a physical problem, not
+merely a change of gate notation. We can bring the two quantum
+states next to one another with SWAP gates, transport an electron
+carrying its spin, or couple stationary spins through another
+quantum system. These choices move different objects and have
+different conditions for preserving an unknown state.
+
+\subsection{Moving a state with SWAP gates}
+\label{sec:processor-swap-routing}
+
+An exchange pulse with the calibrated SWAP area exchanges the
+spin states at neighbouring occupied dots
+[Eq.~\eqref{eq:partial-swap}]. For example,
+\begin{equation}
+ \ket{\psi}_1\ket0_2\ket0_3
+ \xrightarrow{\mathrm{SWAP}_{12}}
+ \ket0_1\ket{\psi}_2\ket0_3
+ \xrightarrow{\mathrm{SWAP}_{23}}
+ \ket0_1\ket0_2\ket{\psi}_3.
+ \label{eq:processor-swap-transfer}
+\end{equation}
+Each dot still holds an electron. The state \(\ket{\psi}\),
+which may be unknown or entangled with other qubits, changes
+its site because SWAP permutes spin states. The displayed
+\(\ket0\) states make the path easy to read; intermediate
+qubits need not be initialized for the permutation to work.
+Their own states are permuted as well, and the control program
+must track the resulting placement.
+
+This permutation builds a gate between distant states from a
+gate available only on an edge. In the three-site chain let
+\(S_{23}\) be SWAP on sites 2 and 3, and let \(U_{12}\) be the
+desired two-qubit operation on edge \((1,2)\). Then
+\begin{equation}
+ U_{13}=S_{23}U_{12}S_{23}.
+ \label{eq:processor-routed-gate}
+\end{equation}
+The rightmost SWAP first moves the state originally at site 3
+to site 2; \(U_{12}\) acts on that state and the one at site 1;
+the leftmost SWAP restores both locations. The identity holds
+on arbitrary three-qubit inputs, so routing neither measures
+nor copies the transported state.
+
+For a chosen path of \(d\) edges, bringing one state beside
+the other takes \(d-1\) SWAPs; restoring the placement takes
+another \(d-1\). If all are serial and have duration
+\(t_{\mathrm{SWAP}}\), a routed gate of duration \(t_U\) takes
+\[
+ T_{\mathrm{route}}=2(d-1)t_{\mathrm{SWAP}}+t_U.
+\]
+In an illustrative model where each SWAP independently fails
+with probability \(p_S\) and the central gate fails with
+probability \(p_U\), the probability of at least one fault is
+\[
+ p_{\mathrm{fault}}
+ =1-(1-p_S)^{2(d-1)}(1-p_U)
+ \simeq2(d-1)p_S+p_U.
+\]
+This stochastic estimate is not a rule for adding coherent
+gate errors or average infidelities. If later operations can
+use the new placement, the restoring SWAPs may be omitted,
+provided the program tracks every moved state. For a
+singlet--triplet or exchange-only encoding, swapping one
+physical spin generally does not swap the whole logical
+qubit; the logical-block operation must be constructed and
+checked separately.
+
+\subsection{Moving an electron while preserving its spin}
+\label{sec:processor-shuttling}
+
+SWAP moves a spin state through occupied sites. Shuttling instead
+moves the electron that carries the spin into another dot. For one
+electron in dots \(A\) and \(B\), its position is a charge
+two-level system with
+\(\tau_z=\ket A\bra A-\ket B\bra B\) and
+\(\tau_x=\ket A\bra B+\ket B\bra A\). A minimal model is
+\begin{equation}
+ H(t)=
+ \left[\frac{\varepsilon(t)}2\tau_z+t_c\tau_x\right]\otimes I
+ -\frac12\left[E_{Z,A}\ket A\bra A+
+              E_{Z,B}\ket B\bra B\right]\otimes Z,
+ \label{eq:processor-shuttle-hamiltonian}
+\end{equation}
+where \(\varepsilon=\epsilon_A-\epsilon_B\), \(t_c>0\) is
+spin-conserving tunneling, and \(Z\ket0=\ket0\) for
+\(\ket0=\ket{\downarrow}\). A sweep from negative to positive
+\(\varepsilon\) changes the charge ground state from mostly
+\(\ket A\) to mostly \(\ket B\). Successful transport of the
+electron does not, by itself, establish that its spin state
+survived the trip.
+
+First neglect the differential Zeeman energy when finding that
+charge ground state. Its gap to the excited charge state and its
+probability of occupying \(A\) are
+\[
+ \Delta_c=\sqrt{\varepsilon^2+4t_c^2},\qquad
+ n_A=\frac12\left(1-\frac{\varepsilon}{\Delta_c}\right).
+\]
+Thus \(n_A\) changes continuously from one to zero and equals
+one half at the avoided crossing. To follow the ground branch,
+the local adiabatic condition is
+\begin{equation}
+ \frac{\hbar t_c|\dot\varepsilon|}
+      {(\varepsilon^2+4t_c^2)^{3/2}}\ll1.
+ \label{eq:processor-shuttle-speed}
+\end{equation}
+It has the form derived for a charge ramp in
+Eq.~\eqref{eq:calibration-charge-ramp-condition}, with the
+single-electron coupling \(t_c\). The crossing is the
+restrictive part of a linear sweep because the gap is smallest
+there.
+
+One way to allocate more time near the crossing is to hold the
+dimensionless quantity in Eq.~\eqref{eq:processor-shuttle-speed}
+at a chosen small value \(\eta_{\mathrm{ad}}\) over the main
+part of the ramp. Then
+\(\dot\varepsilon=
+\eta_{\mathrm{ad}}(\varepsilon^2+4t_c^2)^{3/2}/(\hbar t_c)\).
+Integrating between equal and opposite endpoint detunings gives
+\begin{equation}
+ T=\frac{\hbar\varepsilon_{\max}}
+ {2\eta_{\mathrm{ad}}t_c
+                 \sqrt{\varepsilon_{\max}^2+4t_c^2}}.
+ \label{eq:processor-local-adiabatic-time}
+\end{equation}
+Smooth connections to the endpoints alter the total pulse time.
+Moreover, \(\eta_{\mathrm{ad}}\) is a local condition, not a
+prediction of the full transfer error. Charge readout after the
+sweep tests whether the electron reached \(B\).
+
+Even perfect charge following can rotate the spin. Provided
+\(|E_{Z,A}-E_{Z,B}|\ll\Delta_c\) throughout the sweep, projection
+onto the charge ground state gives
+\[
+ H_{\mathrm{spin}}(t)=-\frac12E_Z(t)Z,\qquad
+ E_Z(t)=n_A(t)E_{Z,A}+[1-n_A(t)]E_{Z,B}.
+\]
+The electron therefore samples both local Zeeman energies as
+it crosses. If spin flips and charge excitation are negligible,
+\begin{equation}
+ \ket A\otimes(a\ket0+b\ket1)
+ \longrightarrow
+ \ket B\otimes R_z(-\varphi)(a\ket0+b\ket1),
+ \qquad
+ \varphi=\frac1\hbar\int_0^T E_Z(t)\,dt,
+ \label{eq:processor-shuttle-phase}
+\end{equation}
+up to a common orbital phase. This phase is written in the
+laboratory frame. Relative to a rotating control reference of
+angular frequency \(\omega\), the measured phase is instead
+\(\int_0^T[E_Z(t)/\hbar-\omega]\,dt\). A reproducible phase can
+be included in the control frame; an uncertain phase cannot.
+
+This distinction requires more than an arrival measurement.
+For a transferred \(\ket+\), \(X\) and \(Y\) analyses in the
+chosen frame yield \(\langle X\rangle=\cos\varphi\) and
+\(\langle Y\rangle=-\sin\varphi\). If the phase varies between
+shots, the combined contrast becomes
+\[
+ \sqrt{\langle X\rangle^2+\langle Y\rangle^2}
+       =|\mathbb E[e^{-i\varphi}]|.
+\]
+A fixed phase rotates the vector without reducing its length;
+phase fluctuations shorten it. Basis-state transfers also test
+spin flips. Charge arrival, spin preservation conditioned on
+arrival, and the reproducibility of the accumulated phase are
+therefore separate properties of a shuttle. Silicon experiments
+have tested coherent spin transport with these distinct
+observables~\cite{Yoneda2021Transport}.
+
+\subsection{Coupling through an electromagnetic mode}
+\label{sec:processor-mode-coupling}
+
+A third route leaves both electrons at their dots. Each spin
+couples to the same resonator mode, and an excitation can pass
+between the spins through that mode. Its field is a quantum
+degree of freedom: unlike a prescribed microwave drive, it can
+receive an excitation and later return it.
+
+One mechanism converts the resonator's electric field into
+spin coupling through a magnetic-field gradient. Let \(a\)
+annihilate a photon of angular frequency \(\omega_c\), and let
+\(E_{\mathrm{zpf}}(a+a^\dagger)\) be the electric field along the
+electron's displacement. In a harmonic dot with orbital
+frequency \(\omega_{\mathrm{orb}}\gg\omega_c,\omega_i\),
+\[
+ x\simeq-\frac{eE_{\mathrm{zpf}}}
+                  {m^*\omega_{\mathrm{orb}}^2}(a+a^\dagger).
+\]
+A transverse field gradient \(b_x=\partial B_x/\partial x\)
+then turns the displacement into the spin term
+\(g_e\mu_B b_x xX/2\), giving an angular-frequency coupling
+of magnitude
+\[
+ g_s=\frac{|g_e\mu_B b_x eE_{\mathrm{zpf}}|}
+                {2\hbar m^*\omega_{\mathrm{orb}}^2}.
+\]
+Here \(g_e\) is the electron Land\'e factor. This expression
+explains the route from an electric field to a magnetic spin
+drive. Actual charge eigenstates can change the coupling, so
+\(g_s\) is determined for the device rather than inferred from
+this harmonic estimate alone. Spin--photon coupling has been
+observed in silicon~\cite{Samkharadze2018}.
+
+With measured couplings \(g_1,g_2\), the
+excitation-conserving model is
+\begin{equation}
+ \frac H\hbar=\omega_c a^\dagger a+
+   \sum_{i=1}^2\omega_i\ket1_i\bra1+
+   \sum_{i=1}^2g_i(a\sigma_i^++a^\dagger\sigma_i^-),
+ \qquad \sigma_i^+=\ket1_i\bra0.
+ \label{eq:processor-spin-mode-model}
+\end{equation}
+The rotating-wave approximation requires
+\(g_i,|\omega_i-\omega_c|\ll\omega_i+\omega_c\).
+When one spin is resonant with an initially empty mode, an
+initial \(\ket{1,0_{\mathrm{ph}}}\) oscillates with
+\(P_1(t)=\cos^2(g_i t)\) if losses are negligible during the
+hold. The mode is then populated during the exchange.
+
+A detuned mode can instead act mainly as a virtual mediator.
+For equal bare spin frequencies \(\omega_q\), put
+\(\Delta=\omega_q-\omega_c\) and assume
+\(|\Delta|\gg g_1,g_2\). In the one-excitation basis
+\(\{\ket{10,0_{\mathrm{ph}}},\ket{01,0_{\mathrm{ph}}},
+\ket{00,1_{\mathrm{ph}}}\}\), after subtracting
+\(\hbar\omega_q\),
+\[
+ \frac{H_1}{\hbar}=
+ \begin{pmatrix}0&0&g_1\\0&0&g_2\\g_1&g_2&-\Delta\end{pmatrix}.
+\]
+The mode amplitude follows the two spin amplitudes
+approximately as \(c_c=(g_1c_1+g_2c_2)/\Delta\) on their slow
+time scale. Substitution gives
+\begin{equation}
+ \frac{H_{\mathrm{eff},1}}{\hbar}
+ =\frac1\Delta
+  \begin{pmatrix}g_1^2&g_1g_2\\g_1g_2&g_2^2\end{pmatrix}.
+ \label{eq:processor-mediated-exchange}
+\end{equation}
+Its diagonal shifts must be included when matching the two
+spin frequencies; the off-diagonal interaction has magnitude
+\(|g_{\mathrm{med}}|=|g_1g_2/\Delta|\). With the shifts
+compensated, an initial \(\ket{10}\) evolves to
+\(\cos(g_{\mathrm{med}}t)\ket{10}
+-i\sin(g_{\mathrm{med}}t)\ket{01}\), apart from a common
+phase. The equal-weight entangling time is
+\(\pi/(4|g_{\mathrm{med}}|)\), and full excitation transfer
+takes \(\pi/(2|g_{\mathrm{med}}|)\). Increasing \(|\Delta|\)
+reduces the mode occupation, of order \((g_i/\Delta)^2\),
+while lengthening both times. Whether the remote operation is
+useful depends on this tradeoff and on spin decoherence and
+resonator loss over the full gate.

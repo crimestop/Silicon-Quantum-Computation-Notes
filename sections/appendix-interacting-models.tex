@@ -1,0 +1,340 @@
+\FloatBarrier
+\section{Calculating Many-Electron Energies}
+\label{app:interacting-models}
+\label{sec:interacting-electron-models}
+
+Section~\ref{sec:quantum-dot-introduction} defines $H_N$ and its ground
+energy $E_N$; Section~\ref{sec:electron-number-control} compares these
+energies to determine the electron number. This appendix calculates
+the many-electron energies in an orbital basis, using the screened
+pair interaction $W$ from Appendix~\ref{app:screened-interaction}.
+The localized basis and its matrix elements also give the several-dot description in
+Section~\ref{sec:multiple-quantum-dots}, including the tunnel matrix
+in Eq.~\eqref{eq:dot-pair-hamiltonian}.
+The orbitals are those described in
+Appendix~\ref{app:effective-mass}, with valley components from
+Appendix~\ref{app:valley-states} when they need to be retained.
+
+With two electrons in the device, their mutual repulsion adds
+an energy that depends on both positions. For $N$ electrons,
+we therefore use
+\begin{equation}
+ H_N=\sum_{a=1}^{N}h_1(a)
+       +\sum_{a<b}W(\mathbf r_a,\mathbf r_b).
+ \label{eq:device-continuum-many-electron}
+\end{equation}
+Here $h_1(a)$ acts on electron $a$ and includes kinetic energy,
+external confinement, and any retained valley and spin terms.
+$W$ is the interaction energy of a pair. The restriction $a<b$
+counts each pair once and excludes interaction of an electron
+with itself. $H_N$ acts on antisymmetric $N$-electron states.
+
+\subsection{Self-consistent mean-field approximation: Schr\"odinger--Poisson}
+\label{sec:device-schrodinger-poisson}
+
+One way to approximate the interaction term in
+Eq.~\eqref{eq:device-continuum-many-electron} is to replace the
+electrons' position-dependent repulsion by the electrostatic
+potential of their average charge density. If $n_q(\mathbf r)$
+is the electron number density, this gives the Hartree potential
+energy and the mean-field one-particle operator
+\begin{equation}
+ V_{\mathrm H}[n_q](\mathbf r)
+       =\int W(\mathbf r,\mathbf r')n_q(\mathbf r')\,d^3r',
+ \qquad
+ h_{\mathrm{MF}}[n_q]=h_1+V_{\mathrm H}[n_q].
+ \label{eq:device-hartree-mean-field}
+\end{equation}
+The density determines the potential, while the occupied states
+in that potential determine the density. A self-consistent solution
+must satisfy both requirements simultaneously.
+
+Assume spin-degenerate levels. Let $\mathbf F_a$ be a normalized
+multivalley orbital with energy $\epsilon_a^{\mathrm{MF}}$, and
+let $p_a$ be its mean occupation, counting both spins. At
+temperature $T$, with chemical potential $\mu$ and Boltzmann
+constant $k_B$, the \emph{Schr\"odinger--Poisson equations} are
+\begin{equation}
+ \left\{
+ \begin{aligned}
+  [h_1+V_{\mathrm H}[n_q]]\mathbf F_a
+       &=\epsilon_a^{\mathrm{MF}}\mathbf F_a,\\[3pt]
+  n_q(\mathbf r)
+       &=\sum_a p_a\sum_\nu|F_{a\nu}(\mathbf r)|^2,\\[3pt]
+  p_a&=\frac{2}{1+\exp[(\epsilon_a^{\mathrm{MF}}-\mu)/(k_BT)]}.
+ \end{aligned}
+ \right.
+ \label{eq:device-sp-system}
+\end{equation}
+The unknowns are the orbitals, orbital energies, density, and
+occupations. Choose the orbitals orthonormal, with
+$\sum_\nu\int|F_{a\nu}|^2\,d^3r=1$, and use the envelope
+boundary and interface conditions of $h_1$.
+Set $n_q=0$ outside the region used for the envelope calculation.
+
+The occupation condition closes the problem in one of two ways.
+For a prescribed mean electron number $N$, determine $\mu$
+along with the other unknowns by imposing
+\begin{equation}
+ \sum_a p_a=\int n_q(\mathbf r)\,d^3r=N.
+ \label{eq:device-sp-number}
+\end{equation}
+At zero temperature, fill the lowest self-consistent levels
+subject to this number constraint. For equilibrium with an
+electron reservoir, instead set $\mu=\mu_{\mathrm R}$; then
+$\sum_a p_a$ is an output. Spin-resolved levels use individual
+occupations with numerator one in the last line of
+Eq.~\eqref{eq:device-sp-system}.
+
+To solve these equations, start with a trial density, calculate
+$V_{\mathrm H}[n_q]$ by integration using
+Eq.~\eqref{eq:device-hartree-mean-field},
+find the orbitals of $h_1+V_{\mathrm H}[n_q]$, and update their
+occupations and density. At convergence, the density reconstructed
+from the orbitals is the same density used to calculate the
+Hartree potential~\cite{QTCADSchrodingerPoisson}.
+
+This electrostatic mean-field treatment retains the Hartree
+potential and omits exchange and correlation.\footnote{Using the
+total density in $V_{\mathrm H}$ also introduces a spurious
+self-interaction unless it is explicitly corrected. In particular,
+the pair-interaction term of $H_N$ vanishes for $N=1$.}
+
+After convergence, a finite set of occupied and unoccupied
+orbitals can also be used to construct an antisymmetric basis
+for a subsequent many-electron calculation. Denote the
+electron number used to generate these orbitals by $N_{\mathrm{ref}}$.
+For a target $N$-electron problem, one may choose
+$N_{\mathrm{ref}}=N$; to compare several electron numbers, a common
+reference basis can be used for all of them. The reference number
+selects the orbital shapes, not the electron number of the later
+calculation. Finite-basis results can depend on this choice, so
+check convergence as more orbitals are retained.
+
+
+\subsection{Basis choice and second quantization}
+\label{sec:device-orbital-basis}
+
+To write $H_N$ in second quantization, choose a finite set of
+orthonormal one-electron spatial states $w_i(\mathbf r)$,
+$i=1,\ldots,M$. Several states can be retained on each dot.
+We neglect spin mixing. A spatial state $w_i$ may already include
+local valley coupling, as in Section~\ref{sec:multiple-quantum-dots};
+its matrix elements then use the full orbital--valley inner product.
+In the single-valley limit, $w_i$ is a normalized scalar envelope
+with the common crystal Bloch factor suppressed. The scalar integral
+expressions below refer to that limit.
+The states $w_i$ may be obtained directly from $h_1$ or from
+the self-consistent calculation above. A dot model is easier to
+interpret if each state is concentrated near a particular dot.
+When using states from separate isolated-well calculations,
+orthonormalize them first.
+
+Consider two neighboring wells in a fixed spin sector. Their exact one-electron
+eigenstates generally spread over both wells. Linear combinations
+within their low-energy subspace can instead give states $w_1,w_2$
+localized mainly on the left and right. In that basis,
+\begin{equation}
+ h_{ij}=\bra{w_i}h_1\ket{w_j},
+ \qquad
+ h_{\mathrm{pair}}=
+ \begin{pmatrix}
+  \epsilon_1&-t_{12}\\
+  -t_{12}^*&\epsilon_2
+ \end{pmatrix},
+ \quad
+ \epsilon_i=h_{ii},\quad t_{12}=-h_{12}.
+ \label{eq:device-one-body-matrix}
+\end{equation}
+For scalar envelopes,
+$h_{ij}=\int d^3r\,w_i^*(\mathbf r)h_1w_j(\mathbf r)$;
+if valley components are retained, the inner product also sums
+over those components.
+The diagonal entries are the energies of the chosen localized
+states. The off-diagonal entry coherently transfers amplitude
+between them: this is the tunnel coupling.
+
+Diagonalizing the matrix gives the level separation
+\begin{equation}
+ \Delta E=\sqrt{(\epsilon_1-\epsilon_2)^2+4|t_{12}|^2}.
+ \label{eq:device-two-level-splitting}
+\end{equation}
+At equal dot energies, $\Delta E=2|t_{12}|$.
+Away from this point, both the energy offset and tunnel coupling
+contribute to the splitting.
+
+For self-consistent orbitals, compute the same matrix elements
+from $h_1$. The interaction between the dot electrons will be
+included explicitly through $W$, so their Hartree potential is
+not part of the one-body matrix.
+
+In the same basis, the pair matrix element is
+$\mathcal V_{ijkl}=\langle w_iw_j|W|w_kw_l\rangle$, with products
+referring to the two electron coordinates. For scalar envelopes,
+\begin{equation}
+ \mathcal V_{ijkl}
+   =\int d^3r\,d^3r'\,
+      w_i^*(\mathbf r)w_j^*(\mathbf r')W(\mathbf r,\mathbf r')
+      w_k(\mathbf r)w_l(\mathbf r').
+ \label{eq:device-coulomb-matrix}
+\end{equation}
+This coefficient connects a pair initially in spatial states
+$k,l$ to a pair in states $i,j$. Different choices of these indices
+describe charge repulsion or transitions between orbital configurations.
+
+With these one-body and two-body matrix elements, we can write
+the many-electron Hamiltonian using
+$c_{i\sigma}^\dagger$ and $c_{i\sigma}$, which add or remove an
+electron in spatial state $i$ with spin
+$\sigma\in\{\uparrow,\downarrow\}$. Their fermionic
+anticommutation rules enforce the required antisymmetry.
+Retaining all matrix elements gives
+\begin{equation}
+ H^{(M)}
+ =\sum_{ij,\sigma}h_{ij}c_{i\sigma}^\dagger c_{j\sigma}
+  +\frac12\sum_{ijkl,\sigma\sigma'}
+      \mathcal V_{ijkl}
+      c_{i\sigma}^\dagger c_{j\sigma'}^\dagger
+      c_{l\sigma'}c_{k\sigma}.
+ \label{eq:device-projected-hamiltonian}
+\end{equation}
+The factor $1/2$ avoids counting the same electron pair twice.
+This is the full one-body-plus-pair Hamiltonian within the selected
+orbital space~\cite{QTCADManyBody}. If spin mixing is included,
+the one-body term becomes
+$\sum_{ij,\sigma\sigma'}h_{ij}^{\sigma\sigma'}
+c_{i\sigma}^\dagger c_{j\sigma'}$. Additional valley states can
+likewise be included in the state index.
+
+Within the retained orbital space, a unitary basis change
+transforms both $h_{ij}$ and $\mathcal V_{ijkl}$ while preserving
+the spectrum of $H^{(M)}$. Individual matrix elements refer to a
+specified basis.
+
+\paragraph{Grouping states by dot occupation.}
+In a localized basis, assign each spatial state to a dot. If
+$\mathcal I_d$ is the set of orbital indices assigned to dot $d$,
+its number operator is
+\[
+ \hat N_d=\sum_{i\in\mathcal I_d,\sigma}
+                 c_{i\sigma}^{\dagger}c_{i\sigma}.
+\]
+At fixed total $N$, let $P_{\mathbf N}$ project onto the common
+eigenspace of these operators with occupations
+$\mathbf N=(N_1,N_2,\ldots)$, where $N_d$ is the eigenvalue of
+$\hat N_d$ and $\sum_d N_d=N$. These projectors satisfy
+\begin{equation}
+ P_{\mathbf N}P_{\mathbf N'}
+   =\delta_{\mathbf N\mathbf N'}P_{\mathbf N},
+ \qquad
+ \sum_{\mathbf N}P_{\mathbf N}=I_N,
+ \label{eq:device-charge-projectors}
+\end{equation}
+where the sum includes all allowed occupation tuples at the fixed
+total $N$, and $I_N$ is the identity in the retained $N$-electron space.
+Inserting this resolution of the identity on both sides of
+$H^{(M)}$ gives the block decomposition used in
+Eq.~\eqref{eq:dot-charge-blocks}:
+\begin{equation}
+ \begin{aligned}
+ H^{(M)}&=H^{(0)}+\mathcal T,\\
+ H^{(0)}&=\sum_{\mathbf N}P_{\mathbf N}H^{(M)}P_{\mathbf N},
+ &\mathcal T&=\sum_{\mathbf N\ne\mathbf N'}
+            P_{\mathbf N}H^{(M)}P_{\mathbf N'}.
+ \end{aligned}
+ \label{eq:device-charge-blocks}
+\end{equation}
+The block $H_{\mathbf N}$, written explicitly as
+$H_{(N_1,N_2,\ldots)}$ in Eq.~\eqref{eq:dot-charge-blocks}, is the restriction of
+$P_{\mathbf N}H^{(M)}P_{\mathbf N}$ to its charge subspace.
+Diagonalizing each block separately gives its ground and excited
+energies $E_{\mathbf N,a}$. All terms that preserve every dot
+occupation remain in these blocks, including interdot repulsion
+and direct Coulomb exchange. The off-diagonal operator $\mathcal T$
+includes single-electron hopping and any interaction matrix elements
+that change dot occupations, such as pair hopping. Dropping
+$\mathcal T$ therefore defines a reference with no charge transfer;
+it still retains interactions between different dots.
+
+If $\ket{\mathbf N,a}$ and $\ket{\mathbf N',b}$ are nondegenerate
+block eigenstates, first-order perturbation theory gives the
+admixture of the latter into the former as
+\[
+ \frac{\bra{\mathbf N',b}\mathcal T\ket{\mathbf N,a}}
+      {E_{\mathbf N,a}-E_{\mathbf N',b}}.
+\]
+This expression explains why the relevant comparison is with the
+energy separation of the connected states. When that separation
+is comparable to their coupling, retain both states and diagonalize
+the coupled block. For the one-electron two-dot matrix in
+Eq.~\eqref{eq:device-one-body-matrix}, write
+$t_{12}=|t_{12}|e^{i\varphi}$. At $\epsilon_1=\epsilon_2=\epsilon_0$
+and $|t_{12}|>0$, its eigenstates are
+$(\ket{w_1}\pm e^{-i\varphi}\ket{w_2})/\sqrt2$, with energies
+$\epsilon_0\mp|t_{12}|$. The equal weights give strong charge
+mixing even when $|t_{12}|$ is small compared with gaps to other
+states.
+
+This grouping preserves all matrix elements in the selected orbital
+space. The Hubbard model in Appendix~\ref{sec:device-hubbard-reduction}
+makes additional choices about both the spatial states and the
+interaction terms to retain.
+
+\subsection{Solving the many-electron matrix: CI and FCI}
+\label{sec:device-ci-fci}
+
+We now solve the eigenvalue problem for $H^{(M)}$ in
+Eq.~\eqref{eq:device-projected-hamiltonian}, retaining all its
+one-body and two-body matrix elements. At fixed electron number
+$N$, choose a basis of Slater determinants $\ket{D_I}$, each
+specifying which $N$ spin orbitals are occupied. Expand the
+interacting state and solve the matrix eigenvalue problem
+\begin{equation}
+ \ket{\Psi_{N\alpha}}=\sum_I C_I^{(N\alpha)}\ket{D_I},
+ \qquad
+ \sum_J\bra{D_I}H^{(M)}\ket{D_J}C_J^{(N\alpha)}
+       =E_{N\alpha}C_I^{(N\alpha)}.
+ \label{eq:device-ci-eigenproblem}
+\end{equation}
+Here $\alpha$ labels many-electron eigenstates. This is
+\emph{configuration interaction} (CI).
+
+With $M$ spatial orbitals and two spin states for each, there are
+\begin{equation}
+ \dim\Hilb_N^{(M)}=\binom{2M}{N}
+ \label{eq:device-fci-dimension}
+\end{equation}
+Slater determinants at fixed $N$. \emph{Full configuration
+interaction} (FCI) includes them all, or all states in an exactly
+invariant symmetry sector containing the state of interest.
+Truncated CI uses a selected subset. FCI solves the complete
+matrix in the retained orbital space; the remaining errors come
+from the orbital truncation, numerical precision, and the
+underlying device model~\cite{QTCADManyBody}.
+
+The lowest eigenvalue gives $E_N$. Repeating for different
+electron numbers supplies the quantities needed in Section~\ref{sec:electron-number-control}:
+\begin{equation}
+ N_{\mathrm{eq}}(\mu_{\mathrm R})
+   \in\operatorname*{arg\,min}_{N}
+          [E_N-\mu_{\mathrm R}N],
+ \qquad
+ \mu_N=E_N-E_{N-1}.
+ \label{eq:device-many-body-charge}
+\end{equation}
+Here $N_{\mathrm{eq}}$ is the zero-temperature equilibrium charge,
+and $\mu_N$ is the energy for adding the $N$th electron.
+If successive charge sectors are stable, $\mu_N$ is their
+transition threshold; otherwise the minimization may skip a sector.
+The set notation allows degeneracy at a transition.
+For a localized basis, summing
+$\langle c_{i\sigma}^\dagger c_{i\sigma}\rangle$ over the spins
+and orbitals assigned to a dot gives its mean electron number.
+These mean occupations can be fractional at fixed total $N$.
+
+For a fixed physical Hamiltonian, enlarging a nested orbital
+basis can only lower or leave unchanged the FCI ground energy
+by the variational principle. Check the convergence of energy
+differences such as $J$ and $\mu_N$ separately: monotonic
+convergence of each total energy permits either direction of
+change in their difference.

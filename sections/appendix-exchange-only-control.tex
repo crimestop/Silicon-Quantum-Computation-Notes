@@ -1,0 +1,302 @@
+\FloatBarrier
+\section{Exchange-Only Qubit Control}
+\label{app:exchange-only-control}
+
+Pair exchange acts along different logical axes within a three-spin
+exchange-only qubit. A coupling between two encoded blocks additionally
+allows amplitude to leave their individual code spaces, so an encoded
+two-qubit gate must control the complete six-spin evolution. This
+appendix gives the single-pair rotations, their calibration and the
+conditions on a complete two-qubit sequence.
+
+The logical basis is defined in Eq.~\eqref{eq:exchange-only-basis};
+preparation and pair readout are developed in
+Appendices~\ref{app:state-preparation} and~\ref{app:spin-readout}.
+
+\subsection{Single-qubit gates for exchange-only qubits}
+\label{sec:calibration-eo-rotations}
+\label{sec:measurement-eo-exchange}
+The two interdot barriers provide rotations about different logical
+axes. We first identify those axes and the conditions under which a
+single-pair pulse has a simple propagator. Pair readout then
+calibrates the two pulse areas in different ways. Finally, we ask
+whether simultaneous exchange can produce a direct logical $x$
+rotation over the complete voltage waveform.
+
+\subsubsection{Logical Hamiltonian and single-pair rotations}
+\label{sec:calibration-eo-logical-axes}
+
+In the three-spin basis of Eq.~\eqref{eq:exchange-only-basis},
+logical 0 has pair 1--2 in a singlet and logical 1 has that pair
+in a triplet. Exchange on 1--2 therefore produces a relative
+phase in this basis. Exchange on 2--3 is diagonal in a different
+pair-spin basis, so it both mixes and shifts the chosen logical
+states. To establish the restriction to this two-dimensional
+space, consider the physical Hamiltonian in
+Eq.~\eqref{eq:exchange-only-control}. Each pair exchange is
+$\mathbf{s}_i\cdot\mathbf{s}_j
+=[(\mathbf{s}_i+\mathbf{s}_j)^2-3I/2]/2$,
+so it commutes with all components of the pair's total spin and
+with the remaining spin. It therefore commutes with
+$\mathbf{s}_{\mathrm{tot}}^2$ and $s_{\mathrm{tot},z}$.
+Since the code spans the full $(S,m)=(1/2,+1/2)$ sector,
+arbitrary time-dependent exchange pulses stay within it.
+Additional nonuniform magnetic fields need not preserve this space.
+
+Define $P_{\mathrm E}=\ket{0_{\mathrm E}}\bra{0_{\mathrm E}}
++\ket{1_{\mathrm E}}\bra{1_{\mathrm E}}$.
+Then $(I-P_{\mathrm E})H_{\mathrm E}P_{\mathrm E}=0$.
+Restricting $P_{\mathrm E}H_{\mathrm E}P_{\mathrm E}$ means computing
+its matrix elements in the encoded basis. Using
+$\mathbf{s}_i\cdot\mathbf{s}_j=\mathrm{SWAP}_{ij}/2-I/4$ gives
+\begin{equation}
+ \begin{aligned}
+ \left.P_{\mathrm E}\mathbf{s}_1\cdot\mathbf{s}_2P_{\mathrm E}
+       \right|_{\mathrm E}
+   &=\begin{pmatrix}-3/4&0\\0&1/4\end{pmatrix}
+     =-\frac14 I-\frac12 Z_{\mathrm E},\\
+ \left.P_{\mathrm E}\mathbf{s}_2\cdot\mathbf{s}_3P_{\mathrm E}
+       \right|_{\mathrm E}
+   &=\begin{pmatrix}0&\sqrt3/4\\\sqrt3/4&-1/2\end{pmatrix}
+     =-\frac14 I+\frac14 Z_{\mathrm E}
+                       +\frac{\sqrt3}{4}X_{\mathrm E}.
+ \end{aligned}
+ \label{eq:exchange-only-projection}
+\end{equation}
+These are the matrices of the physical exchanges acting within the
+code, with $X_{\mathrm E},Z_{\mathrm E}$ the encoded Pauli operators.
+The two compensated interdot barriers control $J_{12}$ and $J_{23}$.
+Combining the matrices with these coefficients and dropping the
+common energy $-(J_{12}+J_{23})I/4$ gives
+\begin{equation}
+ H_{\mathrm{E,q}}(t)
+ =\frac{\sqrt3J_{23}(t)}4 X_{\mathrm E}
+  +\left[-\frac{J_{12}(t)}2+\frac{J_{23}(t)}4\right]Z_{\mathrm E}.
+ \label{eq:calibration-eo-axis}
+\end{equation}
+The following construction assumes selective exchange pulses.
+To realize $U_{12,\mathrm E}$, pulse the 1--2 barrier so that
+$J_{12}(t)$ is active while $J_{23}(t)$ is negligible. To realize
+$U_{23,\mathrm E}$, pulse the 2--3 barrier with $J_{12}(t)$
+negligible. Having two barriers does not by itself establish that
+the inactive exchange can be suppressed; this is a condition to
+check at the operating point. For either single-pair pulse, define
+its exchange area by
+\[
+ \theta_{ij}=\frac1\hbar\int J_{ij}(t)\,dt.
+\]
+To derive the ideal propagators, set the inactive coupling to
+zero in Eq.~\eqref{eq:calibration-eo-axis}. A 1--2 pulse then has
+$H_{\mathrm{E,q}}(t)=-J_{12}(t)Z_{\mathrm E}/2$, whereas a 2--3
+pulse has
+$H_{\mathrm{E,q}}(t)=J_{23}(t)(\sqrt3X_{\mathrm E}+Z_{\mathrm E})/4$.
+Integrating each of these single-pair Hamiltonians gives, up to
+the global phase of the omitted identity term,
+\begin{equation}
+ \begin{aligned}
+ U_{12,\mathrm E}(\theta_{12})
+  &=\exp(i\theta_{12}Z_{\mathrm E}/2),\\
+ U_{23,\mathrm E}(\theta_{23})
+  &=\exp\!\left[-\frac{i\theta_{23}}4
+       (\sqrt3X_{\mathrm E}+Z_{\mathrm E})\right].
+ \end{aligned}
+ \label{eq:calibration-eo-propagators}
+\end{equation}
+If the inactive coupling is appreciable, the actual pulse is not
+described by these single-pair propagators; its evolution must be
+calculated from Eq.~\eqref{eq:calibration-eo-axis} with both couplings.
+These are the two nonparallel logical rotations summarized earlier
+in Eq.~\eqref{eq:exchange-only-rotations}; they are written here
+because the following measurements calibrate their two pulse areas.
+
+\subsubsection{Calibrating the two pair-exchange pulse areas}
+\label{sec:calibration-eo-pulse-areas}
+
+Pair readout distinguishes singlet and triplet character on dots
+1--2. A 2--3 pulse mixes those logical states, so its area appears
+directly as a population oscillation. A 1--2 pulse changes only
+their relative phase and needs a preparation and analysis rotation
+before the same readout can reveal it.
+
+\paragraph{Measuring the 2--3 coupling.}
+Prepare $\ket{0_{\mathrm E}}$ using
+Section~\ref{sec:calibration-eo-initialization}, suppress $J_{12}$,
+and pulse only the 2--3 barrier. For a constant $J_{23}=J$,
+\begin{equation}
+ H_{23}^{\mathrm E}=\frac J4Z_{\mathrm E}
+                   +\frac{\sqrt3J}{4}X_{\mathrm E},\qquad
+ P_{1_{\mathrm E}}(\tau)=\frac34
+                    \sin^2\!\left(\frac{J\tau}{2\hbar}\right).
+ \label{eq:measurement-eo-oscillations}
+\end{equation}
+The oscillation reaches $3/4$ rather than 1 because this rotation
+axis is tilted relative to the preparation and pair-readout axis.
+Vary the hold time, return to the pair-readout setting on dots
+1--2, and count pair-triplet outcomes using
+Section~\ref{sec:calibration-eo-readout}. The period gives $J/h$.
+Repeat at different compensated barrier voltages to determine
+$J_{23}$ along the control path. Pair-triplet leakage states can
+produce the same blocked record, so this interpretation assumes
+that the evolution remains in the code space.
+
+For a pulse with variable coupling but $J_{12}=0$, the same
+probability is $3\sin^2(\theta_{23}/2)/4$, where
+$\theta_{23}=\hbar^{-1}\int J_{23}(t)\,dt$.
+A duration scan with fixed edges calibrates this complete pulse
+area, including its edge contribution.
+
+\paragraph{Measuring the 1--2 phase.}
+A 1--2 pulse only adds phase to the initial
+$\ket{0_{\mathrm E}}$, so first apply
+$A=U_{23,\mathrm E}(\beta)$ with $\cos\beta=-1/3$.
+The expression above gives
+$P_{1_{\mathrm E}}=3(1-\cos\beta)/8=1/2$:
+$A\ket{0_{\mathrm E}}$ is an equal-weight superposition.
+Insert the 1--2 pulse and then apply $A^\dagger$ before pair readout.
+Using the pair propagators in
+Eq.~\eqref{eq:calibration-eo-propagators},
+\begin{equation}
+ P_{0_{\mathrm E}}=
+ \left|\bra{0_{\mathrm E}}A^\dagger
+       e^{i\theta_{12}Z_{\mathrm E}/2}A
+       \ket{0_{\mathrm E}}\right|^2
+ =\frac{1+\cos\theta_{12}}2.
+ \label{eq:calibration-eo-phase-sequence}
+\end{equation}
+The inverse rotation can be supplied by a positive 2--3 pulse of
+area $2\pi-\beta$, up to global phase. Vary the 1--2 hold time
+between these fixed preparation and analysis pulses to calibrate
+$\theta_{12}$ from the return oscillation.
+Residual couplings during either pulse must be included in the
+two-axis Hamiltonian above.
+
+\subsubsection{Testing a direct logical \texorpdfstring{$x$}{x} rotation}
+\label{sec:calibration-eo-direct-x}
+
+First consider constant simultaneous couplings $J_{12}$ and
+$J_{23}$ during a hold of duration $\tau$. With $J_{23}=0$,
+the hold gives a pure $z$ rotation $R_z(-\theta_{12})$.
+With $J_{12}=J_{23}/2$, the $Z_{\mathrm E}$ coefficient
+cancels and the hold gives a pure $x$ rotation:
+\begin{equation}
+ H_{\mathrm{E,q}}=\frac{\sqrt3J_{23}}4X_{\mathrm E},\qquad
+ \vartheta_x=\frac{\sqrt3J_{23}\tau}{2\hbar}.
+ \label{eq:calibration-eo-pure-x}
+\end{equation}
+For arbitrary constant values of the two couplings, pair readout
+after the hold gives
+\begin{equation}
+ P_{1_{\mathrm E}}(\tau)=
+ \frac{3J_{23}^2}{3J_{23}^2+(J_{23}-2J_{12})^2}
+ \sin^2\left(
+  \frac{\tau\sqrt{3J_{23}^2+(J_{23}-2J_{12})^2}}{4\hbar}
+       \right).
+ \label{eq:calibration-eo-axis-tuning}
+\end{equation}
+At fixed $J_{23}$, scanning $J_{12}$ and $\tau$ identifies the
+constant setting with vanishing $z$ component by its maximum
+oscillation contrast; the period then determines the $x$-rotation
+rate. The two barrier voltages must be calibrated when applied
+together. Their separately measured responses only suggest an
+initial setting, and readout contrast and decay must be accounted
+for when interpreting the measured amplitude.
+
+A real voltage pulse can have time-dependent couplings on its
+edges. The constant-hold result does not by itself show that the
+complete pulse is a pure $R_x$. One sufficient condition is
+$J_{12}(t)=J_{23}(t)/2$ throughout the active waveform, with
+other logical terms negligible; then
+$\vartheta_x=(\sqrt3/2\hbar)\int J_{23}(t)\,dt$.
+If the ratio changes, the complete evolution must be evaluated
+and calibrated as a gate. When the available waveform does not
+produce the desired $R_x$, compose it from the two calibrated
+nonparallel pair rotations instead.
+
+These pulse-area and axis measurements characterize coherent gates.
+An encoded-qubit relaxation measurement asks a separate question:
+prepare an excited logical state and measure its population after
+a wait, as in Section~\ref{sec:measurement-relaxation}. Extra
+leakage channels may require tracking more than two populations.
+
+\subsection{Two-qubit gates for exchange-only qubits}
+\label{sec:calibration-eo-two-qubit-gates}
+
+Let qubit $A$ occupy spins $(1,2,3)$ and qubit $B$ occupy
+$(4,5,6)$. Exchange within each triple dot produces the one-qubit
+rotations of the preceding section. A two-qubit gate additionally
+uses the boundary coupling $J_{34}$ between the two blocks. That
+coupling can entangle them, but it does not preserve each block's
+code space by itself. The control problem is therefore to combine
+intra-block and inter-block exchange pulses so that the final state
+returns to both code spaces while retaining a nonlocal logical
+operation.
+
+\subsubsection{Why one boundary-exchange pulse is insufficient}
+
+For a linear six-dot array, the physical Hamiltonian is
+\begin{equation}
+ H_6(t)=\sum_{i=1}^{5}J_{i,i+1}(t)\,
+                     \mathbf s_i\cdot\mathbf s_{i+1}.
+ \label{eq:calibration-six-spin-hamiltonian}
+\end{equation}
+The boundary term $J_{34}\mathbf s_3\cdot\mathbf s_4$ transfers
+spin angular momentum between the blocks. If
+$\mathbf S_A=\mathbf s_1+\mathbf s_2+\mathbf s_3$ and
+$\mathbf S_B=\mathbf s_4+\mathbf s_5+\mathbf s_6$, then
+\[
+ [\mathbf s_3\cdot\mathbf s_4,\mathbf S_A^2]\ne0,
+ \qquad
+ [\mathbf s_3\cdot\mathbf s_4,\mathbf S_B^2]\ne0.
+\]
+A single boundary pulse can therefore move amplitude from an
+$S=1/2$ encoded block into an $S=3/2$ state. It may entangle the
+six physical spins without defining a unitary gate on the two
+logical qubits.
+
+\subsubsection{Conditions on a complete exchange sequence}
+
+A candidate encoded gate is an ordered product
+\begin{equation}
+ U_6=U_{i_Mj_M}(\theta_M)\cdots U_{i_1j_1}(\theta_1),
+ \qquad
+ U_{ij}(\theta)=e^{-i\theta\,\mathbf s_i\cdot\mathbf s_j},
+ \qquad
+ \theta=\frac1\hbar\int J_{ij}(t)\,dt .
+ \label{eq:calibration-six-spin-sequence}
+\end{equation}
+The order matters because exchanges on overlapping pairs do not
+commute. Let $P_{AB}$ project onto the product of the two
+exchange-only code spaces. A valid encoded gate must satisfy
+\begin{equation}
+ (I-P_{AB})U_6P_{AB}=0,
+ \qquad
+ \left.P_{AB}U_6P_{AB}\right|_{\mathrm{code}}
+   =e^{i\chi}U_{\mathrm{logical}}.
+ \label{eq:calibration-encoded-gate-conditions}
+\end{equation}
+The first condition allows intermediate leakage but requires its
+amplitude to cancel at the end. The second condition fixes the
+logical action after that return. For an encoded CNOT,
+$U_{\mathrm{logical}}=\mathrm{CNOT}_{A\to B}$, reproducing the
+target stated in Eq.~\eqref{eq:encoded-cnot-target}.
+
+\subsubsection{Calibrating and testing the complete sequence}
+
+Each pair pulse is first calibrated through its measured exchange
+area, but those separate calibrations do not establish the
+six-spin gate. Program the ordered pulse list, prepare each of the
+four logical basis inputs, and apply the complete sequence before
+the exchange-only readout of both blocks. The final code-space
+population tests the first condition above; the logical outcomes
+test the basis-state action of the second. Superposition inputs and
+analysis rotations are additionally required to determine the
+relative phases and distinguish the target gate from a truth table
+with incorrect coherent phases.
+
+Exact leakage-free exchange-only CNOT sequences supply a concrete
+pulse ordering and set of exchange areas~\cite{FongWandzura2011}.
+Their individual areas are initial settings, not experimental
+facts: the full sequence must be retested after the pair responses,
+switching edges and residual simultaneous couplings are included.
+A single calibrated $J_{34}$ pulse cannot replace this complete
+sequence.

@@ -1,0 +1,267 @@
+% Included by appendix-voltage-response.tex.
+\subsection{Choosing voltages for specified addition-energy changes}
+\label{app:virtual-gates}
+\label{sec:operating-points-virtual-gates}
+
+Loading requires moving an addition energy below a reservoir chemical
+potential; a compensated exchange pulse instead holds the addition
+thresholds fixed while changing tunneling. Because one electrode can
+produce both effects, we use the combined response to all varied
+voltages to select the desired change. For this local calculation,
+the response can be measured without recalculating the full device
+potential for every pulse.
+
+The many-electron Hamiltonian identifies what this measured
+response represents.
+For a small voltage change, write
+\[
+ \delta H=\sum_j \widehat W_j\,\delta V_j,\qquad
+ \widehat W_j=\left.\frac{\partial H}{\partial V_j}\right|_{\mathbf V^0}.
+\]
+For an isolated, nondegenerate state on a specified charge branch,
+the Hellmann--Feynman relation gives
+\[
+ \frac{\partial(E_N-E_{N-1})}{\partial V_j}
+ =\langle\widehat W_j\rangle_N-\langle\widehat W_j\rangle_{N-1}.
+\]
+This is the addition-energy derivative in
+Eq.~\eqref{eq:device-addition-response}, expressed through the
+voltage-dependent Hamiltonian.
+
+Let $\mu_i(\mathbf V)$ be the addition energy of dot $i$ for a
+specified charge transition. Near reference voltages $\mathbf V^0$,
+the response to the $N_g$ varied gate electrodes is
+\begin{equation}
+ d\mu_i=\sum_{j=1}^{N_g}G_{ij}\,dV_j,\qquad
+ G_{ij}=\left.\frac{\partial\mu_i}{\partial V_j}\right|_{\mathbf V^0},
+ \qquad d\boldsymbol\mu=G\,d\mathbf V.
+ \label{eq:calibration-response-matrix}
+\end{equation}
+The index $j$ includes plunger and barrier electrodes.
+The reservoir contact voltages and magnetic field are held fixed
+in the examples below. Together with the chosen charge
+configuration, these reference settings define the
+\emph{operating point}. Each matrix entry has units of energy
+per voltage. For a finite small step, the differential relation
+gives $\Delta\boldsymbol\mu\simeq G\Delta\mathbf V$.
+
+Suppose we want to increase $\mu_1-\mu_2$ without changing
+$(\mu_1+\mu_2)/2$. The required energy changes have opposite signs,
+whereas a pulse on one plunger may shift both energies in the
+same direction. We use the measured response matrix to find
+voltages whose combined effects give the desired pair of changes.
+
+Consider two dots controlled by two plunger voltages $V_1,V_2$
+and one barrier voltage $V_{\mathrm B}$. The full relation is
+\begin{equation}
+ \begin{pmatrix}d\mu_1\\d\mu_2\end{pmatrix}
+ =
+ \underbrace{\begin{pmatrix}
+ G_{11}&G_{12}&G_{1\mathrm B}\\
+ G_{21}&G_{22}&G_{2\mathrm B}
+ \end{pmatrix}}_{G}
+ \begin{pmatrix}dV_1\\dV_2\\dV_{\mathrm B}\end{pmatrix}.
+ \label{eq:calibration-full-gate-response}
+\end{equation}
+
+\subsubsection{Obtaining the response matrix}
+The control calculation needs all six entries, including those of
+the barrier electrode. The charge-transition slopes and
+finite-bias measurements provide these entries;
+we now assemble them into $G$. On a dot--reservoir transition,
+$\mu_i=\mu_{\mathrm R}$. Vary electrode $j$ and adjust the
+corresponding plunger $V_i$ to stay on that transition, with the
+remaining electrode fixed. The measured slope is
+\[
+ c_{ij}=\left.\frac{dV_i}{dV_j}\right|_{\mu_i=\mu_{\mathrm R}},
+ \qquad j\ne i.
+\]
+Since $0=G_{ii}dV_i+G_{ij}dV_j$, it gives
+$G_{ij}=-G_{ii}c_{ij}$. The four slopes
+$c_{12},c_{1\mathrm B},c_{21},c_{2\mathrm B}$ determine the
+cross-responses relative to the two plunger responses.
+Measure the latter,
+$g_1=G_{11}$ and $g_2=G_{22}$, using the finite-bias boundaries
+of Section~\ref{sec:measurement-bias-spectroscopy}.
+The complete matrix is then
+\begin{equation}
+ G=\begin{pmatrix}
+ g_1&-g_1c_{12}&-g_1c_{1\mathrm B}\\
+ -g_2c_{21}&g_2&-g_2c_{2\mathrm B}
+ \end{pmatrix}.
+ \label{eq:calibration-matrix-from-lines}
+\end{equation}
+The transition slopes give ratios; the finite-bias measurement
+supplies the energy scale. Use nearby smooth segments for the
+specified charge sectors, since a change in a neighbouring
+occupation can shift a transition discontinuously.
+
+\subsubsection{Solving for the voltage change}
+With $G$ known, the requested change $d\boldsymbol\mu^\star$ is the
+input and $d\mathbf V$ is the unknown. The control problem is
+$G\,d\mathbf V=d\boldsymbol\mu^\star$.
+A rank-two $2\times3$ matrix leaves one free voltage direction:
+two energy conditions do not uniquely determine three voltages.
+To write the solutions explicitly, partition the already measured
+matrix as
+\[
+ G=\begin{pmatrix}G_{\mathrm P}&\mathbf g_{\mathrm B}\end{pmatrix},
+ \qquad
+ d\mathbf V_{\mathrm P}=\begin{pmatrix}dV_1\\dV_2\end{pmatrix},
+\]
+where $G_{\mathrm P}$ contains the first two columns and
+$\mathbf g_{\mathrm B}$ is the third. If $G_{\mathrm P}$ is
+invertible, specifying $dV_{\mathrm B}$ gives
+\begin{equation}
+ d\mathbf V_{\mathrm P}
+ =G_{\mathrm P}^{-1}
+       \left(d\boldsymbol\mu^\star-\mathbf g_{\mathrm B}dV_{\mathrm B}\right).
+ \label{eq:calibration-virtual-gates}
+\end{equation}
+Thus keeping the barrier voltage fixed is one possible choice;
+the full response matrix also permits solutions that change it.
+Coordinated voltage directions chosen to control specified
+physical quantities are called \emph{virtual gates}.
+
+\subsubsection{An opposite shift of two addition energies}
+For a numerical illustration, take
+\[
+ G=\begin{pmatrix}-100&-25&-10\\-20&-80&-15\end{pmatrix}
+       \frac{\mu\mathrm{eV}}{\mathrm{mV}}.
+\]
+These are illustrative response values, not experimental data.
+Let $\varepsilon_\mu=\mu_1-\mu_2$ and
+$\bar\mu=(\mu_1+\mu_2)/2$.
+Increasing $\varepsilon_\mu$ by $80\,\mu\mathrm{eV}$ at fixed
+$\bar\mu$ requires
+$(\Delta\mu_1,\Delta\mu_2)=(40,-40)\,\mu\mathrm{eV}$.
+Choosing $\Delta V_{\mathrm B}=0$ gives
+\begin{equation}
+ \begin{pmatrix}\Delta V_1\\\Delta V_2\\\Delta V_{\mathrm B}\end{pmatrix}
+ \simeq
+ \begin{pmatrix}-0.56\\0.64\\0\end{pmatrix}\mathrm{mV}.
+ \label{eq:calibration-two-gate-example}
+\end{equation}
+Substitution gives $56-16=40$ and $11.2-51.2=-40$,
+in $\mu\mathrm{eV}$, for the two energy changes.
+More generally, with $dV_{\mathrm B}=0$,
+\begin{equation}
+ d\mathbf V_{\mathrm P}
+ =G_{\mathrm P}^{-1}
+   \begin{pmatrix}1&1/2\\1&-1/2\end{pmatrix}
+   \begin{pmatrix}d\bar\mu\\d\varepsilon_\mu\end{pmatrix}.
+ \label{eq:calibration-common-differential}
+\end{equation}
+The difference $\varepsilon_\mu$ concerns the chosen addition
+transitions. Its relation to the orbital detuning
+$\epsilon_1-\epsilon_2$ also depends on interaction energies.
+
+The calculation has now supplied a voltage vector for the requested
+energy shift. Apply that small step, then locate the transitions
+again. Their displacements, converted to energy with the measured
+responses, test whether the requested energy changes occurred.
+If the chosen $G_{\mathrm P}$ is nearly singular, its inverse
+requires large compensating voltages. Another independent pair
+of columns of the full $G$ may provide a better set of controls.
+
+\subsection{Changing tunneling at fixed addition energies}
+
+An exchange pulse should strengthen the interdot coupling without
+unintentionally moving the dot--reservoir loading thresholds.
+We therefore seek a voltage direction that keeps both addition
+energies fixed but changes $t_c$. To first order, the first
+requirement is simply
+\begin{equation}
+ G\,d\mathbf V=0.
+ \label{eq:calibration-fixed-energy-nullspace}
+\end{equation}
+For the rank-two matrix above, its nullspace is one-dimensional.
+If $G_{\mathrm P}$ is invertible, choose a vector in that
+nullspace with barrier component equal to one:
+\begin{equation}
+ \mathbf n=
+ \begin{pmatrix}-G_{\mathrm P}^{-1}\mathbf g_{\mathrm B}\\1\end{pmatrix},
+ \qquad
+ d\mathbf V=\mathbf n\,dv,\qquad G\mathbf n=0.
+ \label{eq:calibration-null-direction}
+\end{equation}
+Here $dv=dV_{\mathrm B}$ parametrizes the coordinated voltage
+change. Equivalently, after choosing the barrier step, the
+plunger compensation is
+\begin{equation}
+ d\mathbf V_{\mathrm P}
+ =-G_{\mathrm P}^{-1}\mathbf g_{\mathrm B}\,dV_{\mathrm B}.
+ \label{eq:calibration-barrier-compensation}
+\end{equation}
+The barrier pulse and its two compensating plunger pulses are
+applied together. Their energy shifts cancel even though the
+potential between the dots, and hence the wave-function overlap,
+can change.
+
+For the illustrative matrix above,
+\[
+ \mathbf n=
+ \begin{pmatrix}-17/300\\-13/75\\1\end{pmatrix}.
+\]
+A $0.30\,\mathrm{mV}$ barrier step therefore requires plunger
+steps $-0.017\,\mathrm{mV}$ and $-0.052\,\mathrm{mV}$.
+Their combined first-order shifts of both $\mu_1$ and $\mu_2$
+vanish. Whether this direction changes tunneling is a separate,
+measurable property. Define
+$w_j=\partial t_c/\partial V_j$ at the operating point.
+Along the coordinated direction,
+\begin{equation}
+ dt_c=\sum_j w_j\,dV_j
+     =\left(\sum_j w_j n_j\right)dv.
+ \label{eq:calibration-tunneling-direction}
+\end{equation}
+A nonzero coefficient permits tunneling control at fixed addition
+energies. If it vanishes, these three controls cannot achieve
+that change to first order at this operating point.
+
+To measure the coefficient, apply several small values of $v$
+in $\mathbf V(v)=\mathbf V^0+\mathbf n v$.
+At each setting use the charge-distribution measurement of
+Section~\ref{sec:measurement-equilibrium-charge} to determine
+$t_c(v)$, and recheck the addition thresholds.
+The response must be measured along this coordinated path:
+changing the plungers also affects tunneling.
+
+The scan gives $t_c(v)$ along a path that keeps the addition
+energies fixed. For spin gates, the same voltage path can be
+characterized by its exchange coupling $J(v)$ using
+Section~\ref{sec:measurement-exchange-oscillations}.
+
+For several couplings, append response rows such as
+$d\ln(t_{ij}/t_{\mathrm{ref}})
+=\sum_g B_{ij,g}\,dV_g$, where $t_{\mathrm{ref}}>0$ is a fixed
+reference energy. The combined matrix can prescribe a change
+of $t_{12}$ with $t_{23}$ and the addition energies held fixed,
+provided its rank permits those independent constraints.
+Such control of energies and tunnel couplings has been
+demonstrated using virtual gates~\cite{Hsiao2020}.
+
+\subsubsection{Turning voltage settings into a pulse}
+The energy-shifting and compensated barrier directions solve different
+problems: the first loads or unloads electrons, whereas the second
+changes their coupling without moving the loading thresholds. A change
+between two settings means a change of the physical voltage vector,
+not an instantaneous change of a model parameter by itself.
+For a locally linear path, a pulse can be programmed as
+\[
+ \mathbf V(t)=\mathbf V^{\mathrm A}
+       +f(t)\bigl(\mathbf V^{\mathrm B}-\mathbf V^{\mathrm A}\bigr),
+ \qquad 0\le f(t)\le1.
+\]
+The function $f$ rises from zero to one, holds, and eventually
+returns or proceeds to another setting. For an exchange pulse,
+the displacement can follow the compensated direction
+$\mathbf n$; for loading, it must instead move an addition energy
+across a reservoir chemical potential. The endpoint conditions
+depend on whether the operation loads an electron, retains a fixed
+charge sector, or converts a spin state into charge motion.
+
+The compensation is local. For a larger excursion, measure or
+update the response along the path. The static matrix sets the
+voltage combinations; the measured time-dependent response sets
+the pulse durations and tests the effect of the edges.

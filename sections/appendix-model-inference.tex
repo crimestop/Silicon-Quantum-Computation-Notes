@@ -1,0 +1,114 @@
+\FloatBarrier
+\section{Inferring and Testing an Effective Model}
+\label{app:model-inference}
+\label{sec:combining-measurements}
+
+Sections~\ref{sec:electron-number-control} and~\ref{sec:exchange-virtual-tunneling}
+use addition energies and an exchange coupling to describe the device.
+This appendix develops a supplementary check: whether a common set of
+model parameters accounts for the measurements of those quantities.
+
+Charge-transition positions, excitation gaps and charge-distribution
+curves constrain different terms of an effective Hamiltonian.
+We now combine such data to estimate its parameters. A separate
+measurement can then test a prediction that was not used in the fit.
+The example below fits charge data and predicts an exchange splitting;
+the spin experiment that tests that prediction is developed in
+Section~\ref{sec:measurement-two-spin-exchange}.
+
+\subsection{Relating model parameters to measurements}
+\label{sec:measurement-model-predictions}
+
+First choose the retained states and interaction terms, as in
+Appendix~\ref{sec:device-hubbard-reduction}. Collect the unknown parameters in
+$\boldsymbol\theta$. Each measurement then has a prediction
+$f_k(\boldsymbol\theta)$, obtained from the corresponding
+charge-boundary or spectroscopy calculation.
+Refer all data to matched electrode settings, or include the
+measured voltage dependence in the model.
+
+Consider the two-dot Hubbard model of
+Appendix~\ref{sec:device-hubbard-reduction}, with one orbital per dot,
+equal on-site repulsions $U_1=U_2=U$, and zero detuning. Write
+$t_c=|t_{12}|$ and $D=U-V_{12}>0$, and omit Zeeman and direct-exchange
+terms. For this example, $\boldsymbol\theta=(t_c,D)$.
+The charge-polarization measurement in
+Appendix~\ref{app:tunnel-coupling} constrains $t_c$.
+Suppose spectroscopy also identifies the two mixed singlet
+eigenstates of the matrix in Eq.~\eqref{eq:device-exact-hubbard-check}.
+Their energy separation is
+\begin{equation}
+ \Delta_{\mathrm{ch}}=\sqrt{D^2+16t_c^2}.
+ \label{eq:measurement-charge-model-prediction}
+\end{equation}
+Use these two charge measurements to determine $t_c$ and $D$,
+and reserve the spin-oscillation measurement of $J$ for testing
+the result. This comparison assumes that the same retained-orbital
+model describes the charge sectors used in the measurements.
+
+\subsection{Joint estimation, uniqueness, and uncertainty}
+\label{sec:measurement-model-estimation}
+
+Let $y_k$ be the $k$th measured value and $\sigma_k$ the standard
+deviation of its measurement error. For independent Gaussian errors, estimate
+$\boldsymbol\theta$ by minimizing
+\begin{equation}
+ \chi^2(\boldsymbol\theta)
+   =\sum_k\frac{[y_k-f_k(\boldsymbol\theta)]^2}{\sigma_k^2}.
+ \label{eq:measurement-joint-fit}
+\end{equation}
+In the example, $y_1$ is the measured tunnel coupling and $y_2$
+the identified singlet excitation gap; the predictions are
+$f_1=t_c$ and $f_2=\sqrt{D^2+16t_c^2}$. In the ideal limit of
+negligible uncertainty, these give
+$t_c=y_1$ and $D=\sqrt{y_2^2-16y_1^2}$.
+
+Check which parameters the chosen data actually determine. If
+only $J$ were measured, its weak-tunneling expression
+$J\simeq4t_c^2/D$ would constrain a ratio, leaving many pairs
+$(t_c,D)$ possible. The two charge measurements resolve that
+ambiguity, but still determine only $U-V_{12}$, not $U$ and
+$V_{12}$ separately. To separate those parameters, add charge
+measurements whose predicted energies depend on them differently.
+If the available data cannot distinguish parameter choices within
+their uncertainty, report the constrained combinations.
+
+Estimate the parameter uncertainty by refitting simulated
+repetitions generated from the fitted predictions and the
+measurement-noise model. In each repetition, use the same sampled
+calibration error for all measurements sharing that calibration;
+it shifts several inferred energies together. Such correlated errors require
+their covariance in the fit, or an explicit fit of the calibration
+parameters together with the device parameters. Keep the resulting
+joint parameter uncertainty for the prediction test below.
+
+\subsection{Testing predictions on independent data}
+\label{sec:uncertainty-model-validation}
+
+Use the fitted parameters to predict a quantity excluded from the
+fit, without readjusting them to that measurement. For the two-dot
+example, Eq.~\eqref{eq:device-exact-hubbard-check} predicts
+\begin{equation}
+ J_{\mathrm{pred}}
+   =\frac{\sqrt{D^2+16t_c^2}-D}{2}.
+ \label{eq:measurement-independent-exchange-prediction}
+\end{equation}
+Compare this with $J$ obtained from the two-spin exchange measurement
+of Section~\ref{sec:measurement-two-spin-exchange}.
+Using the exact Hubbard expression avoids attributing an error in
+$J\simeq4t_c^2/D$ to the Hamiltonian itself. Recompute
+$J_{\mathrm{pred}}$ for the joint parameter estimates obtained
+above to determine its uncertainty, including uncertainty in the
+operating point. If the measured $J$ had been used to determine
+$D$, that same $J$ would no longer be an independent test.
+
+Compare the predicted range with the measured $J$ and its
+uncertainty. If they disagree, first check the voltage calibration,
+thermal broadening in the charge fit, and repeated scans for drift.
+If these checks do not account for a reproducible discrepancy at
+matched settings, revisit the Hamiltonian assumptions.
+For example, low-lying orbital or valley states seen
+in spectroscopy may need to be retained, or direct exchange omitted
+from the simple model may contribute to $J$. Include such terms
+when supported by the data and test the revised model on another
+independent measurement or voltage setting.

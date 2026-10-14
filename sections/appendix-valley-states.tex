@@ -1,0 +1,143 @@
+\FloatBarrier
+\section{Valley States and Interface Coupling}
+\label{app:valley-states}
+\label{sec:device-orbital-valley}
+
+Interface coupling can mix the valleys retained in a dot and correlate
+their spatial envelopes. This appendix develops the multivalley block
+Hamiltonian of Eq.~\eqref{eq:dot-coupled-valley-equations}, then projects it
+onto one common orbital of two equivalent valleys. This projection
+gives the two-level Hamiltonian and valley eigenstates in
+Eqs.~\eqref{eq:dot-valley-doublet} and~\eqref{eq:dot-valley-eigenstates},
+and states the conditions under which their splitting is a useful
+description of the valley gap.
+
+\subsection{Coupled valley envelopes}
+\label{sec:device-coupled-valley-envelopes}
+
+The silicon conduction band has several energy minima at different
+wave vectors $\mathbf k_\nu$. The Bloch states near each minimum
+span a low-energy space $\mathcal H_\nu$. Each space contains many
+wave vectors and therefore many possible spatial wave packets.
+The retained wave-vector regions are disjoint, so these valley
+spaces are mutually orthogonal.
+
+Within the effective-mass description, the expansion coefficients
+for wave vectors near one minimum are represented in position space
+by a slowly varying envelope $F_\nu(\mathbf r)$. Retaining $N_v$
+valleys gives the direct-sum space and its envelope representation:
+\begin{equation}
+ \mathcal H_{\mathrm{mv}}
+       =\bigoplus_{\nu=1}^{N_v}\mathcal H_\nu,
+ \qquad
+ \mathbf F(\mathbf r)
+       =\begin{pmatrix}F_1(\mathbf r)\\ \vdots\\F_{N_v}(\mathbf r)\end{pmatrix}.
+ \label{eq:device-valley-space}
+\end{equation}
+Each component is a function describing the spatial state within
+one valley. The state is normalized by
+$\sum_\nu\int |F_\nu|^2\,d^3r=1$.
+
+Let $h_{0,\nu}$ denote the single-valley orbital Hamiltonian
+$h_\nu$ of Eq.~\eqref{eq:device-envelope-hamiltonian}. It acts
+within the $\nu$th component of the direct-sum space.
+An abrupt interface can transfer amplitude between
+valleys and mix their spatial states~\cite{Friesen2010}.
+We describe transfer from valley $\nu'$ to valley $\nu$ by
+an operator $\hat v_{\nu\nu'}$. The full Hamiltonian is
+\begingroup
+\let\valleyblocklabel\label
+\begin{equation}
+ h_{\mathrm{mv}}=
+ \begin{pmatrix}
+  h_{0,1} & \hat v_{12} & \cdots & \hat v_{1,N_v}\\
+  \hat v_{21} & h_{0,2} & \cdots & \hat v_{2,N_v}\\
+  \vdots & \vdots & \ddots & \vdots\\
+  \hat v_{N_v,1} & \hat v_{N_v,2} & \cdots & h_{0,N_v}
+ \end{pmatrix}.
+ \label{eq:device-multivalley-hamiltonian}
+ % Use the ordinary label command for a second alias in this amsmath display.
+ \begingroup\let\label\valleyblocklabel
+ \label{eq:device-coupled-valley-equations}\endgroup
+\end{equation}
+\endgroup
+Hermiticity requires
+$\hat v_{\nu'\nu}=\hat v_{\nu\nu'}^\dagger$.
+All diagonal terms are included in $h_{0,\nu}$; the coupling
+operators $\hat v_{\nu\nu'}$ connect distinct valleys.
+
+We use the local multivalley effective-mass model, in which each
+off-diagonal operator multiplies an envelope by a position-dependent
+coupling function~\cite{QTCADMultivalley}:
+\[
+ (\hat v_{\nu\nu'}F_{\nu'})(\mathbf r)
+       =v_{\nu\nu'}(\mathbf r)F_{\nu'}(\mathbf r),
+ \qquad
+ v_{\nu'\nu}(\mathbf r)=v_{\nu\nu'}^*(\mathbf r).
+\]
+Thus components at the same position are coupled. The functions
+$v_{\nu\nu'}$ encode the microscopic interface structure and are
+additional inputs to this effective model.
+
+\subsection{A two-valley doublet within one orbital}
+\label{sec:device-valley-doublet-projection}
+
+Consider the two lowest, equivalent valleys with orthogonal labels
+$\ket{\nu_1}$ and $\ket{\nu_2}$. Suppose that their uncoupled
+orbital blocks $h_{0,\nu_1}$ and $h_{0,\nu_2}$ share a normalized
+ground orbital $\phi_0$ with energy $\epsilon_0$.
+Retain the states $\ket{\phi_0}\otimes\ket{\nu_1}$ and
+$\ket{\phi_0}\otimes\ket{\nu_2}$ as the lowest orbital--valley
+pair, with all other states higher in energy. The approximation requires
+coupling matrix elements to other orbitals and valleys to be small
+compared with their energy separations from this pair. It need not
+be small compared with the separation within the pair, which is
+zero before the valleys are coupled.
+
+Write $v_{12}(\mathbf r)=v_{\nu_1\nu_2}(\mathbf r)$.
+Projection of the local interface coupling onto the common orbital gives
+\begin{equation}
+ v_0=\bra{\phi_0}v_{12}\ket{\phi_0}
+     =\int d^3r\,\phi_0^*(\mathbf r)
+                    v_{12}(\mathbf r)\phi_0(\mathbf r).
+ \label{eq:device-valley-projected-coupling}
+\end{equation}
+Hermiticity supplies the conjugate matrix element in the reverse
+direction. Define
+$P_0=\ket{\phi_0}\bra{\phi_0}\otimes
+(\ket{\nu_1}\bra{\nu_1}+\ket{\nu_2}\bra{\nu_2})$.
+In the ordered valley basis $(\ket{\nu_1},\ket{\nu_2})$, with
+the common orbital suppressed, the restriction of
+$P_0h_{\mathrm{mv}}P_0$ is
+\begin{equation}
+ H_{\mathrm v}=\epsilon_0 I+
+       \begin{pmatrix}0&v_0\\v_0^*&0\end{pmatrix}.
+ \label{eq:device-valley-doublet}
+\end{equation}
+The characteristic equation is
+$(\epsilon-\epsilon_0)^2-|v_0|^2=0$.
+For $v_0\ne0$, write $v_0=|v_0|e^{i\theta_{\mathrm v}}$.
+The energies, normalized valley eigenstates, and their gap are
+\begin{equation}
+ \begin{aligned}
+ \epsilon_\pm&=\epsilon_0\pm|v_0|,\\
+ \ket{v_\pm}&=\frac{\ket{\nu_1}
+                 \pm e^{-i\theta_{\mathrm v}}\ket{\nu_2}}{\sqrt2},\\
+ \Delta_{\mathrm{val}}&=\epsilon_+-\epsilon_-=2|v_0|.
+ \end{aligned}
+ \label{eq:device-valley-eigenstates}
+\end{equation}
+Thus the interface selects two orthogonal valley superpositions
+and separates their energies. If $v_0=0$, the pair remains
+degenerate and $\theta_{\mathrm v}$ is undefined; any orthonormal
+pair within this valley space is then an eigenbasis.
+
+Within this projection, the lowest orbital--valley state is
+$\ket{\chi_0}\simeq\ket{\phi_0}\otimes\ket{v_-}$ for $v_0\ne0$.
+The common orbital and equivalent diagonal energies are assumptions
+of this two-valley limit. If interface coupling appreciably mixes
+other orbitals or valleys, the full block Hamiltonian in
+Eq.~\eqref{eq:device-coupled-valley-equations} must be used instead.
+Its lowest state can have different spatial envelopes in its
+valley components, so $\ket{\chi_0}$ need not factor into one
+orbital and one valley state.

@@ -1,0 +1,587 @@
+\FloatBarrier
+\section{Singlet--Triplet Qubit Control}
+\label{app:st-control}
+
+A singlet--triplet qubit stores its logical state in the singlet and
+unpolarized triplet of two electrons. Exchange separates their energies,
+while a Zeeman-energy difference mixes them. Two such qubits can also
+acquire a conditional phase through the Coulomb interaction between
+their state-dependent charge distributions. This appendix develops the
+one-qubit rotations and this capacitive two-qubit gate, including the
+residual interaction during nominally local operations.
+
+Logical-state preparation and spin-to-charge readout are described in
+Appendices~\ref{app:state-preparation} and~\ref{app:spin-readout}.
+
+\subsection{Single-qubit gates for singlet--triplet qubits}
+\label{sec:calibration-st-rotations}
+\label{sec:measurement-st-exchange}
+
+The logical Bloch sphere has two control mechanisms. A difference
+between the two local Zeeman splittings mixes $S$ and $T_0$ and
+therefore rotates about the logical $x$ axis. Exchange separates
+their energies and rotates about the logical $z$ axis. The gradient
+usually remains present when exchange is turned on, so an exchange
+pulse generally rotates about a tilted axis rather than exactly
+about $z$. We will measure the two terms, construct $x$ and $z$
+rotations from them, and then combine those rotations into an
+arbitrary one-qubit gate.
+
+\subsubsection{Calibrating the two terms in the logical Hamiltonian}
+
+Use $\ket{0_{\mathrm{ST}}}=\ket S$ and
+$\ket{1_{\mathrm{ST}}}=\ket{T_0}$, and define
+\[
+ Z_{\mathrm{ST}}=\ket S\!\bra S-\ket{T_0}\!\bra{T_0},
+ \qquad
+ X_{\mathrm{ST}}=\ket S\!\bra{T_0}+\ket{T_0}\!\bra S.
+\]
+At a fixed voltage setting, the interdot barrier determines the
+exchange splitting $J$, while the difference
+$\Delta E_Z=E_{Z,1}-E_{Z,2}$ between the local Zeeman splittings
+gives the transverse term. The logical Hamiltonian is
+\begin{equation}
+ H_{\mathrm{ST}}
+ =-\frac{J}{2}Z_{\mathrm{ST}}
+  +\frac{\Delta E_Z}{2}X_{\mathrm{ST}}.
+ \label{eq:calibration-st-axis}
+\end{equation}
+Holding this setting for a time $\tau$ makes the two coefficients
+constant. With $E=\sqrt{J^2+\Delta E_Z^2}$, the corresponding
+propagator is
+\begin{equation}
+ U_{\mathrm{ST}}(\tau)
+ =\cos\frac{E\tau}{2\hbar}I
+  -i\sin\frac{E\tau}{2\hbar}
+       \frac{\Delta E_ZX_{\mathrm{ST}}-JZ_{\mathrm{ST}}}{E}.
+ \label{eq:calibration-st-actual-pulse}
+\end{equation}
+Thus one voltage setting specifies the rotation axis
+$(\Delta E_Z,0,-J)$, and the hold time specifies the rotation
+angle $E\tau/\hbar$. Gate construction requires both coefficients
+to be measured.
+
+To measure $|\Delta E_Z|$, prepare the separated singlet using
+Section~\ref{sec:calibration-st-initialization}, set $J$ negligible,
+and hold for a variable time $\tau$. Equation~\eqref{eq:calibration-st-actual-pulse}
+then gives
+\begin{equation}
+ P_{T_0|S}(\tau)
+ =\sin^2\!\left(\frac{\Delta E_Z\tau}{2\hbar}\right).
+ \label{eq:calibration-st-gradient-oscillation}
+\end{equation}
+Use the pair readout of Section~\ref{sec:calibration-st-readout}
+after every hold. If the measured oscillation period is $T_\Delta$,
+then $|\Delta E_Z|=h/T_\Delta$.
+
+Measuring $J$ requires an input with both $S$ and $T_0$ components,
+because a pure singlet is an eigenstate of the exchange term. At
+$J\simeq0$, use the calibrated gradient to apply
+$R_x(\pi/2)$ to $\ket S$. Pulse to the voltage at which $J$ is to
+be measured, hold for a variable time $\tau$, return to the
+gradient setting, and apply $R_x(-\pi/2)$ before pair readout. If
+the hardware cannot reverse the gradient, the inverse is the
+equivalent positive rotation $R_x(3\pi/2)$. When the gradient is
+negligible during the exchange hold, the singlet-return probability
+is
+\begin{equation}
+ P_S(\tau)=\frac{1+\cos\theta_J}{2},
+ \qquad
+ \theta_J=\frac1\hbar\int J(t)\,dt.
+ \label{eq:measurement-st-exchange-interference}
+\end{equation}
+For a constant plateau, the oscillation period is $T_J=h/J$.
+Repeating the measurement at different compensated barrier voltages
+determines $J(V)$. If the gradient is appreciable during the hold,
+fit the measured return probability to
+\[
+ \left|\bra S R_x(-\pi/2)
+ U_{\mathrm{ST}}(\tau)R_x(\pi/2)\ket S\right|^2
+\]
+using the independently measured $\Delta E_Z$; the fitted parameter
+is then $J$. Propagators for the rising and falling edges can be
+included in the same product.
+
+\subsubsection{Constructing logical \texorpdfstring{$X$}{X} and
+\texorpdfstring{$Z$}{Z} rotations}
+
+With $J\simeq0$, Eq.~\eqref{eq:calibration-st-axis} reduces to
+$H_{\mathrm{ST}}=\Delta E_ZX_{\mathrm{ST}}/2$. A hold of duration
+$\tau_x$ therefore implements
+\begin{equation}
+ R_x(\theta_x)
+ =\exp\!\left(-\frac{i\theta_x}{2}X_{\mathrm{ST}}\right),
+ \qquad
+ \theta_x=\frac{\Delta E_Z\tau_x}{\hbar}.
+ \label{eq:calibration-st-x-rotation}
+\end{equation}
+This supplies the first logical rotation axis.
+
+For a target $R_z(-\theta_z)$, an exchange-dominated pulse suggests
+the duration $\tau_z=\hbar\theta_z/J$. The pulse is only a pure
+$z$ rotation when the gradient term can be neglected. Starting from
+$S$, the unwanted $S\rightarrow T_0$ probability during the actual
+tilted rotation is
+\begin{equation}
+ P_{T_0|S}(\tau_z)=
+ \frac{\Delta E_Z^2}{J^2+\Delta E_Z^2}
+ \sin^2\!\left(\frac{E\tau_z}{2\hbar}\right).
+ \label{eq:calibration-st-axis-leakage}
+\end{equation}
+This is a logical rotation error, not population outside the
+$\{S,T_0\}$ space. Requiring it to remain below $q$ for every
+duration gives the sufficient condition
+\[
+ J\geq |\Delta E_Z|\sqrt{q^{-1}-1}.
+\]
+Even when this bound is satisfied, the actual rotation angle is
+$E\tau_z/\hbar$, so the duration is refined by measuring the phase
+of a superposition rather than by using $J\tau_z/\hbar$ alone.
+
+If the accessible $J$ does not satisfy this condition, a longer
+pulse does not help: it increases the angle but leaves the axis
+tilted. Rotations about two accessible axes can instead synthesize
+the required $z$ rotation. For a concrete construction, take
+$\Delta E_Z=\Delta>0$ and suppose the controls can set $J=0$ or
+$J=\Delta$. The first setting gives $R_x(\theta)$ in time
+$\hbar\theta/\Delta$. The second setting has the axis
+$\mathbf n=(1,0,-1)/\sqrt2$ and gives
+$A=R_{\mathbf n}(\pi)$ in time
+$\pi\hbar/(\sqrt2\Delta)$. Since this $\pi$ rotation maps
+$X_{\mathrm{ST}}$ to $-Z_{\mathrm{ST}}$,
+\begin{equation}
+ A R_x(\theta)A=-R_z(-\theta).
+ \label{eq:calibration-st-composite-z}
+\end{equation}
+The minus sign is a global phase. The three voltage holds
+$J=\Delta$, $J=0$, and $J=\Delta$, with the durations just given,
+therefore implement the target $z$ rotation in this ideal model.
+For finite switching edges or voltage-dependent $\Delta E_Z$, use
+the measured Hamiltonian throughout the waveform and multiply the
+corresponding propagators before adjusting the three durations.
+
+\subsubsection{Constructing an arbitrary logical one-qubit gate}
+
+The calibrated $x$ and $z$ rotations complete the single-qubit
+control problem. Up to a global phase, any target unitary on the
+$\{S,T_0\}$ space can be written as
+\begin{equation}
+ U=R_z(\alpha)R_x(\beta)R_z(\gamma).
+ \label{eq:calibration-st-euler-decomposition}
+\end{equation}
+The rightmost operation acts first. Implement $R_x(\beta)$ at the
+$J\simeq0$ setting using Eq.~\eqref{eq:calibration-st-x-rotation},
+and implement each $z$ rotation either with a calibrated
+exchange-dominated hold or with the composite construction in
+Eq.~\eqref{eq:calibration-st-composite-z}. This sequence turns the
+measured functions $J(V)$ and $\Delta E_Z(V)$ into the voltage
+settings and durations of a specified logical gate.
+
+\subsection{Two-qubit gates for singlet--triplet qubits}
+\label{sec:calibration-controlled-phase}
+
+Suppose a pulse does not transfer population between the logical
+basis states $\ket{ab}=\ket a_A\ket b_B$. In the ordered basis
+$\{\ket{00},\ket{01},\ket{10},\ket{11}\}$, its unitary is
+diagonal. Direct factorization gives
+\begin{equation}
+ \begin{aligned}
+ &\operatorname{diag}\!\left(
+   e^{i\chi_{00}},e^{i\chi_{01}},
+   e^{i\chi_{10}},e^{i\chi_{11}}\right)\\
+ &\quad=e^{i\chi_{00}}
+ \left[
+  \operatorname{diag}\!\left(1,e^{i(\chi_{10}-\chi_{00})}\right)
+  \otimes
+  \operatorname{diag}\!\left(1,e^{i(\chi_{01}-\chi_{00})}\right)
+ \right]\\
+ &\qquad\times
+ \operatorname{diag}\!\left(
+   1,1,1,e^{i(\chi_{11}-\chi_{10}-\chi_{01}+\chi_{00})}
+  \right).
+ \end{aligned}
+ \label{eq:calibration-phase-factorization}
+\end{equation}
+Denote the phases in the first local factor, the second local
+factor and the final factor by
+\[
+ \alpha=\chi_{10}-\chi_{00},\qquad
+ \beta=\chi_{01}-\chi_{00},\qquad
+ \Theta=\chi_{11}-\chi_{10}-\chi_{01}+\chi_{00}.
+\]
+
+The factor $e^{i\chi_{00}}$ is a global phase. The square brackets
+are a tensor product of one gate acting on $A$ and one gate acting
+on $B$, so they contain only single-qubit operations. The final
+four-dimensional diagonal matrix cannot be
+written as a product of one-qubit phase gates unless
+$\Theta=0$ modulo $2\pi$. It is therefore the entangling part of
+the evolution; after removing the local factors, $\Theta=\pi$
+modulo $2\pi$ gives CZ.
+
+This decomposition also identifies what must be measured. If $B$
+is held in $\ket b$, the relative phase acquired by $A$ is
+$d_b=\chi_{1b}-\chi_{0b}$. Hence $d_0=\alpha$,
+$d_1=\alpha+\Theta$, and
+\[
+ \Theta=d_1-d_0.
+\]
+
+We now need an interaction that makes the logical energy of one
+qubit depend on the logical state of the other. Consider two
+singlet--triplet qubits $A$ and $B$, each containing two electrons,
+and keep tunneling between the two qubits negligible. They still
+interact electrostatically: moving charge within $A$ changes the
+Coulomb energy experienced by the electrons in $B$. Because a
+singlet can acquire double occupation while a triplet remains
+separated, this interaction can produce the required state-dependent
+energy and hence a conditional phase.
+
+\subsubsection{Projecting the electrostatic interaction onto the logical basis}
+\label{sec:calibration-capacitive-st-interaction}
+
+We begin with one double dot before restricting it to the logical
+states. Retain the charge states $S(1,1)$ and $S(0,2)$ and the
+separated triplet $T_0(1,1)$. Taking the energy of $S(1,1)$ as zero
+gives
+\begin{equation}
+ H_{\mathrm{dot}}=
+ \delta_c\ket{S(0,2)}\!\bra{S(0,2)}
+ +E_T\ket{T_0(1,1)}\!\bra{T_0(1,1)}
+ +\sqrt2t_c
+ \left[\ket{S(1,1)}\!\bra{S(0,2)}+\mathrm{h.c.}\right].
+ \label{eq:calibration-st-charge-hamiltonian}
+\end{equation}
+The tunnel term conserves spin. It connects the two singlets, while
+there is no low-energy $T_0(0,2)$ state because two electrons in the
+same lowest orbital must form a spin singlet.
+
+The two qubits have copies $H_A$ and $H_B$ of this Hamiltonian, with
+their own values of $\delta_c$, $t_c$ and $E_T$. They also interact
+through the ordinary Coulomb interaction. Let
+$\varphi_{A,i}(\mathbf r)$ and $\varphi_{B,j}(\mathbf r)$ be the
+localized orbitals on their respective dots, and let
+$\hat n_{A,i}$ and $\hat n_{B,j}$ be the corresponding occupation
+operators. Neglecting tunneling and orbital overlap between the two
+qubits gives the density--density form
+\begin{equation}
+ H_C^{AB}=\sum_{i,j=1}^{2}W_{ij}\hat n_{A,i}\hat n_{B,j},
+ \qquad
+ W_{ij}=\int d^3r\,d^3r'\,
+ |\varphi_{A,i}(\mathbf r)|^2
+ V_C(\mathbf r,\mathbf r')
+ |\varphi_{B,j}(\mathbf r')|^2.
+ \label{eq:calibration-density-density-hamiltonian}
+\end{equation}
+Here $V_C$ is the electron--electron electrostatic interaction
+energy, and $W_{ij}$ is the Coulomb energy of one electron in dot
+$i$ of $A$ and one in dot $j$ of $B$. The Hamiltonian to be
+projected is
+\begin{equation}
+ H=H_A+H_B+H_C^{AB}.
+ \label{eq:calibration-two-st-full-hamiltonian}
+\end{equation}
+
+We next choose the logical basis of one double dot. Diagonalizing the singlet block of
+Eq.~\eqref{eq:calibration-st-charge-hamiltonian} gives its lower
+eigenstate
+\begin{equation}
+ \begin{aligned}
+ \ket0=\ket{\widetilde S}
+ &=\sqrt{1-p}\ket{S(1,1)}
+   -\sqrt p\ket{S(0,2)},\\
+ p&=\frac12\left(1-\frac{\delta_c}
+                 {\sqrt{\delta_c^2+8t_c^2}}\right),
+ \end{aligned}
+ \qquad
+ \ket1=\ket{\widetilde T_0}
+ \simeq\ket{T_0(1,1)}.
+ \label{eq:calibration-st-logical-charge-basis}
+\end{equation}
+The singlet has mean dot occupations $(1-p,1+p)$, whereas the
+triplet has $(1,1)$. Thus the logical states differ mainly in spin
+at the separated setting $p\simeq0$, but acquire different charge
+distributions when tunneling makes $p$ nonzero. This difference
+comes from spin-conserving tunneling together with the Pauli
+restriction, not from the electrostatic interaction itself.
+
+Within the logical space of one double dot, the two occupation
+operators are
+\begin{equation}
+ \begin{aligned}
+ \hat n_1
+ &=(1-p)\ket0\!\bra0+\ket1\!\bra1
+  =\left(1-\frac p2\right)I-\frac p2Z,\\
+ \hat n_2
+ &=(1+p)\ket0\!\bra0+\ket1\!\bra1
+  =\left(1+\frac p2\right)I+\frac p2Z,
+ \end{aligned}
+ \label{eq:calibration-projected-capacitive-hamiltonian}
+\end{equation}
+Here $Z=\ket0\!\bra0-\ket1\!\bra1$. For qubits $A$ and $B$, use
+the corresponding expressions with $(p,Z)$ replaced by
+$(p_A,Z_A)$ and $(p_B,Z_B)$.
+
+Before collecting the coefficients, separate a conditional energy
+shift from those that act on only one logical qubit. Let
+$E_{00},E_{01},E_{10},E_{11}$ denote the diagonal energies of the
+projected Coulomb interaction in the ordered logical basis
+$(\ket{00},\ket{01},\ket{10},\ket{11})$, where $\ket0$ is the
+charge-hybridized singlet and $\ket1$ the separated triplet.
+Define $P_{S,q}=\ket{0_q}\bra{0_q}=(I+Z_q)/2$ for $q=A,B$.
+Directly matching the four diagonal entries gives
+\begin{equation}
+ \begin{aligned}
+ \operatorname{diag}(E_{00},E_{01},E_{10},E_{11})
+   ={}&E_{11}I+(E_{01}-E_{11})P_{S,A}\\
+     &+(E_{10}-E_{11})P_{S,B}
+       +\kappa P_{S,A}P_{S,B},\\
+ \kappa={}&E_{00}-E_{01}-E_{10}+E_{11}.
+ \end{aligned}
+ \label{eq:st-interaction-decomposition}
+\end{equation}
+The first term shifts all states equally; the next two shift the
+singlet energy in only one qubit. They therefore contribute global
+and local phases. Expanding
+$P_{S,A}P_{S,B}=(I+Z_A+Z_B+Z_AZ_B)/4$ shows that the conditional
+energy supplies a $Z_AZ_B$ coefficient $\kappa/4$ as well as
+additional global and local shifts.
+
+Substituting the projected occupation operators into
+Eqs.~\eqref{eq:calibration-density-density-hamiltonian} and
+\eqref{eq:calibration-two-st-full-hamiltonian}, and collecting the
+$I$, $Z_A$, $Z_B$ and $Z_AZ_B$ terms, gives
+\begin{equation}
+ \begin{aligned}
+ H_{\mathrm{eff}}
+ &=C I+\frac{h_A}{2}Z_A+\frac{h_B}{2}Z_B
+   +\frac{\kappa}{4}Z_AZ_B,\\
+ \kappa
+ &=p_Ap_B(W_{11}-W_{12}-W_{21}+W_{22}).
+ \end{aligned}
+ \label{eq:calibration-st-capacitive-logical-hamiltonian}
+\end{equation}
+Here $C$ contains all state-independent energies, while $h_A$ and
+$h_B$ contain the isolated-qubit splittings and their Coulomb
+shifts. The result treats the interqubit Coulomb interaction as too
+weak to substantially change the separate-qubit charge
+eigenstates~\cite{Shulman2012}. The Hamiltonian remains diagonal while
+magnetic-gradient or other terms that mix $S$ and $T_0$ have
+negligible or refocused net action during the phase pulse; restoring
+such terms would add $X_A$ or $X_B$ components to
+$H_{\mathrm{eff}}$.
+
+The voltage pulse controls $p_Ap_B$ and therefore $\kappa(t)$.
+Start at the separated setting, where $p_A\simeq p_B\simeq0$ and
+$\kappa\simeq0$. Ramp towards the two singlet charge
+anticrossings, hold with $p_Ap_B>0$, and reverse the ramps. If each
+branch follows its instantaneous charge eigenstate and returns to
+the same logical basis state, Eq.~\eqref{eq:calibration-st-capacitive-logical-hamiltonian}
+gives the conditional phase
+\begin{equation}
+ \Theta=-\frac1\hbar\int\kappa(t)\,dt .
+ \label{eq:calibration-conditional-phase}
+\end{equation}
+A CZ gate requires $\Theta=\pi$ modulo $2\pi$. For a constant hold,
+$|\kappa|\tau/\hbar=\pi$ is an initial duration estimate; the ramps
+also contribute phase.
+
+\subsubsection{Measuring the conditional phase and obtaining CZ}
+\label{sec:calibration-conditional-phase-measurement}
+
+The pulse of the preceding subsection leaves each logical basis
+state in place but gives it a phase $\chi_{ab}$. A basis-state
+population measurement cannot reveal these phases. A superposition
+can: fix $B$ in $\ket b$ and prepare $A$ in
+$\ket+=(\ket0+\ket1)/\sqrt2$. The full two-qubit state then evolves as
+\begin{equation}
+ \begin{aligned}
+ \ket{\Psi_b^{\mathrm{in}}}
+ &=\ket{+}_A\ket b_B,\\
+ \ket{\Psi_b^{\mathrm{out}}}
+ &=\frac{e^{i\chi_{0b}}}{\sqrt2}
+   \bigl(\ket0_A+e^{id_b}\ket1_A\bigr)\ket b_B,
+ \qquad d_b=\chi_{1b}-\chi_{0b}.
+ \end{aligned}
+ \label{eq:calibration-conditional-ramsey-state}
+\end{equation}
+Because the pulse is diagonal, $B$ remains in $\ket b$. The relative
+phase between the $\ket0_A\ket b_B$ and $\ket1_A\ket b_B$ amplitudes
+is $d_b$. The probabilities of the two logical-basis outcomes on $A$
+remain $1/2$, but the probability of the $+1$ outcome when measuring
+$X_A$ is $(1+\cos d_b)/2$. Fixing $B$ first in $\ket0$ and then
+in $\ket1$ gives the
+relative phases $d_0$ and $d_1$. Their difference is exactly
+the phase that remains after the single-qubit factors in
+Eq.~\eqref{eq:calibration-phase-factorization} are removed:
+\begin{equation}
+ \Theta=d_1-d_0
+ =\chi_{11}-\chi_{10}-\chi_{01}+\chi_{00}.
+ \label{eq:calibration-conditional-ramsey}
+\end{equation}
+In particular, a phase common to both choices of $b$ is a local
+phase on $A$ and does not contribute to $\Theta$.
+
+To determine each $d_b$, measure the interference in two complementary
+bases. The output in Eq.~\eqref{eq:calibration-conditional-ramsey-state}
+has $\langle X_A\rangle_b=\cos d_b$ and
+$\langle Y_A\rangle_b=\sin d_b$. Logical-basis readout measures
+$Z_A$; preceding it with $R_y(-\pi/2)$ gives the $X_A$ component,
+and preceding it with $R_x(\pi/2)$ gives the $Y_A$ component.
+Consequently,
+\[
+ d_b=\operatorname{atan2}\!\left(
+   \langle Y_A\rangle_b,\langle X_A\rangle_b\right)
+ \quad (\bmod\ 2\pi).
+\]
+Repeat this measurement with $B$ in $\ket0$ and $\ket1$ while
+varying the complete pulse duration. Following the phase continuously
+resolves its $2\pi$ branches. The duration is chosen where the
+measured difference $\Theta$ reaches $\pi$ modulo $2\pi$; this
+includes the phase accumulated during the ramps as well as the hold.
+
+At that duration, $d_0=\alpha$ gives the phase of the local factor
+on $A$. To find the local factor on $B$, instead prepare $B$ in
+$\ket+$ and fix $A$ in $\ket0$. Its measured relative phase is
+$\beta=\chi_{01}-\chi_{00}$. With the convention
+$R_z(\phi)=e^{-i\phi Z/2}$, applying
+$R_{z,A}(-\alpha)R_{z,B}(-\beta)$ after the interaction cancels
+these two factors. The remaining gate is CZ, up to a global phase,
+when $\Theta=\pi$ modulo $2\pi$. This inference assumes the pulse
+is diagonal in the logical basis, so basis-state population transfer
+must also be checked.
+
+\subsubsection{Canceling local phases with an echoed entangling pulse}
+\label{sec:calibration-echo-control}
+
+A controlled-phase pulse generally rotates each qubit separately as
+well as entangling them.
+Section~\ref{sec:calibration-conditional-phase-measurement}
+removes the measured local phases with subsequent rotations.
+If those phases also have nearly constant but unknown offsets during
+each trial, a fixed correction cannot remove them in every trial.
+We instead reverse their accumulation halfway through the interaction,
+without reversing the desired two-qubit term.
+
+For an idle spin, the echo sequence of
+Section~\ref{sec:measurement-ramsey-echo} cancels a different error.
+A central $\pi$ pulse reverses the sign of $Z$, so a nearly constant
+unwanted Zeeman offset contributes opposite phases in the two
+halves. The cancellation also removes a desired phase generated
+by that same $Z$ term. An idle-memory echo therefore cannot simply
+be inserted into a $z$ gate without recalculating the intended
+operation.
+
+For a two-qubit diagonal interaction, echo can instead remove
+local phases while retaining entanglement. Suppose the Hamiltonian
+during the interaction is
+\[
+ H=\frac{a}{2}Z_A+\frac{b}{2}Z_B+\frac{\kappa}{4}Z_AZ_B,
+\]
+where $a,b,\kappa$ are constant energies during the sequence.
+Simultaneous $\pi$ rotations about $x$ act, up to global phase,
+as $P=X_AX_B$. Conjugation changes $Z_A$ and $Z_B$ to their
+negatives but leaves $Z_AZ_B$ unchanged. Thus
+\begin{align}
+ PHP&=-\frac{a}{2}Z_A-\frac{b}{2}Z_B
+                      +\frac{\kappa}{4}Z_AZ_B,\notag\\
+ U_{\mathrm{echo}}
+ &=P e^{-iH\tau/(2\hbar)}P e^{-iH\tau/(2\hbar)}
+   =e^{-i\kappa\tau Z_AZ_B/(4\hbar)}.
+ \label{eq:calibration-echoed-entangler}
+\end{align}
+The last equality follows because all three $Z$ products commute.
+The two $\pi$ rotations on each qubit occur at the middle and end,
+so the logical basis is restored. Local quasistatic fluctuations in
+$a,b$ cancel in the same way, whereas a fluctuation in $\kappa$
+does not. This construction assumes that the $\pi$ pulses are
+short compared with the interaction and error time scales;
+their actual durations and errors enter the subsequent
+conditional-phase calibration.
+
+To use the sequence, split the intended interaction time into two
+equal halves, apply simultaneous $x$ flips at the middle and end,
+and choose the total time from the measured $\kappa$.
+The retained conditional phase is still $-\kappa\tau/\hbar$.
+The conditional-phase measurement then tests the complete sequence,
+including its finite-duration flips. Echo has canceled the local
+terms; it has not corrected an error in the coupling $\kappa$.
+
+\subsubsection{Parallel single-qubit gates in the presence of capacitive coupling}
+\label{sec:calibration-parallel-st-gates}
+
+The same electrostatic interaction matters when the intended operation
+is two separate one-qubit gates. An exchange pulse on one
+singlet--triplet qubit changes the charge admixture of its singlet
+and hence its logical energy splitting. If both qubits receive such
+pulses at once, both singlets can have different charge distributions
+from their respective triplets. The Coulomb energy then depends on
+the logical states of \emph{both} qubits. Applying the voltage pulses
+simultaneously does not, by itself, make their joint operation a
+tensor product of the two separately calibrated gates.
+
+For exchange-dominated pulses whose charge branches return to their
+logical states and whose $S$--$T_0$ mixing is negligible throughout,
+the instantaneous logical Hamiltonian is the diagonal Hamiltonian
+of Eq.~\eqref{eq:calibration-st-capacitive-logical-hamiltonian}.
+Its coefficients can vary throughout both pulse edges and holds.
+All its terms commute at different times, so, up to a global phase,
+\begin{equation}
+ \begin{aligned}
+ U_{\parallel}
+ &=R_{z,A}(\phi_A)R_{z,B}(\phi_B)
+   \exp\!\left(-\frac{i\Phi_{AB}}4 Z_AZ_B\right),\\
+ \phi_q&=\frac1\hbar\int h_q(t)\,dt,\qquad
+ \Phi_{AB}=\frac1\hbar\int\kappa(t)\,dt=-\Theta.
+ \end{aligned}
+ \label{eq:calibration-parallel-st-evolution}
+\end{equation}
+The $h_q$ include the Coulomb-induced local shifts, so even the
+one-qubit angles must be calibrated for the simultaneous waveform.
+The last factor is an additional two-qubit operation. It has no
+entangling part when $\Phi_{AB}=0$ modulo $2\pi$; otherwise local
+$z$ corrections alone cannot turn $U_{\parallel}$ into the desired
+product of one-qubit gates. This statement concerns the complete
+pulse area, not just the value of $\kappa$ at the hold point. For
+gates with a finite error allowance, the phase need only be close
+enough to a multiple of $2\pi$.
+
+There is a control tradeoff, but no rule that useful exchange
+requires a large $\kappa$. In the charge model of
+Eq.~\eqref{eq:calibration-st-charge-hamiltonian}, take
+$\delta_c\gg t_c>0$ and neglect any other contribution to the
+singlet--triplet splitting. The lower singlet energy shift and
+double-occupation probability then give
+\begin{equation}
+ J_{\mathrm{tun}}\simeq\frac{2t_c^2}{\delta_c},\qquad
+ p\simeq\frac{2t_c^2}{\delta_c^2}
+   =\frac{J_{\mathrm{tun}}}{\delta_c}.
+ \label{eq:calibration-parallel-st-tradeoff}
+\end{equation}
+At fixed $t_c$, moving farther from the charge anticrossing
+reduces both $p$ and the exchange generated by virtual tunneling.
+If the barrier and detuning can be changed together, the same
+$J_{\mathrm{tun}}$ can instead be obtained at a larger $\delta_c$
+and a smaller $p$, until the accessible tunnel coupling or other
+device constraints limit that choice. Since this model gives
+$\kappa=p_Ap_B(W_{11}-W_{12}-W_{21}+W_{22})$, specified values of
+$J_A$ and $J_B$ alone do not fix the unwanted conditional phase.
+Parking $B$ with $p_B\simeq0$ suppresses $\kappa$ while $A$ is
+pulsed, but also reduces the tunneling-generated exchange of $B$.
+
+For a proposed pair of simultaneous $z$ gates, the relevant question
+is therefore how much $\Theta$ their actual joint waveform adds.
+The conditional-phase comparison of
+Section~\ref{sec:calibration-conditional-phase-measurement} can be
+applied to that waveform; one can then choose operating points with
+smaller charge admixture, compensate the two-qubit evolution, or
+schedule the gates separately if the extra phase is too large.
+When transverse $X_A$ or $X_B$ terms act appreciably during a pulse,
+they do not commute with $Z_AZ_B$, and the simple phase integral in
+Eq.~\eqref{eq:calibration-parallel-st-evolution} must be replaced by
+the full two-qubit evolution. Experiments on GaAs
+singlet--triplet arrays have measured state-dependent capacitive
+shifts during simultaneous operation and have also demonstrated
+parallel exchange oscillations~\cite{Yun2023,Fedele2021}. Their
+coupling strengths are device dependent and do not set a value for
+a silicon array.

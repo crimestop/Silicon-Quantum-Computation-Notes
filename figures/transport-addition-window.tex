@@ -1,0 +1,77 @@
+% A rigid gate sweep through one isolated charge transition.
+% All coordinates are schematic; the three settings are consistent
+ % with the zero-temperature off--on--off current in the lower panel.
+\begingroup
+\definecolor{transportA}{HTML}{0072B2}
+\definecolor{transportB}{HTML}{D55E00}
+\definecolor{transportC}{HTML}{009E73}
+% Logistic step, written using only nonpositive exponential arguments.
+\pgfmathdeclarefunction{transportStep}{1}{%
+ \pgfmathparse{0.5*(1+sign(#1)*(1-exp(-abs(#1)))/(1+exp(-abs(#1))))}%
+}
+\begin{tikzpicture}[
+ x=1mm,y=1mm,>=stealth,line cap=round,line join=round,
+ every node/.style={font=\small,inner sep=0pt}
+]
+ \path[use as bounding box] (0,8) rectangle (150,123);
+
+ \begin{scope}
+  \clip (17,56) rectangle (133,116);
+  \fill[white] (17,56) rectangle (133,116);
+  % The five thresholds have the same color at a given gate setting.
+  \foreach \thresholdX/\thresholdY in {30/63,53/68,76/86,99/104,122/109}{
+   \fill[transportA] (\thresholdX,{\thresholdY+6}) circle[radius=0.65mm];
+   \fill[transportB] (\thresholdX,\thresholdY) circle[radius=0.65mm];
+   \fill[transportC] (\thresholdX,{\thresholdY-6}) circle[radius=0.65mm];
+  }
+  % Real translucent masks are drawn AFTER the colored points.
+  % The unmasked white strip is the window 83 < mu < 89.
+  \fill[black!15,fill opacity=0.45,draw=none]
+       (17,56) rectangle (133,83);
+  \fill[black!15,fill opacity=0.45,draw=none]
+       (17,89) rectangle (133,116);
+ \end{scope}
+
+ % Arrows between the target thresholds indicate increasing gate voltage.
+ \draw[->,black!55,line width=0.45pt] (76,90.9)--(76,87.1);
+ \draw[->,black!55,line width=0.45pt] (76,84.9)--(76,81.1);
+
+ % No horizontal boundary strokes: shading alone delimits the window.
+ \draw[->,line width=0.45pt] (17,56)--(136,56);
+ \draw[->,line width=0.45pt] (17,56)--(17,119);
+ \node[anchor=west] at (0,116) {(a)};
+ \node[anchor=east] at (13,119) {$\mu_n$};
+ \node[anchor=west] at (140,56) {$n$};
+ \node[anchor=west] at (136,89) {$\mu_{\mathrm S}$};
+ \node[anchor=west] at (136,83) {$\mu_{\mathrm D}$};
+ \foreach \tickX/\tickLabel in {30/{N-2},53/{N-1},76/{N},99/{N+1},122/{N+2}}{
+  \draw[line width=0.4pt] (\tickX,56)--(\tickX,54.8);
+  \node at (\tickX,51.5) {$\tickLabel$};
+ }
+
+ % The plotted linear response is mu_N=86-3*(x-75)/17.
+ % Thus mu_N crosses source 89 at x=58 and drain 83 at x=92.
+ % The snapshots x=41,75,109 correspond to energy shifts +6,0,-6.
+ \node[anchor=west] at (0,40) {(b)};
+ \draw[->,black!70,line width=0.45pt] (17,13)--(136,13);
+ \draw[->,black!70,line width=0.45pt] (17,13)--(17,42);
+ \node[anchor=east] at (13,42) {$I$};
+ \node[anchor=east] at (13,13) {$0$};
+ \node[anchor=west] at (140,13) {$V_g$};
+ \draw[black!85,line width=0.8pt]
+      (21,13)--(58,13)--(58,35)--(92,35)--(92,13)--(131,13);
+ % Finite-T current is the Fermi-function difference f_S-f_D.
+ % In the rescaled gate coordinate, the thermal width is 1.7:
+ % f_S-f_D = logistic((x-58)/1.7)-logistic((x-92)/1.7).
+ % This is k_B T_e/(e V_b)=1.7/34=0.05, with the same unnormalized
+ % current scale and tunnel rates as the zero-temperature trace.
+ \draw[black!85,line width=0.85pt,dash pattern=on 2.3pt off 1.7pt]
+      plot[domain=21:131,samples=221]
+      (\x,{13+22*(transportStep((\x-58)/1.7)-transportStep((\x-92)/1.7))});
+ \draw[black!85,line width=0.8pt] (105,39)--(113,39);
+ \node[anchor=west] at (116,39) {$T_e=0$};
+ \draw[black!85,line width=0.85pt,dash pattern=on 2.3pt off 1.7pt]
+      (105,33)--(113,33);
+ \node[anchor=west] at (116,33) {$T_e>0$};
+\end{tikzpicture}
+\endgroup

@@ -1,0 +1,144 @@
+\section*{Preface}
+\phantomsection
+\addcontentsline{toc}{section}{Preface}
+\label{sec:preface}
+
+These notes ask how electrons confined in a solid can store, manipulate,
+and reveal quantum information. We begin with the physical system that
+holds the electrons, determine which of their states can be used, and
+then develop the interactions and measurements needed to operate on
+those states. The main text gives the results and conditions needed for
+this explanation; the appendices develop their derivations and the
+more specialized calculations.
+
+\begingroup
+\renewcommand{\theequation}{Pref.\arabic{equation}}
+
+\paragraph{Spin and Pauli operators.}
+Spin states are labelled by the total-spin quantum number $S$ and
+the magnetic quantum number $m$. For a physical electron spin, we
+use the ordered basis $(\ket{\uparrow},\ket{\downarrow})$ and
+Pauli operators $\sigma_x,\sigma_y,\sigma_z$, with
+$\sigma_z\ket{\uparrow}=\ket{\uparrow}$ and
+$\sigma_z\ket{\downarrow}=-\ket{\downarrow}$.
+The dimensionless spin operator is
+$\mathbf s=\boldsymbol\sigma/2$; its angular momentum is
+$\hbar\mathbf s$. Spin and Pauli operators are written without hats.
+
+For a logical qubit, the Pauli operators $X,Y,Z$ refer to the ordered
+basis $(\ket0,\ket1)$:
+\begin{equation}
+ X=\begin{pmatrix}0&1\\1&0\end{pmatrix},\qquad
+ Y=\begin{pmatrix}0&-i\\i&0\end{pmatrix},\qquad
+ Z=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+ \label{eq:elementary-logical-gate-matrices}
+\end{equation}
+The physical-spin operators $\sigma_x,\sigma_y,\sigma_z$ have these
+same matrices in the physical-spin basis above. Their relation to
+$X,Y,Z$ depends on the encoding, whose logical states are defined
+in the main text. Subscripts identify the spin or logical qubit
+on which an operator acts; identity operators on other factors
+are implicit. Two-qubit matrices use the basis order
+$(\ket{00},\ket{01},\ket{10},\ket{11})$ unless stated otherwise.
+
+\paragraph{Logical rotations.}
+We use $R_k(\vartheta)=\exp(-i\vartheta K/2)$, with
+$(k,K)=(x,X),(y,Y),(z,Z)$:
+\begin{equation}
+ \begin{aligned}
+ R_x(\vartheta)&=
+ \begin{pmatrix}
+ \cos(\vartheta/2)&-i\sin(\vartheta/2)\\
+ -i\sin(\vartheta/2)&\cos(\vartheta/2)
+ \end{pmatrix},\\[3pt]
+ R_y(\vartheta)&=
+ \begin{pmatrix}
+ \cos(\vartheta/2)&-\sin(\vartheta/2)\\
+ \sin(\vartheta/2)&\cos(\vartheta/2)
+ \end{pmatrix},\\[3pt]
+ R_z(\vartheta)&=
+ \begin{pmatrix}e^{-i\vartheta/2}&0\\0&e^{i\vartheta/2}\end{pmatrix}.
+ \end{aligned}
+ \label{eq:logical-rotation-matrices}
+\end{equation}
+Encoding subscripts identify the logical states on which these
+operators act. Products act from right to left.
+
+\paragraph{Evolution and phases.}
+For a Hamiltonian $H(t)$ applied over an interval $\tau$, the
+evolution operator is
+\begin{equation}
+ U(\tau)=\mathcal T\exp\!\left[-\frac{i}{\hbar}
+                    \int_0^\tau H(t)\,dt\right].
+ \label{eq:gate-time-evolution}
+\end{equation}
+The time-ordering operator $\mathcal T$ places later-time operators
+to the left.
+When specifying gates on an isolated computational space,
+an overall phase does not change their physical action. A scalar
+term $c(t)I$ in the Hamiltonian contributes only the phase
+$e^{-i\int_0^\tau c(t)\,dt/\hbar}$ and may therefore be omitted.
+Relative phases between computational basis states are part of
+the gate and must be retained.
+
+\paragraph{Pauli and Hadamard gates.}
+The operators $X,Y,Z$ also define the Pauli gates. The Hadamard gate is
+\begin{equation}
+ H_{\mathrm H}=\frac{1}{\sqrt2}
+                  \begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+ \label{eq:hadamard-gate-matrix}
+\end{equation}
+Their decompositions into rotations are
+\begin{equation}
+ X=iR_x(\pi),\qquad Y=iR_y(\pi),\qquad Z=iR_z(\pi),\qquad
+ H_{\mathrm H}=iR_y(\pi/2)R_z(\pi).
+ \label{eq:elementary-single-qubit-gates}
+\end{equation}
+More generally, the Euler product
+$R_z(\vartheta_1)R_y(\vartheta_2)R_z(\vartheta_3)$ gives an
+arbitrary single-qubit unitary up to global phase.
+
+\paragraph{SWAP and \texorpdfstring{$\sqrt{\mathrm{SWAP}}$}{square-root SWAP}.}
+SWAP exchanges the two logical states,
+$\mathrm{SWAP}\ket{ab}=\ket{ba}$ for $a,b\in\{0,1\}$.
+We use the following choice of its square root:
+\begin{equation}
+ \mathrm{SWAP}=\begin{pmatrix}
+  1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1
+ \end{pmatrix},\qquad
+ \sqrt{\mathrm{SWAP}}=\frac12\begin{pmatrix}
+  2&0&0&0\\0&1+i&1-i&0\\0&1-i&1+i&0\\0&0&0&2
+ \end{pmatrix}.
+ \label{eq:exchange-gate-matrices}
+\end{equation}
+
+\paragraph{CZ and CNOT gates.}
+CZ adds a minus sign to $\ket{11}$. CNOT flips the target qubit
+when the control is $\ket1$. With the first qubit as control,
+\begin{equation}
+ \mathrm{CZ}=\begin{pmatrix}
+  1&0&0&0\\0&1&0&0\\0&0&1&0\\0&0&0&-1
+ \end{pmatrix},\qquad
+ \mathrm{CNOT}_{1\to2}=\begin{pmatrix}
+  1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0
+ \end{pmatrix}.
+ \label{eq:controlled-logical-gate-matrices}
+\end{equation}
+For logical qubits $A,B$, the same CNOT is
+\begin{equation}
+ \mathrm{CNOT}_{A\to B}
+   =(\ket0\bra0)_A\otimes I_B
+    +(\ket1\bra1)_A\otimes X_B.
+ \label{eq:exchange-only-cnot-definition}
+\end{equation}
+It maps $\ket{ab}$ to $\ket{a,b\mathbin\oplus a}$, where
+$\oplus$ denotes addition modulo two. Hadamard gates on the target
+convert CZ into CNOT:
+\begin{equation}
+ \mathrm{CNOT}_{A\to B}
+   =(I_A\otimes H_{\mathrm H,B})\,\mathrm{CZ}_{AB}\,
+     (I_A\otimes H_{\mathrm H,B}).
+ \label{eq:exchange-cnot-construction}
+\end{equation}
+
+\endgroup

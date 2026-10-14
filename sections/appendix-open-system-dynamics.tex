@@ -1,0 +1,239 @@
+\FloatBarrier
+\section{From Tunneling Amplitudes to Rate Equations}
+\label{app:open-system-dynamics}
+
+Section~\ref{sec:initialization-readout} uses reservoir entry and escape
+rates to describe loading and spin-selective readout. This appendix
+derives those rates from tunneling amplitudes and states the conditions
+under which occupation probabilities obey a master equation.
+
+\subsection{From tunneling amplitudes to a master equation}
+\label{sec:amplitudes-to-master-equation}
+
+An electron entering from the source and subsequently leaving
+into the drain produces the charge cycle
+\[
+ \underbrace{\ket{N-1,0}}_{\ket A}
+ \xrightarrow{\text{source}\to\text{dot}}
+ \underbrace{\ket{N,0}}_{\ket B}
+ \xrightarrow{\text{dot}\to\text{drain}}\ket A,
+\]
+where $0$ denotes a ground state. Quantum mechanics assigns
+amplitudes to these tunneling processes. A rate equation instead
+evolves the probabilities of occupying $A$ and $B$, treating entry
+and exit as random events. We establish the connection between
+these descriptions below.
+
+\paragraph{Quantum amplitudes and the Green function.}
+During an interval with fixed electrode voltages, write the
+Hamiltonian of the dot and its reservoirs as
+\begin{equation}
+ H_{\mathrm{tot}}=H_{\mathrm{dot}}+H_{\mathrm R}+H_{\mathrm T},
+ \qquad U(\tau)=e^{-iH_{\mathrm{tot}}\tau/\hbar},
+ \label{eq:rates-total-propagator}
+\end{equation}
+where $H_{\mathrm T}$ transfers electrons between the dot and
+the reservoirs. Let $\ket i,\ket j$ be dot states and
+$\ket r,\ket s$ be many-electron states of the reservoirs;
+$\ket{i,r}=\ket i\otimes\ket r$. The transition amplitude is
+\begin{equation}
+ \mathcal A_{js,ir}(\tau)=\bra{j,s}U(\tau)\ket{i,r}.
+ \label{eq:rates-quantum-amplitude}
+\end{equation}
+It is a matrix element of the quantum propagator. With the
+following normalization, the retarded Green operator for the
+full Schr\"odinger equation is
+\begin{equation}
+ G^R(\tau)=-\frac{i}{\hbar}\theta(\tau)U(\tau),
+ \qquad
+ (i\hbar\partial_\tau-H_{\mathrm{tot}})G^R(\tau)
+       =\delta(\tau)\mathbb I,
+ \label{eq:rates-quantum-green-function}
+\end{equation}
+where $\theta$ is the step function. Thus the amplitude is related
+to a matrix element of $G^R$, rather than being a probability.
+
+\paragraph{Probabilities and the addition of channels.}
+Prepare the dot in $\ket i$, initially uncorrelated with reservoirs
+whose density matrix is
+$\rho_{\mathrm R}=\sum_r w_r\ket r\bra r$, with
+$w_r\geq0$ and $\sum_r w_r=1$. If only the final dot state is
+measured, the conditional probability is
+\begin{equation}
+ P_{j\leftarrow i}(\tau)
+   =\sum_{r,s}w_r\left|\mathcal A_{js,ir}(\tau)\right|^2.
+ \label{eq:rates-conditional-probability}
+\end{equation}
+The sum over $r$ averages the initial reservoir mixture; the sum
+over $s$ includes its unobserved, orthogonal final states.
+
+For the two entry processes in
+Appendix~\ref{app:dot-spectroscopy}, the final dot states
+$\ket{N,0}$ and $\ket{N,1}$ are orthogonal. Suppressing the reservoir
+labels for a moment, their contributions satisfy
+\begin{equation}
+ \left\|a_0\ket{N,0}+a_1\ket{N,1}\right\|^2
+       =|a_0|^2+|a_1|^2.
+ \label{eq:rates-orthogonal-channels}
+\end{equation}
+The same addition holds after summing over reservoir states.
+Consequently, the probability of entry into either state is the
+sum of the two entry probabilities. This follows from quantum
+orthogonality, even if the final superposition is coherent.
+By contrast, two coherent contributions $a^{(1)}$ and $a^{(2)}$
+to the \emph{same full final state} give
+$|a^{(1)}+a^{(2)}|^2$, including an interference term.
+
+\paragraph{From a transition probability to a rate.}
+To describe repeated tunneling by rates, assume weak coupling
+to large reservoirs whose distributions remain approximately
+fixed. Let $\tau_{\mathrm R}$ be the decay time of their correlation
+functions. We consider intervals long enough for reservoir memory
+to decay but short enough that a tunneling event is unlikely:
+\begin{equation}
+ \tau_{\mathrm R}\ll\Delta t\ll\Gamma_{\max}^{-1},
+ \qquad
+ P_{j\leftarrow i}(\Delta t)
+       \simeq\Gamma_{j\leftarrow i}\Delta t\quad(j\ne i),
+ \label{eq:rates-coarse-grained-definition}
+\end{equation}
+where $\Gamma_{\max}$ is the largest total escape rate from a
+retained dot state. This defines a conditional rate: the dot is
+already in $i$, and $\Gamma_{j\leftarrow i}$ gives its probability
+per unit time of making the transition to $j$. Its unit is
+$\mathrm{s}^{-1}$, not energy or velocity.
+
+The linear dependence arises in weak-coupling perturbation theory
+after summing over the reservoir continuum. To see the connection,
+write $H_{\mathrm{dot}}\ket i=E_i\ket i$,
+$H_{\mathrm R}\ket r=\epsilon_r\ket r$, and define
+$T_{js,ir}=\bra{j,s}H_{\mathrm T}\ket{i,r}$ and
+$\Delta E_{js,ir}=E_j+\epsilon_s-E_i-\epsilon_r$.
+First-order time-dependent perturbation theory gives the
+interaction-picture amplitude and its probability:
+\begin{equation}
+ \begin{aligned}
+ \mathcal A^{(1)}_{js,ir}(\tau)
+   &=-\frac{iT_{js,ir}}{\hbar}
+       \int_0^\tau e^{i\Delta E_{js,ir}u/\hbar}\,du,\\
+ |\mathcal A^{(1)}_{js,ir}(\tau)|^2
+   &=\frac{4|T_{js,ir}|^2
+       \sin^2(\Delta E_{js,ir}\tau/2\hbar)}{(\Delta E_{js,ir})^2}.
+ \end{aligned}
+ \label{eq:rates-perturbative-amplitude}
+\end{equation}
+Under a continuum energy integral, the long-time kernel obeys
+\[
+ \frac{4\sin^2(\Delta E\tau/2\hbar)}{\tau\Delta E^2}
+     \longrightarrow\frac{2\pi}{\hbar}\delta(\Delta E).
+\]
+Substituting into
+Eq.~\eqref{eq:rates-conditional-probability} gives Fermi's golden rule:
+\begin{equation}
+ \Gamma_{j\leftarrow i}
+ =\frac{2\pi}{\hbar}\sum_{r,s}w_r|T_{js,ir}|^2
+       \delta(E_j+\epsilon_s-E_i-\epsilon_r).
+ \label{eq:rates-golden-rule}
+\end{equation}
+The delta function enforces conservation of the total energy.
+The reservoir sum includes its available occupied and empty
+states, giving the Fermi factors in
+Eq.~\eqref{eq:measurement-tunnel-rates}.
+Here the long-time form of the perturbative kernel is used within
+the interval in Eq.~\eqref{eq:rates-coarse-grained-definition},
+before appreciable depletion of the initial state. It is not
+the exact $\tau\to0$ limit: at very short times the perturbative
+probability above is proportional to $\tau^2$.
+
+In the positive-bias regime where entry occurs from the source
+and exit into the drain, set
+$\Gamma_{\mathrm{in}}=\Gamma_{B\leftarrow A}$ and
+$\Gamma_{\mathrm{out}}=\Gamma_{A\leftarrow B}$.
+If two orthogonal final states can be loaded, probability addition
+in Eq.~\eqref{eq:rates-orthogonal-channels} gives
+\begin{equation}
+ \Gamma_{\mathrm{in}}
+   =\Gamma_{\mathrm S0}+\Gamma_{\mathrm S1}.
+ \label{eq:rates-additive-entry}
+\end{equation}
+Each term is itself calculated from quantum amplitudes; adding
+rates does not replace addition of amplitudes for coherent paths
+to the same final state.
+
+\paragraph{The master equation for occupation probabilities.}
+A closed equation for occupations requires a further condition:
+coherences between the retained dot states must not feed back
+appreciably into their populations. For separated levels, rapidly
+oscillating coherence terms can often be averaged out on the
+same coarse time scale. Together with weak coupling and short
+reservoir memory, this gives the population description used
+here~\cite{Schaller2020Notes}. If coherences or reservoir memory
+remain important, these occupation probabilities alone do not
+provide a closed description.
+
+Let $p(t)$ be the probability of $B$ and $1-p(t)$ that of $A$.
+Over one coarse time step,
+\begin{equation}
+ \begin{aligned}
+ p(t+\Delta t)\simeq{}&
+ \underbrace{p(t)(1-\Gamma_{\mathrm{out}}\Delta t)}_
+             {\text{already in }B\text{ and remains there}}\\
+ &+\underbrace{[1-p(t)]\Gamma_{\mathrm{in}}\Delta t}_
+             {\text{starts in }A\text{ and enters }B}.
+ \end{aligned}
+ \label{eq:rates-probability-step}
+\end{equation}
+Subtracting $p(t)$ and dividing by $\Delta t$ yields the differential
+equation for the coarse-grained evolution,
+\begin{equation}
+ \dot p=\Gamma_{\mathrm{in}}(1-p)-\Gamma_{\mathrm{out}}p.
+ \label{eq:rates-two-state-master-equation}
+\end{equation}
+This is the two-state \emph{Pauli master equation}, and reproduces
+Eq.~\eqref{eq:measurement-zero-temperature-master-equation} with
+$\Gamma_{\mathrm{in}}=\Gamma_{\mathrm S}$ and
+$\Gamma_{\mathrm{out}}=\Gamma_{\mathrm D}$.
+For more dot states, with occupation probabilities $p_i$,
+the same gain-minus-loss argument gives
+\begin{equation}
+ \dot p_j=\sum_{i\ne j}\Gamma_{j\leftarrow i}p_i
+           -p_j\sum_{i\ne j}\Gamma_{i\leftarrow j}.
+ \label{eq:rates-general-master-equation}
+\end{equation}
+Orthogonal-channel addition alone does not justify merging their
+final-state occupations. The two-state treatment of excited-state
+transport in Appendix~\ref{app:dot-spectroscopy} also
+uses fast relaxation to the $N$-electron ground state; otherwise
+the excited states need their own $p_i$.
+
+\paragraph{Waiting times and current.}
+For a constant total entry rate, the probability $q(t)$ that no
+electron has yet entered, starting in $A$, obeys
+$q(t+\Delta t)\simeq q(t)(1-\Gamma_{\mathrm{in}}\Delta t)$.
+Thus
+\begin{equation}
+ q(t)=e^{-\Gamma_{\mathrm{in}}t},\qquad
+ \langle\tau_{\mathrm{in}}\rangle
+   =\int_0^\infty q(t)\,dt=\Gamma_{\mathrm{in}}^{-1}.
+ \label{eq:rates-waiting-time}
+\end{equation}
+The corresponding mean waiting time for exit, starting in $B$,
+is $\Gamma_{\mathrm{out}}^{-1}$. These are conditional waiting
+times. In a running transport cycle, the ensemble-averaged numbers
+of entries and exits per unit time are instead
+$\Gamma_{\mathrm{in}}(1-p)$ and $\Gamma_{\mathrm{out}}p$.
+In the stationary state these are equal, and the current convention
+of Appendix~\ref{app:charge-detection} gives
+\begin{equation}
+ p_{\mathrm{st}}=\frac{\Gamma_{\mathrm{in}}}
+                         {\Gamma_{\mathrm{in}}+\Gamma_{\mathrm{out}}},
+ \qquad
+ I=e\Gamma_{\mathrm{out}}p_{\mathrm{st}}
+   =e\frac{\Gamma_{\mathrm{in}}\Gamma_{\mathrm{out}}}
+                 {\Gamma_{\mathrm{in}}+\Gamma_{\mathrm{out}}}.
+ \label{eq:rates-stationary-current}
+\end{equation}
+The rates are therefore quantum-mechanically determined inputs
+to a classical stochastic approximation for the occupations;
+neither a rate nor an occupation probability is a quantum
+propagation amplitude.

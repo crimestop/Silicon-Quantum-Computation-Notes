@@ -1,0 +1,348 @@
+\FloatBarrier
+\section{Physical Origins of Transverse Spin Driving}
+\label{app:transverse-drive-origins}
+\label{app:electric-spin-driving}
+
+Section~\ref{sec:transverse-spin-control} specifies a transverse
+term in the effective spin Hamiltonian. Its physical origin is
+contained in the off-diagonal matrix element of the applied
+perturbation, after any required orbital or valley reduction.
+In the static spin basis, write this contribution as
+\begin{equation}
+ H_\perp(t)=d_x(t)\sigma_x+d_y(t)\sigma_y,\qquad
+ d_x(t)-i d_y(t)
+ =\bra{\uparrow}\delta H_{\mathrm{eff}}(t)\ket{\downarrow}.
+ \label{eq:transverse-drive-matrix-element}
+\end{equation}
+Here $d_x$ and $d_y$ have energy units. The drive used in the
+main text corresponds to $d_x(t)=\hbar\Omega\cos(\omega t+\phi)$ and
+$d_y(t)=0$. The microscopic control determines these coefficients;
+the rotating-frame calculation in Appendix~\ref{app:spin-driving}
+then determines the resulting spin dynamics.
+
+\subsection{Direct magnetic-field driving}
+\label{sec:drive-direct-magnetic}
+
+An oscillating magnetic field couples directly to the electron's
+magnetic moment. For a positive isotropic effective $g$ factor
+$g_{\mathrm e}$, equal to $g$ in the main text, take
+\[
+ \mathbf B(t)=B_0\hat{\mathbf z}
+       +B_1\cos(\omega t+\phi)\hat{\mathbf x}.
+\]
+The Zeeman interaction gives
+\begin{equation}
+ \begin{aligned}
+ H(t)&=\frac{E_Z}{2}\sigma_z
+       +\frac{g_{\mathrm e}\mu_B B_1}{2}
+          \cos(\omega t+\phi)\sigma_x,\\
+ E_Z&=g_{\mathrm e}\mu_B B_0,\qquad
+ \Omega_{\mathrm{mag}}=\frac{g_{\mathrm e}\mu_B|B_1|}{2\hbar}.
+ \end{aligned}
+ \label{eq:direct-magnetic-spin-drive}
+\end{equation}
+The transverse part has a nonzero matrix element between the
+Zeeman states. Comparing its coefficient with
+Eq.~\eqref{eq:esr-lab} gives the resonant Rabi frequency
+$\Omega_{\mathrm{mag}}$ within the RWA. A field component parallel
+to the static quantization axis instead changes the splitting.
+The spin-only description also requires the isolation conditions
+of Section~\ref{sec:platform-encoding}.
+
+\subsection{Electric driving in a magnetic-field gradient}
+\label{sec:drive-magnetic-gradient}
+
+An electric field acts directly on the electron's position. For
+charge $-e$, with $e>0$, its interaction is
+$H_{\mathrm{el}}=e\mathcal E(t)x\otimes I_{\mathrm{spin}}$.
+If spin--orbit coupling is neglected, confinement is spin
+independent and the Zeeman field is uniform, the two spin states
+share an orbital--valley state
+$\ket{\chi_0}$. Their electric-field matrix element factorizes as
+\begin{equation}
+ \bra{\chi_0,\uparrow}H_{\mathrm{el}}\ket{\chi_0,\downarrow}
+ =e\mathcal E(t)\bra{\chi_0}x\ket{\chi_0}
+   \langle\uparrow|\downarrow\rangle=0.
+ \label{eq:electric-selection-rule}
+\end{equation}
+Thus orbital motion alone does not couple these two spin states.
+In a transverse magnetic-field gradient, however, a displaced
+electron samples a different transverse field. The same electric
+motion then supplies the time-dependent spin coupling. A
+micromagnet can produce this gradient~\cite{PioroLadriere2006,Kawakami2014}.
+Spin transitions driven through electrically induced motion are
+called electric-dipole spin resonance (EDSR).
+
+Take the undriven dot centre as $x=0$, and approximate the local
+field by $\mathbf B(x)\simeq B_0\hat{\mathbf z}
++b_\perp x\hat{\mathbf x}$, where
+$b_\perp=(\partial B_x/\partial x)_0$.
+For motion along $x$, use harmonic confinement with effective
+mass $m^*$, orbital frequency $\omega_0$ and momentum $p_x$.
+An electric field $\mathcal E(t)=\mathcal E_{\mathrm{ac}}\cos\omega t$
+then gives the combined orbital and spin Hamiltonian
+\begin{equation}
+ H=\frac{p_x^2}{2m^*}+\frac{m^*\omega_0^2x^2}{2}
+   +e\mathcal E_{\mathrm{ac}}x\cos(\omega t)
+   +\frac{E_Z}{2}\sigma_z
+   +\frac{g_{\mathrm e}\mu_B b_\perp x}{2}\sigma_x.
+ \label{eq:micromagnet-model}
+\end{equation}
+The last term makes the direction of the spin splitting depend
+on position. We treat its mixing of orbital states as weak:
+$g_{\mathrm e}\mu_B|b_\perp|\ell_0\ll\hbar\omega_0$, with
+ground-state position width
+$\ell_0=\sqrt{\hbar/(2m^*\omega_0)}$.
+The driven displacement must also stay in the region where both
+the harmonic potential and the constant gradient are valid.
+
+To leading order in this weak mixing, the orbital displacement
+can be calculated without spin backaction. Ehrenfest's equation
+for $x_c(t)=\langle x\rangle_t$ is a forced-oscillator equation:
+\begin{equation}
+ \begin{aligned}
+ m^*\ddot x_c+m^*\omega_0^2x_c
+    &=-e\mathcal E_{\mathrm{ac}}\cos(\omega t),\\
+ x_c(t)&=x_{\mathrm{ac}}\cos(\omega t),\qquad
+ x_{\mathrm{ac}}=-\frac{e\mathcal E_{\mathrm{ac}}}
+                         {m^*(\omega_0^2-\omega^2)}.
+ \end{aligned}
+ \label{eq:driven-displacement}
+\end{equation}
+The solution shown omits free orbital oscillations, as appropriate
+to a drive switched on smoothly and far from orbital resonance.
+For $\omega\ll\omega_0$, it reduces to
+$x_{\mathrm{ac}}\simeq-e\mathcal E_{\mathrm{ac}}/(m^*\omega_0^2)$:
+the orbital approximately follows the moving potential minimum.
+
+The moving orbital samples the transverse field $b_\perp x_c(t)$.
+Projecting the spin-dependent terms of
+Eq.~\eqref{eq:micromagnet-model} onto that orbital therefore
+replaces $x$ by $x_c(t)$. The resulting spin Hamiltonian and the
+Rabi frequency obtained by comparison with
+Eq.~\eqref{eq:calibration-electric-spin-drive} are
+\begin{equation}
+ H_{\mathrm{spin}}(t)\simeq\frac{E_Z}{2}\sigma_z
+  +\frac{g_{\mathrm e}\mu_B b_\perp x_{\mathrm{ac}}}{2}
+        \cos(\omega t)\sigma_x,\qquad
+ \Omega_{\mathrm{mm}}
+   =\frac{g_{\mathrm e}\mu_B|b_\perp x_{\mathrm{ac}}|}{2\hbar}.
+ \label{eq:micromagnet-rabi}
+\end{equation}
+The effective drive thus has the same form as a directly applied
+oscillating magnetic field. Its transverse direction matters:
+a purely longitudinal gradient would modulate the Zeeman
+splitting without producing this off-diagonal term.
+
+\subsection{Electric driving through spin--orbit coupling}
+\label{sec:drive-spin-orbit}
+
+Spin--orbit coupling connects orbital motion to spin even when
+the applied Zeeman field is uniform. Consider a one-dimensional
+model in which momentum couples to a transverse spin component
+through $\alpha p_x\sigma_y$. The coefficient $\alpha$ has units
+of velocity, and the driven Hamiltonian is
+\begin{equation}
+ H=H_{\mathrm{orb}}+e\mathcal E(t)x
+      +\frac{E_Z}{2}\sigma_z+\alpha p_x\sigma_y,\qquad
+ H_{\mathrm{orb}}=\frac{p_x^2}{2m^*}+\frac{m^*\omega_0^2x^2}{2}.
+ \label{eq:so-model}
+\end{equation}
+The electric field produces the orbital displacement already
+calculated in Eq.~\eqref{eq:driven-displacement}. To extract its
+spin-dependent effect, it is useful to remove the momentum
+coupling to first order by a change of basis~\cite{Golovach2006}.
+
+For nonzero $\alpha$, introduce the signed spin--orbit length
+$\ell_{\mathrm{so}}=\hbar/(m^*\alpha)$ and the anti-Hermitian
+generator $A=ix\sigma_y/\ell_{\mathrm{so}}$.
+Expanding the unitary transformation gives
+$\widetilde H=e^AHe^{-A}=H+[A,H]+\cdots$.
+The required commutators are
+\begin{equation}
+ \begin{aligned}
+ [A,H_{\mathrm{orb}}]&=-\alpha p_x\sigma_y,\qquad
+ [A,e\mathcal E(t)x]=0,\\
+ \left[A,\frac{E_Z}{2}\sigma_z\right]
+     &=-\frac{E_Zx}{\ell_{\mathrm{so}}}\sigma_x.
+ \end{aligned}
+ \label{eq:so-commutators}
+\end{equation}
+The first cancels the original momentum coupling. The electric
+potential is unchanged, while the Zeeman term acquires a
+position-dependent transverse component. To first order, the
+transformed Hamiltonian is consequently
+\begin{equation}
+ \widetilde H=H_{\mathrm{orb}}+e\mathcal E(t)x
+      +\frac{E_Z}{2}\sigma_z
+      -\frac{E_Zx}{\ell_{\mathrm{so}}}\sigma_x+O(\alpha^2).
+ \label{eq:so-transformed}
+\end{equation}
+This form makes the effect of electric motion explicit: the
+transverse coupling now depends on the electron's displacement.
+
+For $E_Z,\hbar\omega\ll\hbar\omega_0$ and
+$\ell_0,|x_{\mathrm{ac}}|\ll|\ell_{\mathrm{so}}|$, we may project
+onto the slowly moving orbital and set $x=x_c(t)$ in the spin
+interaction. In the transformed spin basis, this yields
+\begin{equation}
+ \widetilde H_{\mathrm{spin}}(t)\simeq\frac{E_Z}{2}\sigma_z
+  -\frac{E_Z x_{\mathrm{ac}}}{\ell_{\mathrm{so}}}
+       \cos(\omega t)\sigma_x,\qquad
+ \Omega_{\mathrm{so}}=\frac{E_Z|x_{\mathrm{ac}}|}
+                        {\hbar|\ell_{\mathrm{so}}|}.
+ \label{eq:so-rabi}
+\end{equation}
+The retained spin states include the small orbital admixtures
+implicit in the basis transformation. In this model the drive
+vanishes when $\alpha=0$ or $E_Z=0$; interface, valley and
+anisotropic spin--orbit effects can modify the model in silicon.
+
+Equations~\eqref{eq:micromagnet-rabi} and~\eqref{eq:so-rabi}
+identify the transverse coefficients produced by the two electric
+mechanisms. Once the orbital reduction is valid, both can be
+inserted into the same spin dynamics derived in
+Appendix~\ref{app:spin-driving}. Within the RWA, their
+constant-envelope spin-flip probabilities are given by
+Eq.~\eqref{eq:rabi-probability}, with $\Omega$ replaced by
+$\Omega_{\mathrm{mm}}$ or $\Omega_{\mathrm{so}}$.
+
+\paragraph{Gate-dependent Zeeman coupling.}
+The one-dimensional spin--orbit model is one approximation to the
+electrical response. More generally, orbital, valley and spin--orbit
+effects can be incorporated in a gate-dependent effective
+$g$ matrix~\cite{Venitucci2018GMatrix}. In a fixed reference basis
+for the retained doublet, write the Zeeman interaction to first
+order in the static applied field $\mathbf B_0$ as
+\begin{equation}
+ H_Z(V)=\mathbf d(V)\cdot\boldsymbol\sigma,\qquad
+ \mathbf d(V)=\frac{\mu_B}{2}\mathbf g(V)\mathbf B_0,\qquad
+ \mathbf n=\frac{\mathbf d(V_0)}{|\mathbf d(V_0)|}.
+ \label{eq:gate-dependent-zeeman}
+\end{equation}
+The static splitting is $E_Z=2|\mathbf d(V_0)|$.
+For a small modulation $V(t)=V_0+v_{\mathrm{ac}}\cos\omega t$,
+linearization gives an oscillating term
+$\delta\mathbf d\cdot\boldsymbol\sigma\cos\omega t$.
+Its transverse component and resonant Rabi frequency are
+\begin{equation}
+ \begin{aligned}
+ \delta\mathbf d&=v_{\mathrm{ac}}
+        \left.\frac{\partial\mathbf d}{\partial V}\right|_{V_0},
+ &\delta\mathbf d_\perp
+   &=\delta\mathbf d-\mathbf n(\mathbf n\cdot\delta\mathbf d),\\
+ \Omega_g&=\frac{|\delta\mathbf d_\perp|}{\hbar}.
+ \end{aligned}
+ \label{eq:g-matrix-transverse-drive}
+\end{equation}
+This result assumes the RWA and a drive sufficiently weak and
+far below transitions to excluded orbital and valley states for
+the doublet reduction to remain valid. A scalar $g(V)$ changes only
+the longitudinal splitting; transverse driving requires a change
+in the direction of $\mathbf d$. The $g$ matrix describes the
+projected microscopic response. A spin--orbit contribution already
+included in it must therefore be counted only once.
+
+\subsection{Programming the drive amplitude and phase}
+\label{sec:drive-phase-programming}
+
+For the electric-motion mechanisms, the displacement entering the spin
+Hamiltonian must be related to the voltage waveform at the dot.
+Separate the voltage that sets the operating point from the
+oscillating component used for spin rotation:
+\begin{equation}
+ \begin{aligned}
+ V_g(t)&=V_g^{\mathrm{DC}}+V_g^{\mathrm p}(t)+v_d(t),\\
+ v_d(t)&=a(t)\cos(\omega t+\phi).
+ \end{aligned}
+ \label{eq:measurement-gate-waveform}
+\end{equation}
+Here $V_g^{\mathrm{DC}}$ is the constant bias and
+$V_g^{\mathrm p}(t)$ is a slowly varying pulse used for loading,
+holding and readout. During a rotation, their sum fixes the
+holding point. The drive envelope $a(t)$ denotes the voltage
+that actually reaches the dot, including the effects of cables
+and filters on the programmed waveform.
+
+At that operating point, let $F_v$ be the force per unit drive
+voltage, so that $F_vv_d(t)=-e\mathcal E(t)$ in linear response.
+Substituting this force into Eq.~\eqref{eq:driven-displacement},
+for a carrier slow compared with the orbital frequency, gives
+\[
+ x_c(t)\simeq\chi_x a(t)\cos(\omega t+\phi),
+ \qquad \chi_x=\frac{F_v}{m^*\omega_0^2}.
+\]
+The envelope must also vary slowly enough for the orbital to
+follow. For the magnetic-gradient mechanism, this displacement
+produces
+\begin{equation}
+ B_{x,\mathrm{ac}}(t)=B_1(t)\cos(\omega t+\phi),\qquad
+ B_1(t)=b_\perp\chi_xa(t),
+ \label{eq:calibration-transverse-field-from-voltage}
+\end{equation}
+and hence the signed drive coefficient
+\[
+ \Omega(t)=\frac{g_{\mathrm e}\mu_Bb_\perp\chi_xa(t)}{2\hbar}.
+\]
+This relation places the device voltage directly in
+Eq.~\eqref{eq:calibration-electric-spin-drive}. The sign of
+$b_\perp\chi_x$ can be absorbed into the phase convention. For
+the spin--orbit mechanism, the same displacement is inserted into
+Eq.~\eqref{eq:so-rabi}.
+
+The phase controls a different part of the rotation: pulses with
+the same frequency and envelope can act about different transverse
+axes. To set it, a controller combines two versions of the carrier
+separated by a quarter period. Their independently chosen,
+slowly varying amplitudes give
+\begin{equation}
+ v_d(t)=v_I(t)\cos\omega t-v_Q(t)\sin\omega t,\qquad
+ v_I(t)=a(t)\cos\phi,\quad
+ v_Q(t)=a(t)\sin\phi.
+ \label{eq:calibration-iq-phase-control}
+\end{equation}
+Substituting $v_I$ and $v_Q$ yields
+$v_d(t)=a(t)\cos(\omega t+\phi)$, the waveform in
+Eq.~\eqref{eq:measurement-gate-waveform}. Changing their ratio
+and signs therefore sets $\phi$ at fixed carrier frequency and,
+through Eq.~\eqref{eq:calibration-single-spin-hamiltonian}, sets
+the rotation axis. An IQ mixer driven by an arbitrary-waveform
+generator implements this combination. A direct digital
+synthesizer can generate the same waveform from a programmed
+phase word. No separate static gate voltage is needed to set
+the phase.
+
+The phase of each pulse is defined relative to a common carrier
+clock. For pulse $k$, the controller turns on an envelope $a_k(t)$
+with offset $\phi_k$; turning that envelope off does not reset
+the clock. The difference $\phi_2-\phi_1$ therefore remains set
+even if the drive is zero between the pulses. A fixed phase shift
+from the cables, filters and mixer adds the same offset to the
+device phases. It can be absorbed into the definition of $X$,
+leaving the relative rotation axes unchanged.
+
+The relation between programmed relative phase and rotation axis can be
+checked with two calibrated resonant $\pi/2$ pulses. Prepare
+$\ket0$, give the first pulse phase zero and the second phase
+$\varphi$, and neglect detuning and decoherence during the
+sequence. Equation~\eqref{eq:calibration-single-spin-hamiltonian}
+then gives the rotating-frame operators
+$U_0=e^{-i\pi X/4}$ and
+$U_\varphi=e^{-i\pi(\cos\varphi X-\sin\varphi Y)/4}$.
+Their product has excited-state amplitude
+\[
+ \bra1U_\varphi U_0\ket0
+ =-\frac{i}{2}(1+e^{-i\varphi}),
+\]
+so the ideal measured probability is
+\begin{equation}
+ P_1(\varphi)=\frac{1+\cos\varphi}{2}.
+ \label{eq:calibration-phase-offset-scan}
+\end{equation}
+The maximum at $\varphi=0$ corresponds to the same axis for both
+pulses, and the minimum at $\varphi=\pi$ to opposite axes;
+$\varphi=\pm\pi/2$ selects orthogonal axes. With pulse angles and
+detuning controlled, a shifted or distorted fringe indicates an
+error in the relation between programmed and device phase, such
+as an IQ quadrature error. Correcting that relation makes the
+programmed phase offsets produce the intended gate axes.

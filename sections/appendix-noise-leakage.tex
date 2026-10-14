@@ -1,0 +1,552 @@
+\FloatBarrier
+\section{Coherence, Relaxation, and Pulse Errors}
+\label{app:noise-leakage}
+
+\label{sec:noise-leakage-robust-control}
+
+During a drive-free wait, fluctuations of the spin splitting reduce
+phase coherence, while energy exchange with the environment changes
+spin populations. During a gate, voltage fluctuations can change the
+intended rotation angle, and the pulse can populate states outside
+the computational space. This appendix develops the corresponding
+calculations behind Section~\ref{sec:platform-coherence}: Ramsey and
+echo probabilities, population relaxation, and pulse-dependent angle
+and leakage errors. The conditions for reducing each error depend on
+the waiting configuration, noise, and pulse shape.
+
+\subsection{Correcting and characterizing evolution during a wait}
+\label{sec:idle-single-spin-characterization}
+
+Calibrated $\pi/2$ and $\pi$ pulses prepare and analyze a spin
+before and after a drive-free wait. The pulse conventions are those
+of Section~\ref{sec:calibration-spin-rotations}. The detuning during the wait contains two physically different
+parts,
+\[
+ \delta(t)=\delta_{\mathrm r}+\xi(t).
+\]
+The reproducible part $\delta_{\mathrm r}$ produces a Ramsey-fringe
+phase drift and can be corrected by changing the reference frequency.
+The random part $\xi(t)$ reduces the fringe contrast and defines the
+phase-coherence time. An echo pulse cancels a constant or sufficiently
+slow contribution during the wait and exposes the remaining phase
+noise. A separate relaxation experiment measures the loss of
+upper-state population. The resulting $T_2^*$, $T_{2,\mathrm{echo}}$
+and $T_1$ belong to the chosen waiting configuration.
+
+\subsubsection{Measuring phase coherence with Ramsey and echo}
+\label{sec:measurement-free-spin-dynamics}
+\label{sec:measurement-ramsey-echo}
+
+The resonance scan in Section~\ref{sec:measurement-rabi} determines
+$\omega_{\mathrm{res}}$. The calibrated rotations of
+Section~\ref{sec:calibration-spin-rotations} use
+$\omega=\omega_{\mathrm{res}}$, so their nominal detuning is
+$\delta=\omega_{\mathrm{res}}-\omega=0$. Ramsey now tests what
+happens to the spin phase during a drive-free wait. Finite precision
+in the frequency scan or later drift may leave a residual mean
+detuning $\delta_{\mathrm r}$. The spin-transition frequency
+$\omega_q(t)=E_Z(t)/\hbar$ may also fluctuate, causing different
+repetitions to accumulate different phases relative to the fixed
+control reference. The first $\pi/2$ pulse creates a superposition,
+and the second pulse converts this relative phase into a logical-basis
+population. The phase of the resulting fringe reveals
+$\delta_{\mathrm r}$, while the decay of its contrast defines the
+phase-coherence time $T_2^*$.
+
+Use the logical basis $\ket0=\ket{\downarrow}$,
+$\ket1=\ket{\uparrow}$ and $Z=\ket0\bra0-\ket1\bra1$ from
+Section~\ref{sec:single-qubit-gates}. Let
+$Y=-i\ket0\bra1+i\ket1\bra0$ and
+$R_y(\theta)=e^{-i\theta Y/2}$. All states and rotations below
+are expressed in the frame rotating at the drive angular frequency
+$\omega=\omega_{\mathrm{res}}$. The gates and the waiting evolution
+must use this same frame. Turning off the transverse drive means
+setting its envelope to $\Omega(t)=0$; it does not mean setting
+$\omega=0$. The oscillator that generates the two pulses retains
+the phase reference $\omega t$, so the spin can accumulate a
+measurable phase relative to that reference while no transverse
+field is applied.
+
+Equation~\eqref{eq:calibration-single-spin-hamiltonian} specifies the pulses:
+choose drive phases $\phi_1=-\pi/2$ and $\phi_2=+\pi/2$,
+with the same amplitude $\Omega_0$ and duration $t_p$.
+For $|\delta_{\mathrm r}|\ll\Omega_0$, the pulse Hamiltonians and
+duration are
+\[
+ H_1\simeq\frac{\hbar\Omega_0}{2}Y,\qquad
+ H_2\simeq-\frac{\hbar\Omega_0}{2}Y,\qquad
+ t_p=\frac{\pi}{2\Omega_0}.
+\]
+They give $R_y(\pi/2)$ and $R_y(-\pi/2)$, respectively.
+The phase difference of $\pi$ reverses the drive term;
+the drive envelope is $\Omega(t)=0$ during the intervening wait,
+while the oscillator phase reference continues at angular frequency
+$\omega$.
+Treating these pulses as short compared with the phase-evolution
+and decoherence times gives the ideal Ramsey sequence
+\begin{equation}
+ \ket0\xrightarrow{R_y(\pi/2)}
+ \frac{\ket0+\ket1}{\sqrt2}
+ \xrightarrow{\text{wait }\tau}
+ \frac{\ket0+\ket1}{\sqrt2}
+ \xrightarrow{R_y(-\pi/2)}\ket0.
+ \label{eq:measurement-ramsey-sequence}
+\end{equation}
+If a residual mean detuning $\delta_{\mathrm r}$ is present but
+random fluctuations are absent, the drive-free wait adds the phase
+$\delta_{\mathrm r}\tau$, and the inverse-pulse sequence predicts
+\begin{equation}
+ P_0(\tau)=\frac{1+\cos(\delta_{\mathrm r}\tau)}2.
+ \label{eq:measurement-ramsey-ideal}
+\end{equation}
+This residual is the difference between the mean transition
+frequency during the Ramsey acquisition and the previously chosen
+reference frequency. It is therefore a correction to the nominally
+resonant setting, not a second independent determination of
+$\omega_{\mathrm{res}}$.
+
+Use the Rabi measurement in Section~\ref{sec:measurement-rabi}
+to determine $t_p$ at the chosen amplitude. In each trial,
+prepare $\ket0$, apply the first pulse, wait $\tau$ with the
+drive off, and apply the second $\pi/2$ pulse. Let $\phi_a$ denote
+an additional phase applied to this second pulse relative to the
+inverse pulse in Eq.~\eqref{eq:measurement-ramsey-sequence}.
+Then use the single-spin readout of
+Section~\ref{sec:calibration-single-spin-readout}. For each fixed
+$\tau$, scan $\phi_a$ through a full period and repeat the complete
+sequence at every phase to estimate $P_0(\tau,\phi_a)$. Keep the
+field, waiting gate settings, drive frequency, amplitude and pulse
+duration fixed. The probability-versus-phase curve is the Ramsey
+fringe; its amplitude measures the reproducible coherence after
+the wait. Repeat this phase scan for several values of $\tau$ to
+obtain the coherence decay.
+
+The energy difference between the two spin states may fluctuate
+during the wait. Write
+\[
+ E_Z(t)=\overline E_Z+\varepsilon_Z(t),\qquad
+ \frac{\overline E_Z}{\hbar}
+       =\omega_{\mathrm{res}}+\delta_{\mathrm r},
+\]
+where $\overline E_Z$ is the mean splitting during the acquisition,
+$\delta_{\mathrm r}$ is its residual detuning from the fixed control
+reference $\omega_{\mathrm{res}}$, and $\varepsilon_Z(t)$ is a
+zero-mean energy fluctuation. Define
+\[
+ \xi(t)=\frac{\varepsilon_Z(t)}{\hbar}
+\]
+only to express this energy noise in angular-frequency units. Model
+$\xi(t)$ as a classical random function that can differ between
+repetitions. Assume that the fluctuation changes the gap while
+leaving $\ket0$ and $\ket1$
+as the energy eigenstates, and neglect relaxation and pulse errors.
+With the drive reference fixed at $\omega_{\mathrm{res}}$, the
+waiting Hamiltonian in the same rotating frame is
+\[
+ H_{\mathrm{wait}}(t)
+   =-\frac{\hbar}{2}
+      \bigl[\delta_{\mathrm r}+\xi(t)\bigr]Z.
+\]
+All these Hamiltonians are proportional to $Z$, so they commute
+at different times. The waiting evolution is therefore
+\[
+ U_{\xi}(\tau)
+   =\exp\!\left\{\frac{iZ}{2}
+                 \bigl[\delta_{\mathrm r}\tau+\varphi(\tau)\bigr]
+          \right\},
+ \qquad
+ \varphi(\tau)=\int_0^\tau\xi(t)\,dt.
+\]
+For a given function $\xi(t)$ in one repetition, the
+wait adds the phase $\delta_{\mathrm r}\tau+\varphi(\tau)$.
+The analysis pulse with
+phase offset $\phi_a$ is
+\[
+ R_{\mathrm a}(\phi_a)
+ =\exp\!\left[-\frac{i\pi}{4}
+       (-\sin\phi_a X-\cos\phi_a Y)\right].
+\]
+It reduces to $R_y(-\pi/2)$ when $\phi_a=0$. The conditional return
+probability is
+\[
+ \begin{aligned}
+ P_0(\tau,\phi_a\mid\xi)
+   &=\left|\bra0 R_{\mathrm a}(\phi_a)U_{\xi}(\tau)
+                         R_y(\pi/2)\ket0\right|^2\\
+   &=\frac{1+\cos[\delta_{\mathrm r}\tau
+                         +\varphi(\tau)-\phi_a]}{2}.
+ \end{aligned}
+\]
+Repeated trials sample different fluctuations as well as the
+quantum readout outcomes. Their counts estimate the average of
+this probability. Below, $\langle\cdot\rangle$ denotes a
+classical average over the fluctuations in those repetitions.
+Using $\cos x=\operatorname{Re}e^{ix}$ gives
+\begin{equation}
+ \begin{aligned}
+ P_0(\tau,\phi_a)
+   &=\left\langle
+       P_0(\tau,\phi_a\mid\xi)\right\rangle\\
+   &=\frac12\left[1+
+       \operatorname{Re}\{e^{i(\delta_{\mathrm r}\tau-\phi_a)}
+                            W_R(\tau)\}\right]\\
+   &=\frac12\left[1+|W_R(\tau)|
+       \cos\bigl(\phi_a-\delta_{\mathrm r}\tau
+                         -\arg W_R(\tau)\bigr)\right],\\
+ W_R(\tau)&=\left\langle e^{i\varphi(\tau)}\right\rangle.
+ \end{aligned}
+ \label{eq:measurement-ramsey-noise}
+\end{equation}
+Thus a sinusoidal fit to the measured phase scan directly gives
+the contrast $|W_R(\tau)|$ and the fringe phase
+$\delta_{\mathrm r}\tau+\arg W_R(\tau)$. The contrast describes
+how averaging the random phase over repeated trials reduces the
+reproducible coherence. If the fluctuations have zero mean and no
+systematic phase, the slope of the fringe phase versus $\tau$ gives
+$\delta_{\mathrm r}$.
+
+For example, suppose $\xi(t)$ is constant during each
+repetition but Gaussian distributed between repetitions, with
+zero mean and standard deviation $\sigma_\xi$. Then
+$\varphi(\tau)=\xi\tau$, and averaging
+$e^{i\xi\tau}$ over that Gaussian distribution gives
+\begin{equation}
+ W_R(\tau)=e^{-\sigma_\xi^2\tau^2/2}
+           =e^{-(\tau/T_2^*)^2},\qquad
+ T_2^*=\frac{\sqrt2}{\sigma_\xi}.
+ \label{eq:measurement-quasistatic-dephasing}
+\end{equation}
+Thus Ramsey contrast can decay even when each individual spin
+undergoes coherent evolution: different repetitions accumulate
+different phases.
+
+The measured contrasts at different waiting times give the
+coherence envelope. A Gaussian fit yields $T_2^*$ under the
+quasistatic Gaussian-noise model above. The fitted fringe phases
+give the residual mean detuning and reveal any additional mean
+phase shift not included in the zero-mean noise model.
+
+To remove an approximately constant frequency error within a
+repetition, insert a $\pi$ rotation about a transverse axis halfway
+through the wait. It interchanges the two spin amplitudes, so they
+accumulate the opposite relative phase during the second half.
+For ideal pulses, the remaining noise phase is
+\begin{equation}
+ \varphi_E(\tau)=\int_0^{\tau/2}\xi(t)\,dt
+                   -\int_{\tau/2}^{\tau}\xi(t)\,dt.
+ \label{eq:measurement-echo-phase}
+\end{equation}
+The residual mean term contributes
+$\delta_{\mathrm r}\tau/2-\delta_{\mathrm r}\tau/2=0$, and any
+time-independent part of $\xi$ cancels in the same way.
+This is a \emph{Hahn echo}; its return
+contrast depends on $|\langle e^{i\varphi_E}\rangle|$ and is often
+described by an echo decay time $T_{2,\mathrm{echo}}$. Fluctuations
+that change during the sequence, spin relaxation, and imperfect
+pulses still reduce the contrast.
+
+For the echo experiment, repeat the same measurement with an
+additional calibrated $\pi$ pulse halfway through the wait.
+Vary the total waiting time and obtain the return-fringe contrast
+at each value. Comparing Ramsey and echo contrasts tests how much
+of the apparent dephasing is removed by refocusing slow frequency
+fluctuations. These two sequences have been implemented with
+electrically driven silicon spins~\cite{Kawakami2014}.
+
+\subsubsection{Population relaxation during a wait}
+\label{sec:measurement-relaxation}
+
+After a resonant $\pi$ pulse, the electron is in the upper spin
+state. With the drive off it can release energy to its environment
+and return to the lower state, through the mechanism described in
+Section~\ref{sec:calibration-single-spin-initialization}.
+This loss of population does not follow from the unitary waiting
+Hamiltonian $H_{\mathrm{wait}}$; it is described by transition
+rates. We measure how long the upper-state population survives at
+the chosen holding voltages. If upward and downward transitions have constant rates
+$\gamma_\uparrow$ and $\gamma_\downarrow$, the population obeys
+\begin{equation}
+ \dot P_\uparrow=-\gamma_\downarrow P_\uparrow
+                   +\gamma_\uparrow(1-P_\uparrow),\qquad
+ P_\uparrow(\tau)=P_\uparrow^{\mathrm{eq}}
+      +[P_\uparrow(0)-P_\uparrow^{\mathrm{eq}}]e^{-\tau/T_1},
+ \label{eq:measurement-t1-decay}
+\end{equation}
+where $T_1=(\gamma_\downarrow+\gamma_\uparrow)^{-1}$ and
+$P_\uparrow^{\mathrm{eq}}=\gamma_\uparrow/
+(\gamma_\downarrow+\gamma_\uparrow)$. At low temperature the
+upward rate is small and the upper-state population decays toward
+zero.
+
+To measure this decay, initialize down, apply the $\pi$ pulse of
+Section~\ref{sec:calibration-spin-rotations}, turn off the drive,
+wait at a fixed gate setting for time $\tau$, and apply the same
+readout pulse after every wait. Repeat for several $\tau$ values
+and fit the excited-state probability to
+Eq.~\eqref{eq:measurement-t1-decay}. The fitted $T_1$ belongs to
+the waiting configuration. Keeping the readout configuration and
+its acquisition window fixed prevents their changes from being
+confused with a change in the waiting-time decay.
+
+\subsection{Reducing sensitivity to voltage fluctuations}
+
+Consider exchange evolution that acts as a rotation about one
+fixed logical axis with angle $\theta=\int J(t)\,dt/\hbar$.
+Examples are a 1--2 pulse of the exchange-only qubit and an
+exchange-dominated singlet--triplet $z$ rotation with its
+gradient negligible during the pulse. Voltage fluctuations change
+the confinement and the tunnel barrier, so nominally identical
+pulses can have different exchange energies and accumulated phases.
+For example, at aligned dot energies, $J=4t_c^2/(U-V_{12})$:
+a fluctuating overlap already changes $J$ even if the mean dot
+energies are held fixed.
+
+\subsubsection{Connecting voltage noise to an error in the gate angle}
+Let the actual voltages be $\mathbf V(t)+\delta\mathbf V$, where
+$\mathbf V(t)$ is the programmed pulse and the offsets
+$\delta V_g$ are nearly constant during one pulse but vary between
+repetitions. For a pulse about one fixed axis, the random extra
+energy produces an extra rotation angle,
+$\delta\theta=\hbar^{-1}\int[J(\mathbf V+\delta\mathbf V)
+-J(\mathbf V)]dt$. To first order,
+
+\begin{equation}
+ \delta\theta
+   =\sum_g b_g\delta V_g,\qquad
+ b_g=\frac1\hbar\int_0^\tau
+        \left.\frac{\partial J}{\partial V_g}\right|_{\mathbf V(t)}dt.
+ \label{eq:calibration-angle-noise}
+\end{equation}
+Here the programmed waveform $\mathbf V(t)$ is fixed, while the
+offsets are random. With zero-mean offsets and covariance
+$C_{gh}=\mathbb E[\delta V_g\delta V_h]$, their angle variance is
+\[
+ \mathbb E[(\delta\theta)^2]=\sum_{g,h}b_g C_{gh}b_h.
+\]
+For an input perpendicular to the rotation axis, the overlap with
+the desired output is $\cos^2(\delta\theta/2)$.
+Its mean loss is approximately
+$\mathbb E[(\delta\theta)^2]/4$ for small fluctuations.
+Thus reducing the voltage derivatives that enter $b_g$ directly
+reduces this contribution to gate error.
+
+For an explicit prediction of the averaged signal, take Gaussian
+offsets. Then $\delta\theta$ is Gaussian with variance
+$\sigma_\theta^2=\mathbf b^TC\mathbf b$. In a basis where the
+rotation axis is $Z$, the error multiplies $\rho_{01}$ by
+$e^{-i\delta\theta}$ in each trial. Averaging over repetitions gives
+\begin{equation}
+ \mathbb E[\rho_{01}']=e^{-\sigma_\theta^2/2}\rho_{01},
+ \qquad
+ \mathbb E[F_\perp]=\frac{1+e^{-\sigma_\theta^2/2}}2.
+ \label{eq:calibration-angle-noise-channel}
+\end{equation}
+Here the intended rotation has been removed and $F_\perp$ is
+the overlap for an input perpendicular to the axis.
+The mean error over all pure states of this logical qubit is smaller,
+$(1-e^{-\sigma_\theta^2/2})/3$, because states on the rotation
+axis are unaffected. This gives a gate-error prediction from
+the measured voltage response and a specified noise covariance,
+rather than only a qualitative preference for a small derivative.
+
+\subsubsection{Choosing a less sensitive exchange setting}
+The derivative formula tells us what to reduce, but does not yet
+choose a voltage setting. The symmetric two-dot model gives a
+concrete choice. Holding
+$t_c$ and $D=U-V_{12}$ fixed,
+\begin{equation}
+ J(\varepsilon)=\frac{4t_c^2D}{D^2-\varepsilon^2}
+ =\frac{4t_c^2}{D}
+   \left[1+\frac{\varepsilon^2}{D^2}
+           +O\!\left(\frac{\varepsilon^4}{D^4}\right)\right].
+ \label{eq:calibration-symmetric-exchange}
+\end{equation}
+At $\varepsilon=0$, a small detuning offset has no first-order
+effect on $J$. One can therefore hold the dot energies aligned
+while changing the barrier to control exchange. This is the
+principle of symmetric exchange operation~\cite{Reed2016}.
+Barrier fluctuations still change $t_c$, and hence $J$; the
+suppressed derivative is specifically the detuning derivative.
+
+Locate this setting experimentally by measuring $J$ on both sides
+of the aligned-dot point. Use the measured response along the
+actual compensated voltage path, since a voltage can also change
+$t_c$ and $D$. Compare candidate pulses at the same target angle:
+a smaller instantaneous derivative may be offset by a longer
+gate duration.
+
+\subsubsection{Estimating what remains after the first-order term vanishes}
+At the symmetric point, detuning noise still changes exchange
+through the quadratic term. Its residual effect can be estimated
+with the same fixed-angle calculation. For a constant pulse with
+$\theta_0=4t_c^2\tau/(\hbar D)$ and a small quasistatic detuning
+offset $\delta\varepsilon$,
+\[
+ \delta\theta\simeq\theta_0\frac{(\delta\varepsilon)^2}{D^2}.
+\]
+If $\delta\varepsilon$ is zero-mean Gaussian with variance
+$\sigma_\varepsilon^2$, then
+$\mathbb E[(\delta\varepsilon)^4]=3\sigma_\varepsilon^4$.
+Consequently,
+\begin{equation}
+ \mathbb E[\delta\theta]=
+       \theta_0\frac{\sigma_\varepsilon^2}{D^2},\qquad
+ \operatorname{Var}(\delta\theta)=
+       2\theta_0^2\frac{\sigma_\varepsilon^4}{D^4}.
+ \label{eq:calibration-quadratic-detuning-noise}
+\end{equation}
+The mean shift can be included in the angle calibration.
+After that correction, the leading mean gate infidelity from
+this noise alone is $\operatorname{Var}(\delta\theta)/6$.
+It is fourth order in $\sigma_\varepsilon/D$, instead of the
+second-order dependence produced by a nonzero linear derivative.
+This improvement does not apply to a fluctuating barrier:
+$\delta J/J\simeq2\delta t_c/t_c$ still gives a first-order
+angle fluctuation. The working-point choice has removed first-order sensitivity to
+detuning but not to barrier noise. Compare such settings using
+pulses with the same requested angle.
+
+\subsection{Avoiding population of excluded states}
+
+A voltage pulse reshapes the orbital potential as well as changing
+the intended spin interaction. An electron prepared in the lowest
+orbital can then acquire amplitude in an excited orbital.
+For a concrete example, let $\ket1$ contain an up spin in the
+orbital ground state, and let $\ket\ell$ have the same spin in
+the first excited orbital along $x$. We calculate this leakage
+channel; the other logical state can have its own channels.
+
+\subsubsection{Identifying the transition driven by the voltage pulse}
+Near a holding voltage $V^0$, a gate pulse gives
+$\delta H=\delta V(t)\widehat W$ with
+$\widehat W=\partial H/\partial V$.
+In a harmonic confinement model, a gate force $F_v\delta V$
+has $\widehat W=-F_v x$, so
+\[
+ \Delta=\hbar\omega_x,\qquad
+ \lambda(t)=\delta V(t)\bra\ell\widehat W\ket1
+       =-F_v\delta V(t)\sqrt{\frac{\hbar}{2m^*\omega_x}}.
+\]
+Here $\Delta$ is the orbital gap and $F_v$ is force per voltage.
+A uniform scalar shift would have no off-diagonal matrix element;
+excitation occurs because this gate changes the shape or position
+of the well. Analogous matrix elements couple to valley or charge
+excitations when the corresponding potential changes allow them.
+
+Set the energy of $\ket1$ to zero. For small pulses, neglect the
+change of the gap and retain the weak coupling:
+\begin{equation}
+ H(t)=\Delta\ket\ell\bra\ell+
+      \lambda(t)\ket\ell\bra1+\lambda^*(t)\ket1\bra\ell.
+ \label{eq:calibration-leakage-model}
+\end{equation}
+The pulse begins and ends at the holding voltage, where these
+states define the retained and excluded spaces. Starting in
+$\ket1$, first-order time-dependent perturbation theory gives
+\begin{equation}
+ a_\ell(\tau)\simeq
+ -\frac{i}{\hbar}\int_0^\tau
+       \lambda(t)e^{i\Delta t/\hbar}\,dt.
+ \label{eq:calibration-leakage-amplitude}
+\end{equation}
+The pulse component at angular frequency $\Delta/\hbar$ drives
+the unwanted transition. For a constant weak coupling switched
+on for time $\tau$,
+\[
+ |a_\ell(\tau)|^2\simeq
+ \frac{4|\lambda|^2}{\Delta^2}
+ \sin^2\!\left(\frac{\Delta\tau}{2\hbar}\right).
+\]
+\subsubsection{Comparing pulse shapes for the same intended action}
+The leakage amplitude selects the pulse's Fourier component at
+$\Delta/\hbar$. We now compare a square and a smooth pulse to see
+which produces less excitation at that gap. Set $\omega_\ell=\Delta/\hbar$. A square pulse
+$\lambda_{\mathrm{sq}}(t)=\lambda_0$ and a smooth pulse
+\[
+ \lambda_{\mathrm{sm}}(t)=
+   2\lambda_0\sin^2(\pi t/\tau)
+   =\lambda_0[1-\cos(2\pi t/\tau)],\qquad 0\le t\le\tau,
+\]
+have the same time integral. This comparison is appropriate when
+the desired control and the unwanted coupling are both
+proportional to the same waveform; otherwise the desired gate
+must be matched using its own response.
+Let $a=2\pi/\tau$. Direct integration of the three exponential
+terms gives
+\begin{align}
+ \int_0^\tau\lambda_{\mathrm{sq}}e^{i\omega_\ell t}\,dt
+   &=\lambda_0\frac{e^{i\omega_\ell\tau}-1}{i\omega_\ell},
+       \notag\\
+ \int_0^\tau\lambda_{\mathrm{sm}}e^{i\omega_\ell t}\,dt
+   &=-\frac{a^2}{\omega_\ell^2-a^2}\,
+       \lambda_0\frac{e^{i\omega_\ell\tau}-1}{i\omega_\ell}.
+ \label{eq:calibration-smooth-pulse-spectrum}
+\end{align}
+Away from the removable singularities at $\omega_\ell=\pm a$,
+the smooth-pulse probability is the square-pulse result times
+$a^4/(\omega_\ell^2-a^2)^2$. For $\omega_\ell\tau\gg2\pi$,
+this adds a suppression factor approximately
+$(2\pi/\omega_\ell\tau)^4$. At $\omega_\ell=a$, the integral
+must instead be evaluated by its finite limit; there is no
+suppression guarantee near that frequency.
+
+The smooth pulse and its first derivative vanish at both ends.
+Those endpoint conditions remove the leading boundary terms
+when integrating by parts and explain its smaller high-frequency
+component. The comparison assumes perturbatively small leakage
+and a fixed unwanted gap. If a voltage excursion brings an
+excluded state close in energy, the gap must be included as
+time dependent rather than using this fixed-gap formula.
+
+\subsubsection{When the gap changes during a large ramp}
+The preceding calculation assumed fixed unperturbed states and a
+weak pulse. A large voltage excursion instead changes the
+instantaneous eigenstates and their gaps. If the intended operation
+follows one of those states,
+the corresponding local adiabatic condition is
+\begin{equation}
+ \frac{\hbar|\bra{m(t)}\dot H(t)\ket{n(t)}|}
+      {|E_m(t)-E_n(t)|^2}\ll1,\qquad m\ne n.
+ \label{eq:calibration-adiabatic-condition}
+\end{equation}
+Apply it to the unwanted states being excluded, not automatically
+to every pair of states in the computational space: the desired
+gate may intentionally drive transitions within that space.
+Use the measured excitation gaps to select candidate ramp times,
+then recalibrate the gate angle for the changed waveform.
+Longer pulses also accumulate more relaxation and phase noise,
+so smoothness alone is not a performance criterion.
+
+Changing the envelope also changes the intended gate.
+For an electrically driven spin, replace the rectangular amplitude
+$a_0$ of Section~\ref{sec:measurement-rabi} by a shaped
+envelope $a(t)$. The corresponding Rabi angular frequency now varies:
+\[
+ \Omega(t)=\frac{g_{\mathrm e}\mu_Bb_\perp\chi_x a(t)}{2\hbar},
+ \qquad
+ H_{\mathrm{rot,q}}(t)
+ =\frac{\hbar\Omega(t)}2(\cos\phi X-\sin\phi Y)
+\]
+at zero detuning and fixed phase $\phi$.
+All these Hamiltonians are proportional to the same Pauli operator,
+so the pulse produces angle
+\[
+ \vartheta=\int_0^{t_p}\Omega(t)\,dt.
+\]
+For a rectangular envelope this reduces to $\vartheta=\Omega_0t_p$;
+a shaped pulse requires the full integral.
+Reuse the Rabi or exchange measurement with the complete modified
+pulse to restore its target angle. If detuning also varies, the
+Hamiltonians at different times need not commute. The complete
+propagator is then
+\begin{equation}
+ U(t_p)=\mathcal T\exp\!\left[-\frac{i}{\hbar}
+                    \int_0^{t_p}H(t)\,dt\right],
+ \label{eq:calibration-shaped-time-ordering}
+\end{equation}
+where $\mathcal T$ places later-time operators to the left. This is
+the time-ordered evolution introduced in
+Eq.~\eqref{eq:gate-time-evolution}; the integral cannot be replaced
+by a scalar pulse area when the rotation axis changes in time.
+Test both the intended gate and unwanted excitation before accepting
+the new shape.

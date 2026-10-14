@@ -1,0 +1,69 @@
+\FloatBarrier
+\section{Screening of the Electron--Electron Interaction}
+\label{app:screened-interaction}
+
+The many-electron Hamiltonian in Eq.~\eqref{eq:dot-interacting-hamiltonian}
+uses a pair interaction $W(\mathbf r,\mathbf r')$. An electron's field
+polarizes the surrounding dielectric and redistributes charge on
+nearby conductors. The resulting field determines the force on a
+second electron. This appendix calculates the corresponding pair
+interaction for fixed electrode voltages. The applied voltages set
+the background confining potential described in
+Appendix~\ref{app:device-confinement}; the response to an added charge
+sets $W$.
+
+In an infinite uniform dielectric of permittivity $\epsilon_{\mathrm d}$,
+the pair interaction is
+\begin{equation}
+ W(\mathbf r,\mathbf r')
+   =\frac{e^2}{4\pi\epsilon_{\mathrm d}|\mathbf r-\mathbf r'|}.
+ \label{eq:device-homogeneous-coulomb}
+\end{equation}
+Here $e>0$ is the magnitude of the electron charge. The permittivity
+already accounts for the material's dielectric polarization. A real
+device also has nearby metal electrodes.
+An electron redistributes charge on those conductors, and the
+redistributed charge changes the field felt by another electron.
+This modification of the interaction is called \emph{screening}.
+
+For example, consider two electrons at the same distance $d$
+from an infinite conducting plane, with separation $R$ parallel
+to the plane. At fixed conductor potential, the induced field
+can be calculated by replacing the conductor with an opposite-sign
+image charge behind it. The pair interaction becomes
+\begin{equation}
+ W(R)=\frac{e^2}{4\pi\epsilon_{\mathrm d}}
+       \left(\frac1R-\frac1{\sqrt{R^2+4d^2}}\right).
+ \label{eq:device-image-screening}
+\end{equation}
+The second term reduces the repulsion. Thus the same two orbital
+shapes can have different interaction energies when a metal
+surface is moved closer to them. Actual patterned gates require
+their own geometry-dependent calculation~\cite{Knorzer2022}.
+
+The general calculation is still electrostatics. Let
+$G(\mathbf r,\mathbf r')$ be the change in potential at $\mathbf r$
+per unit test charge placed at $\mathbf r'$, with electrode voltages
+held fixed. For a linear dielectric response it obeys
+\begin{equation}
+ -\nabla_{\mathbf r}\cdot
+       [\epsilon_{\mathrm d}(\mathbf r)\nabla_{\mathbf r}
+         G(\mathbf r,\mathbf r')]
+     =\delta(\mathbf r-\mathbf r'),
+ \qquad W(\mathbf r,\mathbf r')=e^2G(\mathbf r,\mathbf r').
+ \label{eq:device-screening-green}
+\end{equation}
+Here $\delta$ is the three-dimensional Dirac delta function.
+Since the conductor voltages are held fixed, the test charge
+induces zero potential change on their surfaces, giving $G=0$
+there. The background potential $\Phi_0$ carries the applied
+voltages separately.
+If a reservoir responds appreciably to the test charge, its
+screening response must also be included.
+We assume that this environment responds linearly and rapidly
+enough to use a static pair interaction.\footnote{An electron
+can also interact with the polarization that it itself induces
+in a boundary. After removal of the divergent bare self-energy,
+this gives a one-electron polarization energy, to be included in
+the single-electron Hamiltonian $h_1$ in
+Appendix~\ref{app:interacting-models} if retained.}

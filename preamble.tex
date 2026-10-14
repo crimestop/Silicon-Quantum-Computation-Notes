@@ -1,0 +1,44 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=27mm,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{placeins}
+\usepackage[format=hang,labelsep=colon]{caption}
+\definecolor{linkblue}{RGB}{30,65,100}
+\usepackage[colorlinks=true,allcolors=linkblue]{hyperref}
+\hypersetup{
+  pdftitle={Silicon Quantum Dot Quantum Computing: Research Notes},
+  pdfsubject={Spin qubits, device models, experimental measurement, parameter identification, calibration, autonomous tuning and quantum processors},
+  pdfkeywords={silicon, quantum dots, spin qubits, quantum computing}
+}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Silicon Quantum Dot Quantum Computing}
+\fancyhead[R]{\small\itshape Research Notes}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.7em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.7em}{}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{1em}
+\setcounter{tocdepth}{2}
+\raggedbottom
+
+\newcommand{\ket}[1]{\lvert #1\rangle}
+\newcommand{\bra}[1]{\langle #1\rvert}
+\newcommand{\Si}{\mathrm{Si}}
+\newcommand{\Ge}{\mathrm{Ge}}
+\newcommand{\Hilb}{\mathcal{H}}
