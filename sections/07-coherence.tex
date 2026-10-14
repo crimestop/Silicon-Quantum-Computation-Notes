@@ -1,0 +1,152 @@
+\section{Coherence and loss of quantum information}
+\label{sec:platform-coherence}
+
+Keeping an electron in its dot does not by itself preserve a spin
+superposition. Its relative phase depends on the energy splitting
+throughout the wait or gate. If that splitting fluctuates in a way
+we do not know, repetitions of the same control sequence need not
+produce the same phase. Other processes change spin populations or
+populate states outside the chosen qubit space. These mechanisms
+have different consequences for the operations derived above.
+
+\subsection{Phase accumulation, dephasing, and spin echo}
+
+Consider a single-spin qubit with the drive switched off. In a frame
+rotating at a fixed reference frequency, write the longitudinal
+Hamiltonian in our logical basis as
+\begin{equation}
+ H_{\mathrm{wait}}(t)=-\frac{\hbar}{2}
+                 [\delta_0+\xi(t)]Z,
+ \qquad
+ \phi(t)=\int_0^t\xi(t')\,dt'.
+ \label{eq:platform-wait-noise}
+\end{equation}
+Here $\delta_0$ is the mean spin frequency minus the reference
+frequency, and $\xi(t)$ is a classical fluctuation of that difference,
+with units of angular frequency. Magnetic fluctuations can change
+the local field; electric fluctuations can change the effective
+$g$ factor or the position of the electron in a field gradient.
+The model retains only the resulting longitudinal frequency noise.
+It does not include spin flips or excitation of other electronic
+states.
+
+For a given realization of the noise, the two logical amplitudes
+acquire opposite phases. Consequently the density-matrix element
+$\rho_{01}=\bra0\rho\ket1$ is multiplied by
+$e^{i\delta_0t+i\phi(t)}$, while both populations stay unchanged.
+Averaging over repetitions gives
+\begin{equation}
+ \overline{\rho}_{01}(t)
+       =e^{i\delta_0t}W(t)\rho_{01}(0),
+ \qquad W(t)=\left\langle e^{i\phi(t)}\right\rangle.
+ \label{eq:platform-phase-coherence}
+\end{equation}
+The brackets denote an average over noise realizations sampled in
+the experiment. The measured mean detuning determines the correction
+to the reference frequency, or the phase tracked during the wait
+(Appendix~\ref{sec:idle-single-spin-characterization}).
+A spread of unknown phases reduces $|W|$ and
+hence the coherence of the averaged state. This is dephasing, even
+though every realization of this particular model evolves unitarily.
+
+The analysis rotation in
+Eq.~\eqref{eq:platform-analysis-probability} makes this reduction
+observable. Prepare $\ket+$, wait for time $t$, apply $R_y(-\pi/2)$,
+and measure in the logical basis. Since
+$\operatorname{Tr}(\rho X)=2\operatorname{Re}\rho_{01}$, the zero
+probability is
+\begin{equation}
+ p_0(t)=\frac{1+\operatorname{Re}[e^{i\delta_0t}W(t)]}{2}.
+ \label{eq:platform-ramsey-coherence}
+\end{equation}
+This is a Ramsey measurement. The known detuning produces fringes;
+phase fluctuations reduce their contrast. In a simple limit,
+$\xi(t)=\xi$ is constant during each wait but varies between
+repetitions with a zero-mean Gaussian distribution of variance
+$\sigma_\omega^2$. The coherence and measured probability are then
+\begin{equation}
+ \begin{aligned}
+ W(t)&=e^{-\sigma_\omega^2t^2/2},\\
+ p_0(t)&=\frac{1+e^{-(t/T_2^*)^2}\cos(\delta_0t)}2,
+ \qquad T_2^*=\frac{\sqrt2}{\sigma_\omega}.
+ \end{aligned}
+ \label{eq:platform-gaussian-coherence}
+\end{equation}
+Thus $T_2^*$ is the $1/e$ time of the free-evolution contrast in
+this model. Other noise statistics give other envelopes, and noise
+slower than the duration of the data acquisition may appear as a
+fixed offset instead of a sampled distribution.
+
+A midpoint $\pi$ rotation about $X$ exchanges $\ket0$ and $\ket1$.
+Its frequency, phase, and pulse area use the calibrated transverse
+controls in Section~\ref{sec:single-qubit-gates}.
+A component that accumulated one sign of phase in the first half
+therefore accumulates the opposite sign in the second half.
+In a frame that tracks this known pulse, the random phase becomes
+\begin{equation}
+ \phi_{\mathrm e}(t)
+   =\int_0^{t/2}\xi(t')\,dt'
+       -\int_{t/2}^{t}\xi(t')\,dt',
+ \qquad W_{\mathrm e}(t)=\left\langle e^{i\phi_{\mathrm e}(t)}\right\rangle.
+ \label{eq:platform-echo-coherence}
+\end{equation}
+A constant offset contributes equally to the two integrals and
+cancels, including $\delta_0$. Slowly varying noise is partly
+cancelled; noise that changes substantially between the two halves
+need not be. This spin-echo sequence can therefore preserve contrast
+longer than free evolution. Its measured decay time depends on the
+pulse sequence and the noise, so it must be distinguished from
+$T_2^*$. Appendix~\ref{sec:measurement-ramsey-echo} develops the pulse
+phases and measured probabilities for Ramsey and echo experiments.
+
+\subsection{Relaxation and leakage}
+
+Longitudinal phase noise is only one way of losing quantum
+information. Coupling to the environment can transfer energy and
+change the populations of $\ket0$ and $\ket1$. The relaxation law
+in Eq.~\eqref{eq:thermal-spin-initialization} describes their
+approach to thermal equilibrium on the timescale $T_1$. The same
+process that helps prepare the ground spin state destroys an
+arbitrary stored superposition. Exchanging the two states halfway
+through a wait does not reverse an uncontrolled energy transfer
+to the environment, so spin echo does not in general remove this
+relaxation.
+
+A separate possibility is population outside the computational
+space. For the projector $P_{\mathrm q}$ defined in the introduction
+to Section~\ref{sec:hamiltonians-to-gates}, the population outside
+that space is
+\begin{equation}
+ L(t)=1-\operatorname{Tr}[P_{\mathrm q}\rho(t)],
+ \qquad \operatorname{Tr}\rho(t)=1.
+ \label{eq:platform-leakage-population}
+\end{equation}
+Examples include unwanted orbital or valley excitation, or
+occupation of the $S=3/2$ sector of a three-spin exchange-only
+qubit. Pure dephasing and relaxation between the two retained
+logical states both have $L=0$. Conversely, a leaked state may
+produce the same charge-readout outcome as a logical state, as the
+pair-singlet test above illustrates. Leakage must therefore be
+specified relative to the chosen computational space and cannot
+always be inferred from a single readout population.
+
+These distinctions also explain why one coherence time is not a
+complete measure of gate quality. A gate can have a reproducible
+angle error without appreciable idle dephasing, or drive leakage
+even when the idle spin is long lived. The relevant error depends
+on the state, control pulse, and observation being considered.
+For exchange control, Eq.~\eqref{eq:exchange-detuning} gives one
+useful consequence: at $\varepsilon=0$, the first derivative
+$\partial J/\partial\varepsilon$ vanishes when $t_c,U,V$ are fixed.
+Small detuning fluctuations then enter only at higher order, while
+barrier fluctuations still change $t_c$ and hence the rotation angle.
+Locate the low-sensitivity setting from the measured exchange
+response along the compensated detuning-voltage path, then tune
+the barrier to obtain the required exchange strength
+(Appendix~\ref{app:noise-leakage}).
+Avoiding leakage additionally requires limiting unwanted transitions
+across charge, orbital, valley, or encoding gaps during the pulse.
+Appendix~\ref{app:noise-leakage} quantifies the angle sensitivity in
+Eq.~\eqref{eq:calibration-angle-noise} and the unwanted transition
+amplitudes in Eq.~\eqref{eq:calibration-leakage-amplitude}.
+

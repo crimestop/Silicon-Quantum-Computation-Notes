@@ -1,0 +1,422 @@
+\section{Initialization and spin readout}
+\label{sec:initialization-readout}
+
+Initialization prepares a known logical input; readout converts the
+logical basis populations into distinguishable electrical signals.
+The readout schemes considered here first convert the spin
+distinction into different charge configurations or tunneling
+records. A nearby charge sensor detects these through their
+electric effect on its current (Appendix~\ref{sec:measurement-charge-sensor}).
+
+\subsection{Single-spin qubits}
+\label{sec:single-spin-spam}
+\label{sec:spin-initialization}
+
+The initialization target is $\ket0=\ket{\downarrow}$, and readout
+distinguishes $\ket{\downarrow}$ from $\ket{\uparrow}$.
+We suppress the common orbital--valley state in the notation.
+The lower spin state can be prepared either by relaxation after
+loading or by selecting it during loading.
+
+\paragraph{Initialization by relaxation.}
+First load one electron from a reservoir. Its spin may initially
+occupy either Zeeman level. Raising the reservoir barrier then
+suppresses electron exchange and keeps the dot occupied.
+The spin remains coupled to the thermal environment, so an excited
+$\ket{\uparrow}$ can release energy and relax to the lower
+$\ket{\downarrow}$ state. Waiting for this dissipative process
+prepares the input state; a unitary rotation alone cannot reset an
+arbitrary unknown spin.
+
+The achievable ground-state population and required waiting time
+follow from the relaxation dynamics. Let $p_\uparrow(t)$ be the
+probability of occupying the upper spin level.
+For a bath at temperature $T$, its equilibrium value is
+$p_\uparrow^{\mathrm{eq}}=[1+\exp(E_Z/k_BT)]^{-1}$, where $k_B$
+is Boltzmann's constant. A simple relaxation model is
+\begin{equation}
+  \dot p_\uparrow=-\frac{p_\uparrow-p_\uparrow^{\mathrm{eq}}}{T_1},
+  \qquad
+  p_\uparrow(t)=p_\uparrow^{\mathrm{eq}}
+       +[p_\uparrow(0)-p_\uparrow^{\mathrm{eq}}]e^{-t/T_1}.
+  \label{eq:thermal-spin-initialization}
+\end{equation}
+Here $T_1$ is the longitudinal relaxation time.
+The initial-state dependence decays on the scale $T_1$, but the
+remaining excited-state population is set by the bath temperature.
+High-probability ground-state preparation therefore requires both
+a wait much longer than $T_1$ and $E_Z\gg k_BT$.
+Use the measured $T_1$ and long-time excited-state population at the
+holding voltages to choose the waiting time and determine the
+attainable preparation probability
+(Appendix~\ref{sec:measurement-relaxation}). The loading and isolation
+settings are specified in
+Appendix~\ref{sec:calibration-single-spin-initialization}.
+
+\paragraph{Spin-selective loading.}
+The second method prepares the lower spin state as the electron
+enters the dot, without relying on subsequent spin relaxation.
+Start from an empty dot. The energy required to add the first
+electron is $\mu_\sigma=E(1,\sigma)-E(0)$, where $E(0)$ and
+$E(1,\sigma)$ are the empty-dot and one-electron energies.
+Its spin dependence comes from the Zeeman energy of the final state.
+If $\epsilon_d$ is the addition energy without the Zeeman term,
+\begin{equation}
+  \mu_\downarrow=\epsilon_d-\frac{E_Z}{2},\qquad
+  \mu_\uparrow=\epsilon_d+\frac{E_Z}{2}.
+  \label{eq:spin-resolved-addition-energies}
+\end{equation}
+Thus the two loading thresholds differ by $E_Z$ even for the first
+electron, without an electron--electron interaction.
+Gate voltages shift their common position $\epsilon_d$ relative to
+the reservoir chemical potential $\mu_{\mathrm R}$.
+To allow down-spin loading while suppressing up-spin loading, set
+\begin{equation}
+  \mu_\downarrow<\mu_{\mathrm R}<\mu_\uparrow.
+  \label{eq:spin-selective-window}
+\end{equation}
+The spin-resolved addition thresholds must be measured to select
+the plunger voltage that satisfies this window
+(Appendix~\ref{sec:calibration-single-spin-readout}).
+At low temperature, reservoir states at $\mu_\downarrow$ are
+occupied and can supply an electron, while states at
+$\mu_\uparrow$ are mostly empty. Charging energy must also prevent
+a second electron from entering.
+
+The level alignment determines which process is allowed; the tunnel
+rates determine how long to keep the loading window open.
+For weak spin-conserving tunneling, let $\Gamma_\sigma$ be the bare
+tunnel rate and $T_e$ the reservoir electron temperature.
+The Fermi occupation factor gives the conditional rates
+\begin{equation}
+  \begin{aligned}
+    f_{\mathrm R}(E)&=\frac{1}{1+\exp[(E-\mu_{\mathrm R})/(k_BT_e)]},\\
+    \Gamma_{\mathrm{in},\sigma}&=\Gamma_\sigma f_{\mathrm R}(\mu_\sigma),
+    \qquad
+    \Gamma_{\mathrm{out},\sigma}
+       =\Gamma_\sigma[1-f_{\mathrm R}(\mu_\sigma)].
+  \end{aligned}
+  \label{eq:reservoir-spin-rates}
+\end{equation}
+The factors $f_{\mathrm R}$ and $1-f_{\mathrm R}$ require an
+occupied source state and an empty destination state, respectively.
+Appendix~\ref{sec:amplitudes-to-master-equation} derives these
+reservoir rates and their waiting-time law from tunneling amplitudes.
+Both margins in Eq.~\eqref{eq:spin-selective-window} should exceed
+$k_BT_e$ and tunnel broadening so that loading and unloading remain
+spin-selective.
+
+Neglecting other events, an initially empty dot remains empty with
+probability $e^{-\Gamma_{\mathrm{in},\downarrow}t}$.
+Measure the loading rate at the chosen reservoir-barrier setting
+(Appendix~\ref{sec:calibration-single-spin-initialization}) and use
+it to choose a loading interval much longer than
+$\Gamma_{\mathrm{in},\downarrow}^{-1}$. Then raise the reservoir
+barrier to retain the electron during the gate sequence.
+Spin-selective loading has been demonstrated in
+$\Si/\Si\Ge$ dots~\cite{Simmons2011}.
+Excited orbitals and energy-dependent barriers can modify the rates.
+
+\paragraph{Readout by energy-selective tunneling.}
+\label{sec:energy-selective-readout}
+
+The readout goal is to determine whether the occupied dot contains
+an up-spin or down-spin electron after the gates.
+We convert that distinction into a charge transient by allowing
+only the upper spin level to empty into the reservoir.
+
+Reopen the reservoir barrier and tune the addition energies to
+Eq.~\eqref{eq:spin-selective-window}.
+An up-spin electron can tunnel into an empty reservoir state;
+a down-spin electron remains because the corresponding states
+are occupied. If the dot empties, it can reload a down-spin electron.
+The two initial spin states therefore give different charge records:
+\begin{equation}
+  \begin{aligned}
+    \ket{\uparrow}:&\quad N=1\longrightarrow0\longrightarrow1,\\
+    \ket{\downarrow}:&\quad N=1\quad\text{throughout the readout interval}.
+  \end{aligned}
+  \label{eq:energy-readout-records}
+\end{equation}
+A sensor dot or quantum point contact detects the temporary empty
+state through a current or radio-frequency response~\cite{Elzerman2004}.
+The evidence for an initial up spin is the $1\to0\to1$ transient,
+not the final occupation, which can be one for either spin.
+
+The electron must escape before it relaxes: a spin that relaxes first
+leaves no up-spin charge record. To quantify this competition, take
+constant escape and relaxation rates
+$\Gamma_{\mathrm{out},\uparrow}$ and $T_1^{-1}$
+during a low-temperature readout interval $\tau_{\mathrm r}$.
+The probability of neither event by time $t$ is
+$e^{-(\Gamma_{\mathrm{out},\uparrow}+T_1^{-1})t}$.
+Multiplying by the escape rate and integrating gives the probability
+of producing the desired charge transient:
+\begin{equation}
+  P_{\mathrm{escape}|\uparrow}(\tau_{\mathrm r})
+    =\frac{\Gamma_{\mathrm{out},\uparrow}}
+           {\Gamma_{\mathrm{out},\uparrow}+T_1^{-1}}
+      \left[1-e^{-(\Gamma_{\mathrm{out},\uparrow}+T_1^{-1})\tau_{\mathrm r}}\right].
+  \label{eq:readout-competing-rates}
+\end{equation}
+Even when escape occurs, the detector must resolve the empty interval.
+Fast reloading or sensor noise can hide it, while thermal down-spin
+escape can produce a false up-spin signal.
+Thus readout fidelity depends on the charge-conversion probability
+above and on the sensor response. The measured escape rates and
+$T_1$ at the readout voltages determine the reservoir-barrier setting
+and readout interval: up-spin escape should be likely before
+relaxation, while down-spin escape remains unlikely
+(Appendix~\ref{sec:calibration-readout-duration-choice}).
+
+For $a\ket{\downarrow}+b\ket{\uparrow}$, ideal readout gives the
+up-spin outcome with probability $|b|^2$. Measurements after
+calibrated rotations on repeated preparations access other spin
+components. Escape and reloading make this protocol destructive.
+Appendix~\ref{sec:calibration-single-spin-readout} specifies the
+conversion window, and Appendix~\ref{sec:calibration-readout-duration-choice}
+derives the competing-rate probability and duration constraints.
+
+\subsection{Singlet--triplet qubits}
+\label{sec:st-spam}
+\label{sec:pauli-blockade-readout}
+
+Here initialization prepares $\ket{0_{\mathrm{ST}}}=\ket{S_{11}}$,
+and readout distinguishes it from $\ket{1_{\mathrm{ST}}}=\ket{T_{0,11}}$.
+Both tasks use the singlet's access to double occupation.
+
+\paragraph{Initialization.}
+A convenient route first puts both electrons on one dot, where the
+lowest orbital supports a unique spin singlet. Tune to a region
+where $\ket{D_{02}}$ is the nondegenerate ground state, load two
+electrons, and allow relaxation. Then sweep across the singlet
+charge anticrossing to separate them into $(1,1)$ while preserving
+the singlet spin state. The sweep must follow the charge anticrossing adiabatically.
+The measured tunnel coupling and detuning response determine the
+allowed voltage-ramp speed through the anticrossing. Once exchange
+becomes small, use the measured Zeeman difference to limit the time
+available for singlet--triplet rotation, or compensate that rotation
+(Appendix~\ref{sec:calibration-st-initialization}).
+Accessible orbital or valley excitations can spoil this preparation.
+
+\paragraph{Readout by Pauli spin blockade.}
+The goal is to map the singlet and triplet to different charge states. Start in $(1,1)$ and
+pulse toward $(0,2)$.
+The singlet couples to $\ket{D_{02}}$ through the tunnel matrix
+element in Eq.~\eqref{eq:tunnel-singlet-matrix-elements}.
+A doubly occupied triplet needs an excited orbital--valley state;
+keeping that state outside the readout window blocks triplet transfer.
+Choose the readout detuning from the measured singlet and triplet
+charge-transfer thresholds so that only the singlet transition is
+allowed (Appendix~\ref{sec:calibration-st-readout}).
+With negligible spin mixing and charge-transfer error,
+\begin{equation}
+  \ket{S_{11}}\longrightarrow\ket{D_{02}},\qquad
+  \ket{T_{11}}\longrightarrow\ket{T_{11}},
+  \label{eq:pauli-readout-map}
+\end{equation}
+Here $\ket{T_{11}}$ is a triplet within the blocked window.
+A charge sensor distinguishes the resulting $(0,2)$ and $(1,1)$
+occupations, implementing singlet--triplet readout through
+Pauli spin blockade~\cite{Wu2014}.
+Because the two configurations have the same total electron number,
+the sensor must have different sensitivity to charge on the two
+dots (Appendix~\ref{sec:measurement-charge-sensor}).
+This pulse deliberately permits real charge transfer, so the
+weak-admixture approximation used to derive exchange does not
+describe the transfer itself.
+
+The measurement tests whether the input has a singlet component.
+For an initial two-spin density operator $\rho$, the probabilities
+of the two charge outcomes are
+\begin{equation}
+  p_{02}=\operatorname{Tr}(\rho P_S),\qquad
+  p_{11}=\operatorname{Tr}[\rho(I-P_S)],\qquad
+  P_S=\ket{S_{11}}\bra{S_{11}}.
+  \label{eq:pauli-readout-probabilities}
+\end{equation}
+Within the singlet--triplet encoding, these probabilities are the
+populations of $\ket{0_{\mathrm{ST}}}$ and $\ket{1_{\mathrm{ST}}}$.
+A blocked outcome outside that encoding cannot distinguish $T_0$
+from $T_\pm$. Relaxation or field-gradient-induced mixing can turn
+a blocked state into one that transfers, so the sensor must resolve
+the charge outcome before those processes erase the distinction.
+Appendix~\ref{sec:calibration-st-readout} develops the readout
+window and the conditions for resolving the two charge outcomes.
+
+
+\subsection{Exchange-only qubits}
+\label{sec:exchange-only-spam}
+
+For the fixed-$m$ encoding in Eq.~\eqref{eq:exchange-only-basis},
+initialization prepares $\ket{0_{\mathrm E}}$, and readout must
+distinguish it from $\ket{1_{\mathrm E}}$.
+The useful distinction is the spin of pair 1--2: a singlet in
+$\ket{0_{\mathrm E}}$ and a triplet in $\ket{1_{\mathrm E}}$.
+
+\paragraph{Initialization.}
+Let $\ket{S_{12}}=(\ket{\uparrow\downarrow}
+-\ket{\downarrow\uparrow})/\sqrt2$ denote the singlet of spins 1 and 2.
+The chosen logical zero factorizes as
+\begin{equation}
+  \ket{0_{\mathrm E}}
+    =\ket{S_{12}}\otimes\ket{\uparrow}_3
+    =\frac{\ket{\uparrow\downarrow\uparrow}
+                  -\ket{\downarrow\uparrow\uparrow}}{\sqrt2}.
+  \label{eq:eo-initial-state}
+\end{equation}
+We therefore prepare a singlet on dots 1--2 and an up spin on dot 3,
+with tunneling between dots 2 and 3 suppressed during preparation.
+Use the double-occupation preparation described above for the pair:
+load its singlet in $(0,2)$, then separate the electrons without
+mixing singlet and triplet. Keeping one electron on dot 3, the
+charge sequence is $(0,2,1)\to(1,1,1)$.
+The singlet-loading and charge-transfer steps have the same
+temperature, excited-state, and ramp constraints as for the
+singlet--triplet qubit.
+
+The up spin on dot 3 is an additional requirement of our choice
+$m=+1/2$. With the Zeeman convention used here, relaxation prepares
+the opposite spin. If individually addressable transverse control
+is available, one route is to load $\ket{\downarrow}_3$ as in
+Section~\ref{sec:single-spin-spam}, then apply a resonant $\pi$ pulse
+to spin 3 before the encoded gates. Its frequency and duration are
+set by the measured resonance and rotation rate of spin 3
+(Appendix~\ref{sec:measurement-rabi}). This preparation uses a control
+beyond exchange; the subsequent logical rotations use exchange alone.
+An exchange pulse cannot set $m$, because it conserves
+the total spin projection along $z$.
+
+Polarizing the third spin is not required by the broader
+exchange-only subsystem encoding used in silicon
+experiments~\cite{Weinstein2023}.
+Preparing only the pair singlet gives
+$\rho_{\mathrm{init}}=\ket{S_{12}}\bra{S_{12}}\otimes\rho_3$,
+where $\rho_3$ is the third spin's density operator.
+For example, an unpolarized $\rho_3=I_3/2$ populates both
+$m=\pm1/2$ sectors. Both correspond to logical zero because pair
+1--2 is a singlet; the value of $m$ is left unspecified.
+This is a larger encoding than the fixed-$m$ subspace used above.
+Using it for two-qubit gates requires a sequence that implements
+the same logical gate for either value of each qubit's $m$, as in
+the Fong--Wandzura construction~\cite{FongWandzura2011,Weinstein2023}.
+Appendix~\ref{sec:calibration-eo-initialization} gives the preparation
+steps and distinguishes fixed-$m$ from subsystem initialization.
+
+\paragraph{Readout of pair 1--2.}
+To measure the logical basis, suppress $J_{23}$ and pulse dots 1--2
+toward double occupation while dot 3 remains singly occupied.
+A pair singlet can enter the lowest $(0,2)$ state; a pair triplet
+is blocked when the excited doubly occupied triplets lie outside
+the readout window. The sensor therefore distinguishes $(0,2,1)$
+from $(1,1,1)$, without measuring spin 3.
+Pair singlet preparation and Pauli-blockade readout are used in
+silicon triple-dot qubits~\cite{Blumoff2022}.
+
+To see why this measures the encoded basis, write the singlet
+projector on the three-spin space as
+\begin{equation}
+  Q_S=\ket{S_{12}}\bra{S_{12}}\otimes I_3
+       =\frac14 I-\mathbf{s}_1\cdot\mathbf{s}_2.
+  \label{eq:eo-readout-projector}
+\end{equation}
+Here $I_3$ acts on spin 3 and $I$ on all three spins.
+Pair exchange has eigenvalue $-3/4$ on the pair singlet and $1/4$
+on any pair triplet, so
+\begin{equation}
+  Q_S\ket{0_{\mathrm E}}=\ket{0_{\mathrm E}},\qquad
+  Q_S\ket{1_{\mathrm E}}=0,\qquad
+  \left.P_{\mathrm E}Q_SP_{\mathrm E}\right|_{\mathrm E}
+        =\frac{I_{\mathrm E}+Z_{\mathrm E}}{2},
+  \label{eq:eo-logical-readout}
+\end{equation}
+where $P_{\mathrm E}$ projects onto the two-dimensional encoded
+space, $I_{\mathrm E}$ is its identity, and
+$Z_{\mathrm E}=\ket{0_{\mathrm E}}\bra{0_{\mathrm E}}
+-\ket{1_{\mathrm E}}\bra{1_{\mathrm E}}$.
+Consequently, ideal charge conversion for
+$\ket{\psi}=a\ket{0_{\mathrm E}}+b\ket{1_{\mathrm E}}$ gives
+\begin{equation}
+  p_{021}=|a|^2,\qquad p_{111}=|b|^2.
+  \label{eq:eo-readout-probabilities}
+\end{equation}
+The subscripts label the three-dot occupations.
+A preceding encoded rotation changes the measured logical axis.
+
+This assignment assumes that the input is in the computational
+space. States with total spin $S=3/2$ also have a triplet on pair
+1--2 and produce the blocked outcome; pair readout alone cannot
+distinguish that leakage from logical one.
+It also does not determine $m$. Thus the same singlet test works
+for the subsystem encoding with an unpolarized third spin, but
+does not certify preparation in our fixed-$m$ subspace.
+Residual $J_{23}$, magnetic-field gradients, or relaxation during
+conversion can change the pair spin before it is resolved.
+Their timescales must be long compared with conversion and sensing.
+Appendix~\ref{sec:calibration-eo-readout} develops this pair-readout
+protocol and its limitations.
+
+\subsection{From repeated records to logical-state probabilities}
+\label{sec:platform-readout-probabilities}
+
+Each readout returns one electrical record, such as an empty-dot
+transient or a charge configuration after Pauli-blockade conversion.
+The conversion rules above assign that record a logical outcome.
+For an input density operator $\rho$ within the chosen qubit space,
+ideal logical-basis measurement has probabilities
+\begin{equation}
+ p_0=\operatorname{Tr}(\rho\ket0\bra0),\qquad
+ p_1=1-p_0,\qquad
+ \widehat p_0=\frac{n_0}{M}.
+ \label{eq:platform-repeated-readout}
+\end{equation}
+Here $\ket0,\ket1$ denote the logical basis of the encoding under
+study, and $n_0$ is the number of zero outcomes in $M$ repetitions.
+Each repetition prepares the input again and applies the same
+control sequence before readout. A single outcome is random;
+the fraction $n_0/M$ estimates its probability. For independent
+repetitions with fixed $p_0$, its variance is $p_0(1-p_0)/M$.
+Readout errors change the relation between the observed frequency
+and the logical population. If logical 0 is reported as 1 with
+probability $\epsilon_0$, and logical 1 as 0 with probability
+$\epsilon_1$, fixed classical assignment errors give
+\begin{equation}
+ p_{1,\mathrm{obs}}
+   =\epsilon_0+(1-\epsilon_0-\epsilon_1)p_1.
+ \label{eq:platform-readout-assignment}
+\end{equation}
+Readout thus introduces an offset and reduces contrast. Recovering
+$p_1$ requires nonzero contrast and independently established error
+probabilities. Appendix~\ref{sec:calibration-record-classification}
+derives this assignment map and its inverse in
+Eq.~\eqref{eq:calibration-assignment-map}.
+
+Logical populations alone do not determine a quantum state.
+For example, $\ket+= (\ket0+\ket1)/\sqrt2$ and the mixed state
+$I/2$ both give $p_0=p_1=1/2$. Their difference appears if a known
+logical rotation $U_{\mathrm a}$ precedes the same readout.
+The probability after an analysis rotation is then
+\begin{equation}
+ p_0(U_{\mathrm a})
+   =\operatorname{Tr}\!\left(\rho\,
+            U_{\mathrm a}^\dagger\ket0\bra0 U_{\mathrm a}\right),
+ \qquad
+ p_0\bigl(R_y(-\pi/2)\bigr)
+   =\frac{1+\operatorname{Tr}(\rho X)}2.
+ \label{eq:platform-analysis-probability}
+\end{equation}
+The rotation $R_y(-\pi/2)$ maps $\ket+$ to $\ket0$, giving a zero
+outcome with probability one, whereas $I/2$ remains unchanged and
+still gives probability $1/2$. Similarly, $R_x(\pi/2)$ before
+readout measures $(1+\operatorname{Tr}(\rho Y))/2$.
+The pulse implementations of these rotations for each encoding
+are developed in Section~\ref{sec:quantum-gates}. Repeated readout with
+different analysis rotations can therefore determine the relative
+phase information as well as the logical populations.
+Testing a gate requires its action on independent input states;
+the populations of one output cannot establish its action on an
+arbitrary superposition. Appendices~\ref{sec:calibration-state-tomography}
+and~\ref{sec:calibration-process-tomography} develop state and gate
+reconstruction; Appendix~\ref{sec:calibration-gate-fidelity}
+defines the quantitative comparison with a target gate.
+

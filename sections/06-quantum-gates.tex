@@ -1,0 +1,519 @@
+\section{Quantum gates}
+\label{sec:quantum-gates}
+\label{sec:hamiltonians-to-gates}
+
+Initialization and readout provide a known input and a way to
+measure the final spin populations. Between these stages, the
+Hamiltonians in Section~\ref{sec:spin-control-exchange} control the
+coherent evolution of the qubits. Implementing a particular gate
+requires choosing the pulse amplitudes, durations, phases, and
+ordering so that the resulting evolution has the desired action
+on the computational states. For a pulse described by $H(t)$ over
+a time interval $\tau$, the evolution is $U(\tau)$ in
+Eq.~\eqref{eq:gate-time-evolution}.
+
+To implement a unitary gate, the pulse must return every initial
+computational state to the chosen computational space. If
+$P_{\mathrm q}$ projects onto that space, this condition is
+$(I-P_{\mathrm q})U(\tau)P_{\mathrm q}=0$; the restriction of
+$P_{\mathrm q}U(\tau)P_{\mathrm q}$ then gives the gate operator.
+Intermediate admixture of charge or other spin states is allowed,
+provided that no population remains outside the computational space
+at the end of the pulse. A calculation based on an effective spin
+Hamiltonian must account for any such intermediate excursions
+through the approximations used to obtain it.
+
+\subsection{Gates for single-spin qubits}
+\label{sec:single-qubit-gates}
+
+\paragraph{Transverse rotation gates: \texorpdfstring{$R_x$ and $R_y$}{Rx and Ry}.}
+We want to choose the axis and angle of a logical spin rotation.
+The drive phase sets the transverse axis, while its amplitude and
+duration set the angle.
+In the logical basis $(\ket0,\ket1)=(\ket{\downarrow},\ket{\uparrow})$,
+the Pauli operators obey
+$\sigma_x=X$, $\sigma_y=-Y$, and $\sigma_z=-Z$.
+
+Writing Eq.~\eqref{eq:esr-propagator} in this basis and allowing
+a time-dependent drive envelope $\Omega(t)$ gives
+\begin{equation}
+  H_{\mathrm{rot,q}}(t)=\frac{\hbar}{2}
+       \left[-\delta Z+\Omega(t)(\cos\phi\,X-\sin\phi\,Y)\right].
+  \label{eq:logical-phase-drive}
+\end{equation}
+To reach resonance, tune the drive frequency to the measured spin
+resonance $\omega_Z$ (Appendix~\ref{sec:measurement-spin-spectroscopy}).
+On resonance ($\delta=0$), fixing $\phi$ keeps the rotation axis constant even
+if the envelope varies. The angle depends on the full pulse area,
+including its rise and fall,
+$\vartheta=\int_0^\tau\Omega(t)\,dt$:
+\begin{equation}
+  U_\phi(\vartheta)=
+  \exp\!\left[-\frac{i\vartheta}{2}
+                    (\cos\phi\,X-\sin\phi\,Y)\right].
+  \label{eq:phase-controlled-rotation}
+\end{equation}
+For a constant-amplitude pulse, the rotation rate $\Omega$ at that
+amplitude is measured (Appendix~\ref{sec:measurement-rabi}) and the
+duration is chosen so that $\Omega\tau=\vartheta$. For a pulse with
+finite rising and falling edges, choose the amplitude and hold time
+from the calibrated area of the complete waveform
+(Appendix~\ref{sec:calibration-spin-rotations}).
+
+To select the transverse axis, calibrate the relative phase of
+successive pulses against a common reference
+(Appendix~\ref{sec:calibration-spin-corrections}).
+Taking $\phi=0$ as the $x$ reference, the two phase settings give
+\begin{equation}
+ \begin{aligned}
+  \delta=0,\quad\phi=0
+    &: \qquad U_0(\vartheta)=R_x(\vartheta),\\
+  \delta=0,\quad\phi=-\pi/2
+    &: \qquad U_{-\pi/2}(\vartheta)=R_y(\vartheta),
+ \end{aligned}
+ \qquad \vartheta=\int_0^\tau\Omega(t)\,dt.
+ \label{eq:single-spin-transverse-gates}
+\end{equation}
+\paragraph{Phase rotation gate: \texorpdfstring{$R_z$}{Rz}.}
+A logical $z$ rotation changes the relative phase without
+moving population between the basis states. At the chosen holding
+voltages, measure the detuning from the control reference
+(Appendix~\ref{sec:measurement-ramsey-echo}). With the transverse
+drive off, choose the waiting time to accumulate the required angle:
+\begin{equation}
+  U_z(\tau)=\exp\!\left[\frac{iZ}{2}\int_0^\tau\delta(t)\,dt\right]
+            =R_z\!\left(-\int_0^\tau\delta(t)\,dt\right).
+  \label{eq:detuning-z-gate}
+\end{equation}
+For a constant measured detuning, the condition is
+$\vartheta_z=-\delta\tau$. Phase-coherent control can also track
+a $z$ rotation by updating the programmed phases of later pulses;
+those phases use the same calibrated reference as the transverse
+gates above.
+
+The calibrated rotations implement the Pauli and Hadamard gates
+through the sequences in Eq.~\eqref{eq:elementary-single-qubit-gates}.
+
+\paragraph{Exchange gates: SWAP and \texorpdfstring{$\sqrt{\mathrm{SWAP}}$}{square-root SWAP}.}
+\label{sec:exchange-two-qubit-gates}
+We next use exchange to entangle two single-spin qubits and combine
+it with local rotations to obtain CNOT.
+Keep the dots in $(1,1)$ and remove common Zeeman evolution.
+The local Zeeman-energy difference must be calibrated for the
+intended exchange operating point
+(Appendix~\ref{sec:calibration-two-spin-exchange}). Choose holding
+and exchange voltages for which this difference has negligible
+action during the pulse. If no such setting is available, the
+measured difference must be included in the pulse Hamiltonian
+instead of using the exchange-only form below.
+The exchange pulse gives
+\begin{equation}
+  \begin{aligned}
+  H_{\mathrm{ex}}(t)&=\frac{J(t)}{4}
+                  (X_1X_2+Y_1Y_2+Z_1Z_2),\\
+  U_{\mathrm{ex}}(\theta)&=
+       e^{-i\theta(X_1X_2+Y_1Y_2+Z_1Z_2)/4},
+  \qquad \theta=\frac{1}{\hbar}\int_0^\tau J(t)\,dt.
+  \end{aligned}
+  \label{eq:logical-exchange-gate}
+\end{equation}
+For the SWAP operator in Eq.~\eqref{eq:exchange-gate-matrices},
+$\mathrm{SWAP}=(I+X_1X_2+Y_1Y_2+Z_1Z_2)/2$
+and $\mathrm{SWAP}^2=I$,
+so
+\begin{equation}
+  U_{\mathrm{ex}}(\theta)=e^{i\theta/4}
+       \left[\cos(\theta/2)I-i\sin(\theta/2)\mathrm{SWAP}\right].
+  \label{eq:partial-swap}
+\end{equation}
+To set $\theta$, calibrate the exchange strength and the phase
+accumulated on the pulse edges along the compensated barrier-voltage
+path (Appendix~\ref{sec:calibration-two-spin-exchange}). The barrier
+pulse amplitude and hold time are then chosen to reach the target
+area (Appendix~\ref{sec:calibration-partial-swap}).
+The pulse areas $\theta=\pi$ and $\theta=\pi/2$ implement the
+two gates in Eq.~\eqref{eq:exchange-gate-matrices}, up to global phase:
+\begin{equation}
+ \mathrm{SWAP}=e^{i\pi/4}U_{\mathrm{ex}}(\pi),\qquad
+ \sqrt{\mathrm{SWAP}}=e^{i\pi/8}U_{\mathrm{ex}}(\pi/2).
+ \label{eq:exchange-gate-pulse-areas}
+\end{equation}
+SWAP exchanges the qubits without entangling a product state.
+The half-area pulse can entangle them; for example,
+\begin{equation}
+  U_{\mathrm{ex}}(\pi/2)\ket{01}
+    =\frac{e^{i\pi/8}}{\sqrt{2}}(\ket{01}-i\ket{10}).
+  \label{eq:exchange-entanglement}
+\end{equation}
+The displayed output is maximally entangled~\cite{Loss1998}.
+
+\paragraph{Controlled gates: CZ and CNOT.}
+To construct CZ from partial exchange, we need to cancel the
+$X_1X_2$ and $Y_1Y_2$ contributions while retaining $Z_1Z_2$.
+Set $G=U_{\mathrm{ex}}(\pi/2)$.
+Conjugation by the local phase flip $Z_1$ reverses the first two
+terms but leaves the third unchanged. Because the three terms
+commute, two exchange pulses give
+\begin{equation}
+  U_{ZZ}\equiv G Z_1 G Z_1
+       =\exp(-i\pi Z_1Z_2/4).
+  \label{eq:exchange-zz-construction}
+\end{equation}
+The phase flip $Z_1$ is supplied by a physical local $\pi$ rotation
+[Eq.~\eqref{eq:elementary-single-qubit-gates}], with exchange
+suppressed during that rotation. Each $G$ pulse uses the calibrated
+exchange area $\pi/2$.
+The resulting $U_{ZZ}$ assigns phases to all four basis states.
+Local $z$ rotations remove the unwanted single-qubit phases, leaving
+a minus sign only on $\ket{11}$:
+\begin{equation}
+  \mathrm{CZ}
+     =e^{-i\pi/4}R_{z,1}(-\pi/2)R_{z,2}(-\pi/2)U_{ZZ}.
+  \label{eq:exchange-cz-construction}
+\end{equation}
+For the complete sequence, the conditional phase and the two local
+phases must be measured
+(Appendix~\ref{sec:calibration-single-spin-exchange-cz}). Adjust the
+exchange hold times until the conditional phase is $\pi$ modulo
+$2\pi$, and set the local $z$ corrections from the measured local
+phases.
+Applying the calibrated Hadamard gate to the target before and
+after this CZ gives CNOT [Eq.~\eqref{eq:exchange-cnot-construction}].
+This sequence requires separately addressable single-spin pulses,
+with charge leakage and unwanted Zeeman terms suppressed during
+exchange. It provides the entangling gate that, together with
+arbitrary single-qubit rotations, forms a universal gate
+set~\cite{Loss1998}.
+
+\subsection{Gates for singlet--triplet qubits}
+\label{sec:st-gates}
+
+For the basis $(\ket S,\ket{T_0})$, we again need controls that
+change both relative phase and population.
+Exchange changes the singlet--triplet energy splitting and hence
+their relative phase. A difference between the longitudinal fields
+on the two dots couples the two states.
+For local Zeeman energies $E_{Z,i}=g_i\mu_B B_{z,i}$,
+with effective factors $g_i$ and fields $B_{z,i}$, the physical
+Hamiltonian is
+\begin{equation}
+  H=J\,\mathbf{s}_1\cdot\mathbf{s}_2
+    +E_{Z,1}s_{1z}+E_{Z,2}s_{2z}.
+  \label{eq:st-physical-hamiltonian}
+\end{equation}
+This Hamiltonian preserves the $m=0$ computational space.
+Exchange gives energies $-3J/4$ and $J/4$ to $\ket S$ and $\ket{T_0}$,
+while $\Delta E_Z=E_{Z,1}-E_{Z,2}$ couples them.
+With $Z_{\mathrm{ST}}=\ket S\bra S-\ket{T_0}\bra{T_0}$ and
+$X_{\mathrm{ST}}=\ket S\bra{T_0}+\ket{T_0}\bra S$,
+the logical Hamiltonian, after dropping $-J/4$, is
+\begin{equation}
+  H_{\mathrm{ST}}=-\frac{J}{2}Z_{\mathrm{ST}}
+                   +\frac{\Delta E_Z}{2}X_{\mathrm{ST}},
+  \label{eq:st-effective-hamiltonian}
+\end{equation}
+A uniform longitudinal field vanishes in the $m=0$ space; the
+difference $\Delta E_Z$, rather than the common field, sets the
+mixing term. Fluctuations of either $J$ or $\Delta E_Z$ therefore
+change the logical evolution.
+
+\paragraph{Logical \texorpdfstring{$R_x$ and $R_z$}{Rx and Rz} gates.}
+For constant controls held for a time $\tau$, the two pure-axis
+rotations are
+\begin{equation}
+  \begin{aligned}
+   J=0 &: \quad U_{\mathrm{ST}}=R_{x,\mathrm{ST}}(\Delta E_Z\tau/\hbar),\\
+   \Delta E_Z=0 &: \quad U_{\mathrm{ST}}=R_{z,\mathrm{ST}}(-J\tau/\hbar).
+  \end{aligned}
+  \label{eq:st-axis-limits}
+\end{equation}
+To obtain $R_{x,\mathrm{ST}}$, set the compensated barrier and detuning
+voltages so that exchange is negligible, measure $\Delta E_Z$
+there, and choose $\tau$ for the required angle
+(Appendix~\ref{sec:calibration-st-rotations}). A direct
+$R_{z,\mathrm{ST}}$ requires a setting with negligible
+$\Delta E_Z$; at that setting, the measured exchange strength
+determines the pulse duration for the required angle.
+
+\paragraph{Rotations with a fixed field gradient.}
+With a fixed nonzero $\Delta E_Z$, turning on $J$ tilts the axis
+rather than giving a pure $z$ rotation. The values of $J$ and
+$\Delta E_Z$ must be measured at each selected voltage setting
+(Appendix~\ref{sec:calibration-st-rotations}). Holding both controls
+constant for time $\tau$ gives the gate below, with
+$E_{\mathrm{ST}}=\sqrt{J^2+(\Delta E_Z)^2}$:
+\begin{equation}
+  U_{\mathrm{ST}}(\tau)
+   =\cos\!\left(\frac{E_{\mathrm{ST}}\tau}{2\hbar}\right)I
+    -i\sin\!\left(\frac{E_{\mathrm{ST}}\tau}{2\hbar}\right)
+       \frac{\Delta E_Z X_{\mathrm{ST}}-JZ_{\mathrm{ST}}}
+            {E_{\mathrm{ST}}}.
+  \label{eq:st-pulse-rotation}
+\end{equation}
+The rotation axis is proportional to $(\Delta E_Z,0,-J)$.
+Choose voltage settings whose measured $J$ and $\Delta E_Z$ give
+nonparallel axes. The durations of these voltage
+holds can then be chosen to compose the desired logical rotation.
+Such control has been demonstrated in a silicon double dot with a
+micromagnet~\cite{Wu2014}.
+If $J/\Delta E_Z$ changes within a pulse, the axis also changes
+and time ordering is generally required.
+
+\paragraph{Encoded CZ and CNOT gates.}
+To entangle two singlet--triplet qubits, couple two double dots
+$A,B$ containing four electrons in total.
+Capacitive coupling makes the phase acquired by one qubit depend
+on the state of the other, adding an interaction to the separate
+single-qubit Hamiltonians:
+\begin{equation}
+ H_{\mathrm{logical}}
+   =H_A\otimes I_B+I_A\otimes H_B+H_{\mathrm{cap}}.
+ \label{eq:st-coupled-logical-hamiltonian}
+\end{equation}
+Here $H_A,H_B$ include local energy shifts and $H_{\mathrm{cap}}$
+is the additional two-qubit interaction.
+After eliminating charge excitations, assume this coupling is
+diagonal in the product singlet--triplet basis. Here $\ket S$
+denotes the charge-hybridized singlet. Let
+$E_{00},E_{01},E_{10},E_{11}$ be the energies of $\ket{SS}$,
+$\ket{ST_0}$, $\ket{T_0S}$, and $\ket{T_0T_0}$, respectively.
+Its conditional part is fixed by
+$\kappa=E_{00}-E_{01}-E_{10}+E_{11}$: independent shifts of
+either qubit cancel in this combination. Absorbing those shifts
+into $H_A,H_B$, and writing $P_{S,q}=(I+Z_q)/2$ with $Z_q$ the
+encoded Pauli operator on $q=A,B$, gives the interaction
+(Appendix~\ref{sec:calibration-capacitive-st-interaction})
+\begin{equation}
+ H_{\mathrm{cap}}=\kappa P_{S,A}P_{S,B}
+     =\frac{\kappa}{4}(I+Z_A+Z_B+Z_AZ_B).
+ \label{eq:st-capacitive-coupling}
+\end{equation}
+The Zeeman differences at the joint interaction setting must also
+be measured. Select the interaction voltages and duration so that
+the resulting transverse evolution is negligible over the pulse.
+If this condition cannot be reached, the full coupled Hamiltonian is needed
+(Appendix~\ref{sec:calibration-parallel-st-gates}). Under this
+condition and with negligible charge leakage, the nonlocal factor
+of the interaction pulse is
+\begin{equation}
+ U_{\mathrm{ent}}(\Phi)=\exp(-i\Phi Z_AZ_B/4),
+ \qquad \Phi=\frac{1}{\hbar}\int_0^\tau\kappa(t)\,dt.
+ \label{eq:st-entangling-gate}
+\end{equation}
+To reach $\Phi=\pi$, measure the conditional phase of the full
+joint voltage pulse and adjust its barrier and detuning settings
+or its duration (Appendix~\ref{sec:calibration-conditional-phase-measurement}).
+The local phases accumulated in the same pulse must also be
+measured; they determine the net local corrections that convert
+the full pulse into CZ. In terms of the isolated nonlocal factor,
+the ideal conversion is
+\begin{equation}
+ \mathrm{CZ}_{AB}
+   =e^{-i\pi/4}R_{z,A}(-\pi/2)R_{z,B}(-\pi/2)
+       U_{\mathrm{ent}}(\pi),
+ \label{eq:st-cz-gate}
+\end{equation}
+Using the calibrated local rotations to implement Hadamard gates
+on $B$ before and after CZ gives the encoded CNOT
+[Eq.~\eqref{eq:exchange-cnot-construction}], with $\ket0=\ket S$ and
+$\ket1=\ket{T_0}$ in each double dot.
+The physical gate acts on four spins.
+Uncompensated local $X$ terms do not commute with $Z_AZ_B$ and
+require the full time-ordered evolution.
+Capacitive singlet--triplet entanglement was demonstrated in
+GaAs~\cite{Shulman2012}; silicon requires its own coupling calibration.
+
+\paragraph{Charge admixture sets the conditional energy.}
+The conditional energy $\kappa$ comes from the Coulomb interaction
+between the two double dots. In a density-interaction model without
+inter-block tunneling,
+\begin{equation}
+ H_{\mathrm{micro}}=H_{\mathrm{Hub},A}+H_{\mathrm{Hub},B}
+                  +H_C^{AB},
+ \qquad
+ H_C^{AB}=\sum_{i,j=1}^{2}W_{ij}n_{A,i}n_{B,j},
+ \label{eq:st-interblock-coulomb}
+\end{equation}
+where $n_{A,i}$ counts electrons on dot $i$ in $A$, and $W_{ij}$
+is its Coulomb coupling to dot $j$ in $B$, in energy units.
+These cross-qubit terms are additional to each double dot's $U,V$.
+Coulomb interaction acts on charge, so it can distinguish the logical
+spin states only when they have different charge distributions.
+Near a $(1,1)$--$(0,2)$ anticrossing, tunneling mixes
+$\ket{S(1,1)}$ with $\ket{S(0,2)}$, while $\ket{T_0}$ remains
+predominantly in $(1,1)$. The resulting dipole difference makes the
+inter-qubit energy depend on both logical states.
+
+For a singlet with probability $p_q$ of occupying $(0,2)$ and a
+triplet confined to $(1,1)$, the weak inter-block density interaction
+gives
+\begin{equation}
+ \kappa=p_Ap_B(W_{11}-W_{12}-W_{21}+W_{22}).
+ \label{eq:platform-st-charge-coupling}
+\end{equation}
+This assumes that the coupling does not appreciably change the
+separate charge eigenstates. Gate voltages change $p_A,p_B$ through
+detuning and tunneling, thereby controlling the conditional energy.
+Increasing charge admixture can strengthen coupling but also
+increase charge-noise sensitivity~\cite{Burkard2023,Shulman2012}.
+Appendix~\ref{sec:calibration-capacitive-st-interaction} obtains the
+admixtures from the charge Hamiltonian and separates the energy
+shifts in Eq.~\eqref{eq:st-interaction-decomposition}.
+
+\paragraph{Local gates in the presence of residual coupling.}
+The same interaction is present during a nominally local gate if
+$\kappa$ remains nonzero. In the diagonal limit above, two local
+gates act independently only when the residual $\Phi$ is negligible
+or is cancelled, modulo $2\pi$ and local phases. With simultaneous
+local $X$ terms, independence must instead be checked from the full
+two-qubit evolution. Reducing charge admixture suppresses $\kappa$
+but also changes each qubit's exchange; these controls cannot be
+assumed to be independent. In the diagonal limit, measure the local
+and residual conditional phases of the proposed simultaneous pulses
+and adjust their voltages, durations, or scheduling to retain the
+target local angles while canceling the unwanted conditional phase
+(Appendix~\ref{sec:calibration-parallel-st-gates}). An echoed
+entangling pulse is constructed in
+Appendix~\ref{sec:calibration-echo-control}.
+
+\subsection{Gates for exchange-only qubits}
+\label{sec:exchange-only-gates}
+\label{sec:encoded-gates}
+
+\paragraph{Single-pair exchange gates.}
+Here the goal is to generate logical rotations using exchange pulses
+alone. In the basis of Eq.~\eqref{eq:exchange-only-basis}, exchange
+on spins 1 and 2 distinguishes their singlet and triplet, whereas
+exchange on spins 2 and 3 mixes the encoded states.
+We determine the two rotation axes from the physical Hamiltonian
+\begin{equation}
+  H_{\mathrm E}=J_{12}\,\mathbf{s}_1\cdot\mathbf{s}_2
+                  +J_{23}\,\mathbf{s}_2\cdot\mathbf{s}_3,
+  \label{eq:exchange-only-control}
+\end{equation}
+Isotropic pair exchange conserves total spin and its $z$ component,
+so it preserves the $(S,m)=(1/2,+1/2)$ computational space even
+when its strength changes in time. Nonuniform magnetic fields
+need not preserve that space. In the encoded basis, and after
+dropping a common energy, the Hamiltonian is
+\begin{equation}
+ H_{\mathrm{E,q}}
+   =\frac{\sqrt3 J_{23}}{4}X_{\mathrm E}
+      +\left(-\frac{J_{12}}2+\frac{J_{23}}4\right)Z_{\mathrm E}.
+ \label{eq:exchange-only-logical-control}
+\end{equation}
+The two projected exchange matrices are evaluated in
+Appendix~\ref{sec:calibration-eo-logical-axes},
+Eq.~\eqref{eq:exchange-only-projection}.
+For a pulse on one pair with the other exchange negligible, let
+$\theta_{ij}=\int_0^\tau J_{ij}(t)\,dt/\hbar$.
+The active pair's exchange area and the other pair's residual
+exchange must be measured at the selected voltage settings
+(Appendix~\ref{sec:calibration-eo-pulse-areas}). Choose the compensated
+barrier waveform and its duration for the required $\theta_{ij}$,
+with the inactive pair held at its calibrated low-exchange setting.
+Up to global phase,
+\begin{equation}
+ \begin{aligned}
+ U_{12,\mathrm E}(\theta_{12})
+    &=\exp(i\theta_{12}Z_{\mathrm E}/2)
+      =R_{z,\mathrm E}(-\theta_{12}),\\
+ U_{23,\mathrm E}(\theta_{23})
+    &=\exp\!\left[-\frac{i\theta_{23}}2
+          \left(\frac{\sqrt3}{2}X_{\mathrm E}
+                            +\frac12 Z_{\mathrm E}\right)\right].
+ \end{aligned}
+ \label{eq:exchange-only-rotations}
+\end{equation}
+The two pulses rotate about $-\hat z$ and $(\sqrt3/2,0,1/2)$.
+Because these axes are nonparallel, their generators and commutators
+span the single-qubit rotation algebra.
+Choosing pulse areas and alternating the two couplings therefore
+gives arbitrary encoded rotations~\cite{DiVincenzo2000}.
+
+\paragraph{A direct logical \texorpdfstring{$R_x$}{Rx} gate.}
+For constant simultaneous couplings, $J_{12}=J_{23}/2$ cancels the
+$Z_{\mathrm E}$ term. Both couplings must be calibrated with the
+two barrier controls applied together; the simultaneous voltages
+are adjusted until the measured couplings satisfy this ratio
+(Appendix~\ref{sec:calibration-eo-direct-x}). Holding these couplings
+for time $\tau$ gives
+\begin{equation}
+ H_{\mathrm{E,q}}=\frac{\sqrt3 J_{23}}{4}X_{\mathrm E},\qquad
+ U_{\mathrm E}(\tau)
+    =R_{x,\mathrm E}\!\left(\frac{\sqrt3 J_{23}\tau}{2\hbar}\right).
+ \label{eq:exchange-only-direct-x-gate}
+\end{equation}
+For time-dependent pulses, the same gate follows if the ratio is
+maintained at every instant, including the ramps:
+\begin{equation}
+ J_{12}(t)=\frac12J_{23}(t)
+ \quad\Longrightarrow\quad
+ U_{\mathrm E}(\tau)=R_{x,\mathrm E}(\vartheta_x),\qquad
+ \vartheta_x=\frac{\sqrt3}{2\hbar}\int_0^\tau J_{23}(t)\,dt.
+ \label{eq:exchange-only-shaped-x-gate}
+\end{equation}
+A ratio imposed only during the constant hold does not make the
+entire gate a pure $x$ rotation. The complete gate angle must
+therefore be calibrated for the chosen pair of waveforms. If the
+ratio cannot be maintained on their edges, use a sequence of the
+calibrated single-pair rotations instead
+(Appendix~\ref{sec:calibration-eo-direct-x}).
+
+\paragraph{Encoded CNOT: target gate and pulse requirements.}
+To implement CNOT [Eq.~\eqref{eq:exchange-only-cnot-definition}]
+between two triple-dot qubits $A=(1,2,3)$ and $B=(4,5,6)$, we need
+exchange between the blocks and a pulse sequence that returns both
+blocks to their computational spaces. The logical states in the
+target gate are $\ket{0_{\mathrm E}},\ket{1_{\mathrm E}}$ in each block.
+For a linear six-dot chain, the available Hamiltonian is
+\begin{equation}
+ H_6(t)=\sum_{i=1}^{5}J_{i,i+1}(t)
+                 \mathbf{s}_i\cdot\mathbf{s}_{i+1}.
+ \label{eq:six-spin-exchange}
+\end{equation}
+The boundary term $J_{34}$ couples the blocks, but it also creates
+a leakage problem absent from the one-block gate.
+In particular,
+$[\mathbf{s}_3\cdot\mathbf{s}_4,\mathbf{s}_A^2]\ne0$, where
+$\mathbf{s}_A=\mathbf{s}_1+\mathbf{s}_2+\mathbf{s}_3$.
+It can change either block's total spin or its $z$ component despite
+conserving total six-spin angular momentum.
+Thus a physical $\sqrt{\mathrm{SWAP}}$ on spins 3 and 4 is not an
+encoded gate by itself.
+
+The pulse sequence must cancel any final leakage while retaining
+an entangling action on the code. To test both requirements,
+calculate the product of $M$ pair pulses in the full six-spin space:
+\begin{equation}
+ U_6=U_{i_Mj_M}(\theta_M)\cdots U_{i_1j_1}(\theta_1),
+ \qquad
+ U_{ij}(\theta)=\exp[-i\theta\,\mathbf{s}_i\cdot\mathbf{s}_j].
+ \label{eq:encoded-six-spin-sequence}
+\end{equation}
+Let $P_{AB}$ project onto the product of the two code spaces,
+each with $S=1/2,m=+1/2$. An encoded CNOT, including local corrections,
+must satisfy
+\begin{equation}
+ \begin{aligned}
+  (I-P_{AB})U_6P_{AB}&=0,\\
+  \left.P_{AB}U_6P_{AB}\right|_{\mathrm{q},A\otimes\mathrm{q},B}
+      &=e^{i\chi}\mathrm{CNOT}_{A\to B},
+ \end{aligned}
+ \label{eq:encoded-cnot-target}
+\end{equation}
+Here $\chi$ is a global phase.
+The first condition excludes final leakage; the second fixes the
+logical gate. Intermediate leakage is allowed, so exponentiating
+only the projected boundary exchange is insufficient.
+
+Fong and Wandzura give exact six-spin exchange-only
+CNOT sequences~\cite{FongWandzura2011}. Their pulse angles and
+ordering are not reproduced here. For a chosen sequence, each
+target exchange area must be converted to a barrier waveform and
+duration using the measured response of that pair, including the
+boundary pair 3--4. The final leakage and logical action of the
+complete sequence, including relative phases, must then be measured
+(Appendix~\ref{sec:calibration-eo-two-qubit-gates}). Together with
+one-block rotations, such a gate gives universal encoded computation.
+

@@ -1,0 +1,319 @@
+\section{Engineering spin control and exchange interactions}
+\label{sec:spin-control-exchange}
+
+An encoding specifies which states store quantum information.
+To manipulate that information, we need a Hamiltonian that changes
+relative phases or populations within the chosen spin space.
+A static magnetic field splits the two levels of an individual
+spin and makes their relative phase evolve. A transverse drive
+mixes those levels, while tunneling between dots produces an
+exchange interaction that couples different spins. These physical
+terms supply the controls whose action on each encoding is worked
+out in Section~\ref{sec:quantum-gates}.
+
+The spin description assumes that charge, orbital, and valley
+excitations can be excluded as independent computational states.
+This restriction must remain valid at the operating field and
+under the applied pulses, even when virtual excitations contribute
+to the effective spin Hamiltonian~\cite{Burkard2023}.
+
+\subsection{Zeeman splitting and the two-level approximation}
+\label{sec:platform-encoding}
+
+Consider a singly occupied dot with the electron in the spatial
+state $\ket{\chi_0}$. A static magnetic field along $+z$ lifts the
+degeneracy of its two spin states. For a positive isotropic
+effective $g$ factor, the Zeeman Hamiltonian in the physical-spin
+basis $(\ket{\uparrow},\ket{\downarrow})$ is
+\begin{equation}
+  H_Z=\frac{E_Z}{2}\sigma_z,
+  \qquad E_Z=g\mu_B B>0.
+  \label{eq:zeeman}
+\end{equation}
+Here $\mu_B$ is the Bohr magneton and $B$ the field magnitude.
+With the logical basis in Eq.~\eqref{eq:qubit-basis},
+$\ket0$ is the lower level and $\ket1$ the upper level.
+In this basis, $H_Z|_{\Hilb_{\mathrm q}}=-E_ZZ/2$.
+The minus sign follows from assigning the lower spin level to
+$\ket0$. This diagonal Hamiltonian changes the relative phase of
+a spin superposition while leaving the two populations unchanged.
+
+The two-level approximation requires the electron to remain in the
+retained orbital--valley state and charge sector. Let
+$\Delta_{\mathrm{orb}}$ and $\Delta_{\mathrm{val}}$ denote the
+relevant gaps to excluded orbital and valley states, measured at the
+operating field (Appendix~\ref{app:dot-spectroscopy}). The condition
+$k_BT\ll\min(\Delta_{\mathrm{orb}},\Delta_{\mathrm{val}})$
+suppresses their thermal occupation. If electron exchange with a
+reservoir remains possible, every accessible charge-transfer process
+out of either retained spin state must have a positive energy cost
+large compared with $k_BT$. The costs $\Delta_\pm$ in
+Eq.~\eqref{eq:dot-charge-transfer-costs} refer to the ground state
+of the occupied charge sector, with $E_N$ evaluated including the
+Zeeman energies at the operating field. Starting in its upper Zeeman state
+reduces a transfer cost by $E_Z$ for the same final state.
+Alternatively, reservoir exchange can be made negligible on the
+operation timescale by raising its tunnel barrier. Low temperature
+alone does not prevent
+control-induced leakage: a pulse that couples to an excluded state
+can populate it if its frequency approaches the corresponding
+transition. The coupling matrix elements, excitation gaps, and
+pulse spectrum must therefore be checked together~\cite{Burkard2023}.
+
+Both Zeeman states belong to the retained qubit space. Keeping the
+electron in that space does not require it to occupy only the
+lower spin level, and does not by itself require $k_BT\ll E_Z$.
+That stronger spin-polarization condition is useful when thermal
+relaxation is used to prepare $\ket0$. During coherent operations,
+the intended state may instead be any superposition of the two
+levels. Spin relaxation and loss of phase coherence constrain how
+long that state can be retained even when charge, orbital, and
+valley leakage remain negligible.
+
+\subsection{Transverse spin control}
+\label{sec:transverse-spin-control}
+
+Our aim is to control both the relative phase and the populations
+of the two spin states. A suitable Hamiltonian is
+\begin{equation}
+  H_{\mathrm{target}}(t)=a(t)\sigma_z+b(t)\sigma_x,
+  \label{eq:single-spin-control-target}
+\end{equation}
+where $a,b$ are real energy coefficients.
+The $\sigma_z$ term changes the relative phase of $\ket{\uparrow}$
+and $\ket{\downarrow}$, while $\sigma_x$ mixes them.
+A static Zeeman field already supplies the longitudinal term.
+We need to generate a useful transverse term, either directly in
+the laboratory or in an effective rotating frame.
+
+A constant transverse coupling is the simplest candidate. To see
+its limitation, keep the Zeeman splitting fixed and switch on
+a term $\hbar\Omega_x\sigma_x/2$ at $t=0$:
+\begin{equation}
+  H_{\mathrm{static}}=\frac{\hbar}{2}
+     (\omega_Z\sigma_z+\Omega_x\sigma_x),\qquad
+  \omega_Z=\frac{E_Z}{\hbar}.
+  \label{eq:static-transverse-hamiltonian}
+\end{equation}
+Since $(\omega_Z\sigma_z+\Omega_x\sigma_x)^2
+=(\omega_Z^2+\Omega_x^2)I$, a spin initially in $\ket{\downarrow}$
+has transition probability
+\begin{equation}
+  P^{\mathrm{static}}_{\downarrow\to\uparrow}(t)
+   =\frac{\Omega_x^2}{\omega_Z^2+\Omega_x^2}
+      \sin^2\!\left(\frac{t}{2}\sqrt{\omega_Z^2+\Omega_x^2}\right),
+  \qquad
+  P_{\max}^{\mathrm{static}}
+   =\frac{\Omega_x^2}{\omega_Z^2+\Omega_x^2}.
+  \label{eq:static-transverse-probability}
+\end{equation}
+For $|\Omega_x|\ll\omega_Z$, the maximum is approximately
+$(\Omega_x/\omega_Z)^2\ll1$, regardless of pulse duration. The spin rotates about $(\Omega_x,0,\omega_Z)$,
+an axis close to $z$, so it cannot reach the opposite Zeeman state.
+With zero longitudinal splitting, a full flip would take
+$\pi/|\Omega_x|$; the bound applies to a single constant pulse
+with fixed $\omega_Z$.
+
+Resonant driving avoids this limitation by making the transverse
+coupling oscillate near the Zeeman frequency.
+
+\paragraph{Resonant driving and Rabi oscillations.}
+Keep the Zeeman splitting fixed and take an oscillating transverse
+term with real drive coefficient $\Omega$, angular frequency
+$\omega$ and phase $\phi$ (Appendix~\ref{app:transverse-drive-origins}):
+\begin{equation}
+  H(t)=\frac{\hbar\omega_Z}{2}\sigma_z
+       +\hbar\Omega\cos(\omega t+\phi)\sigma_x,
+  \qquad \omega_Z=\frac{E_Z}{\hbar}.
+  \label{eq:esr-lab}
+\end{equation}
+The drive couples the Zeeman states because
+$\bra{\uparrow}\sigma_x\ket{\downarrow}=1$.
+In a frame rotating at the drive frequency,
+$\ket{\psi(t)}=e^{-i\omega t\sigma_z/2}\ket{\psi_{\mathrm r}(t)}$,
+define the detuning $\delta=\omega_Z-\omega$.
+For $|\delta|,|\Omega|\ll\omega_Z$, the rotating-wave approximation
+(RWA) gives the effective Hamiltonian and evolution
+(Appendix~\ref{app:spin-driving})
+\begin{equation}
+  \begin{aligned}
+    H_{\mathrm{RWA}}&=\frac{\hbar}{2}
+      \left[\delta\sigma_z
+        +\Omega(\cos\phi\,\sigma_x+\sin\phi\,\sigma_y)\right],\\
+    U_{\mathrm r}(t)&=\cos\frac{\Omega_{\mathrm{eff}}t}{2}\,I
+      -i\sin\frac{\Omega_{\mathrm{eff}}t}{2}\,
+       \frac{\delta\sigma_z
+         +\Omega(\cos\phi\,\sigma_x+\sin\phi\,\sigma_y)}
+            {\Omega_{\mathrm{eff}}},
+  \end{aligned}
+  \label{eq:esr-propagator}
+\end{equation}
+where $\Omega_{\mathrm{eff}}=\sqrt{\delta^2+\Omega^2}$ is the rotation
+frequency. The phase sets the transverse direction of the rotation
+axis $(\Omega\cos\phi,\Omega\sin\phi,\delta)$. For $\phi=0$,
+the target coefficients are $a=\hbar\delta/2$ and $b=\hbar\Omega/2$.
+To find the pulse duration for a spin flip, start in
+$\ket{\downarrow}$ and evaluate the up-spin probability:
+\begin{equation}
+  P_{\downarrow\to\uparrow}(t)
+    =\frac{\Omega^2}{\delta^2+\Omega^2}
+       \sin^2\!\left(\frac{t}{2}\sqrt{\delta^2+\Omega^2}\right).
+  \label{eq:rabi-probability}
+\end{equation}
+This population-transfer probability is independent of $\phi$.
+Tune the drive frequency to the measured spin resonance to set
+$\delta=0$ (Appendix~\ref{sec:measurement-spin-spectroscopy}).
+The measured rotation rate at the chosen drive amplitude then sets
+the spin-flip duration $t_\pi=\pi/|\Omega|$, even for
+$|\Omega|\ll\omega_Z$.
+Detuning tilts the effective rotation axis and reduces the maximum
+inversion. High-fidelity inversion therefore requires
+$|\delta|\ll|\Omega|$ and a pulse shorter than the coherence time.
+
+\subsection{Exchange from virtual tunneling}
+\label{sec:exchange-virtual-tunneling}
+
+For electron spins confined in neighboring quantum dots, tunneling
+through the interdot barrier provides an exchange interaction whose
+strength can be controlled electrically. Together with the single-spin
+controls described above, this interaction supplies the means to
+implement two-spin gates. In the regime of interest, the electron
+pair remains predominantly in the $(1,1)$ configuration: double occupation is energetically
+costly, but its weak admixture can still affect the spin dynamics.
+
+\paragraph{Virtual tunneling and exchange.}
+Consider a double dot isolated from its reservoirs, so that its total
+electron number remains fixed at two. Tunneling connects the $(1,1)$
+configuration to $(2,0)$ and $(0,2)$ by transferring an electron onto
+the occupied neighboring dot. To describe these processes, we retain
+one orbital--valley state on each dot, with both spin states, and
+assume that tunneling conserves spin. The Hubbard approximation
+developed in Appendix~\ref{sec:device-hubbard-reduction} gives
+\begin{equation}
+  \begin{aligned}
+    H_{\mathrm{Hub}}
+      &=\sum_{i=1}^2\epsilon_i n_i
+        +U\sum_{i=1}^2 n_{i\uparrow}n_{i\downarrow}+Vn_1n_2\\
+      &\quad-t_c\sum_{\sigma=\uparrow,\downarrow}
+        (c_{1\sigma}^\dagger c_{2\sigma}
+         +c_{2\sigma}^\dagger c_{1\sigma}).
+  \end{aligned}
+  \label{eq:two-site-hubbard}
+\end{equation}
+Here $c_{i\sigma}$ annihilates an electron with spin $\sigma$ on
+dot $i$. The occupation operators are
+$n_{i\sigma}=c_{i\sigma}^\dagger c_{i\sigma}$ and
+$n_i=n_{i\uparrow}+n_{i\downarrow}$.
+Each retained orbital has energy $\epsilon_i$, while the Coulomb
+repulsion depends on whether the electrons occupy the same dot or
+different dots. These two cases contribute the energies $U$ and $V$,
+respectively; for simplicity, we take the same $U$ on both dots.
+The final term transfers an electron between the dots with real
+tunnel amplitude $t_c$. This model neglects direct Coulomb exchange,
+and we leave out the local Zeeman terms when calculating the exchange
+contribution.
+
+The energetic cost of a tunneling process follows from both the
+orbital energies and the repulsion. Moving an electron onto the
+occupied dot replaces the interdot repulsion $V$ with the on-site
+repulsion $U$. It also changes the orbital energy by
+$+\varepsilon$ or $-\varepsilon$, depending on the direction of
+transfer, where $\varepsilon=\epsilon_1-\epsilon_2$.
+The two double-occupation costs, measured from the energy of $(1,1)$
+in the absence of tunneling, are therefore
+\begin{equation}
+  \Delta_{20}=U-V+\varepsilon,\qquad
+  \Delta_{02}=U-V-\varepsilon.
+  \label{eq:virtual-charge-gaps}
+\end{equation}
+We choose an operating point at which both costs are positive and
+much larger than $|t_c|$. Tunneling then mixes only small components
+of the doubly occupied states into the low-energy states associated
+with $(1,1)$. Provided thermal and drive-induced charge excitation
+are also negligible, the doubly occupied states can be eliminated
+from the low-energy description while retaining the energy shifts
+that their virtual mixing produces.
+
+The spin dependence of these shifts follows from fermionic
+antisymmetry. Within the retained orbital--valley state, a doubly
+occupied dot can support only a spin singlet. The $(1,1)$ singlet
+can therefore mix with both higher-energy charge states, whereas
+the triplets have no such tunneling channel. This mixing lowers
+the singlet energy and leaves the triplet energy unchanged.
+Eliminating the two charge states to second order in $t_c$ gives
+the singlet--triplet energy difference
+(Appendix~\ref{sec:device-low-energy-reduction})
+\begin{equation}
+  J\equiv E_T-E_S
+     =2t_c^2\left(\frac{1}{\Delta_{20}}+\frac{1}{\Delta_{02}}\right).
+  \label{eq:superexchange}
+\end{equation}
+This energy difference is the exchange coupling that enters the
+spin Hamiltonian. After the higher-energy charge states have been
+eliminated, the interaction within the $(1,1)$ spin space takes
+the Heisenberg form~\cite{Loss1998}
+\begin{equation}
+  H_{\mathrm{ex}}=J\,\mathbf{s}_1\cdot\mathbf{s}_2.
+  \label{eq:exchange-spin}
+\end{equation}
+A common energy shift has been omitted. The charge degrees of freedom
+thus enter the spin dynamics through the coefficient $J$, whose value
+is set by the tunnel amplitude and the two double-occupation costs.
+
+\paragraph{Tuning exchange with gate voltages.}
+Gate voltages control this interaction by changing the interdot
+tunneling and the relative orbital energies. Substituting the charge
+costs into the expression for $J$ makes these dependencies explicit:
+\begin{equation}
+  J(\varepsilon)=\frac{4t_c^2(U-V)}{(U-V)^2-\varepsilon^2},\qquad
+  J(0)=\frac{4t_c^2}{U-V}.
+  \label{eq:exchange-detuning}
+\end{equation}
+Adjusting the interdot barrier changes the tunnel amplitude $t_c$,
+while shifting the orbital energy of one dot relative to the other
+changes the detuning $\varepsilon$. The tunnel amplitude at the
+chosen barrier setting must be measured
+(Appendix~\ref{sec:measurement-tunnel-spectroscopy}); the exchange
+strength used to set a spin pulse is calibrated at the corresponding
+compensated voltages (Appendix~\ref{sec:calibration-two-spin-exchange}).
+In either case, the resulting
+exchange pulse must remain within the regime used to obtain the
+spin Hamiltonian. If a double-occupation cost becomes comparable
+to $|t_c|$, the associated charge state mixes strongly with $(1,1)$
+and must be included explicitly in the dynamics. The apparent
+divergence of the expression for $J$ near a charge degeneracy is
+therefore outside its range of validity.
+
+In a device, changing the barrier voltage generally changes the
+tunnel amplitude and shifts the dot levels at the same time. A pulse intended to tune
+exchange can consequently move the addition thresholds that define
+the chosen charge operating point. These shifts can be compensated
+by adjusting the two plunger voltages together with the barrier
+voltage.
+
+For a small barrier-voltage change $\delta V_{\mathrm B}$, let
+$\delta\mathbf V_{\mathrm P}$ denote the two plunger adjustments
+and $\delta\boldsymbol\mu$ the resulting shifts of the two addition
+thresholds. The matrix $G_{\mathrm P}$ contains the measured
+derivatives of these thresholds with respect to the two plunger
+voltages at the operating point, while the vector $\mathbf g_{\mathrm B}$
+contains their measured derivatives with respect to the barrier
+voltage. With independent plunger responses,
+$G_{\mathrm P}$ is invertible, and the voltage response gives the
+compensation required to keep both thresholds fixed
+(Appendix~\ref{app:virtual-gates}):
+\begin{equation}
+ \delta\boldsymbol\mu
+    =G_{\mathrm P}\delta\mathbf V_{\mathrm P}
+          +\mathbf g_{\mathrm B}\delta V_{\mathrm B},
+ \qquad
+ \left.\delta\mathbf V_{\mathrm P}\right|_{\delta\boldsymbol\mu=0}
+    =-G_{\mathrm P}^{-1}\mathbf g_{\mathrm B}\delta V_{\mathrm B}.
+ \label{eq:platform-compensated-voltage}
+\end{equation}
+Coordinated voltage combinations chosen to control specified
+quantities are called \emph{virtual gates}. This combination cancels
+the changes in the two chosen thresholds to first order around the
+operating point, while allowing the tunnel amplitude and other
+Hamiltonian parameters to vary.
+

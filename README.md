@@ -188,7 +188,14 @@ to include the regenerated PDF in the notes.
 - `main.tex`: article layout, document order, title, contents, and bibliography.
 - `preamble.tex`: typography, packages, and notation.
 - `sections/preface.tex`: introduction, notation, and general gate definitions.
-- `sections/01-platform.tex`: the eight main sections, numbered 1--8.
+- `sections/01-quantum-dots.tex`: section 1, quantum dots and confined electron states.
+- `sections/02-electron-number.tex`: section 2, electron-number control and loading.
+- `sections/03-qubit-encodings.tex`: section 3, single-spin, singlet–triplet, and exchange-only encodings.
+- `sections/04-spin-control-exchange.tex`: section 4, Zeeman splitting, transverse driving, and exchange.
+- `sections/05-initialization-readout.tex`: section 5, state preparation and spin readout.
+- `sections/06-quantum-gates.tex`: section 6, physical implementations of quantum gates.
+- `sections/07-coherence.tex`: section 7, dephasing, relaxation, and leakage.
+- `sections/08-qubit-arrays.tex`: section 8, addressing, parallel operations, and communication.
 - `sections/appendix-*.tex`: the 25 appendix entry files and the virtual-gates component.
 - `figures/`: native LaTeX diagrams, generated plots, and their plotting scripts.
 - `data/silicon-bandstructure/`: saved NIST JARVIS silicon band data used by the figure script.

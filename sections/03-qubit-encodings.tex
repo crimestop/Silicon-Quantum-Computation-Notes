@@ -1,0 +1,104 @@
+\FloatBarrier
+\section{Qubit architectures and encodings}
+\label{sec:qubit-architectures}
+
+After selecting and retaining the $N=1$ charge state, we can keep
+the electron in the lowest orbital--valley state $\ket{\chi_0}$ and
+use its two spin states to store a qubit. With several confined
+electrons, we can instead select two joint spin states and use them
+as one logical qubit. The choice of this two-dimensional
+\emph{computational subspace} is the encoding; transitions out of
+it are leakage. Different encodings use the available physical
+interactions differently: a field acts on an individual spin,
+while an interaction between spins can act within a jointly
+encoded space.
+
+We retain one orbital--valley state per dot and assume predominantly
+one electron per occupied dot.
+
+\subsection{Single-spin qubits}
+\label{sec:single-spin-qubits}
+
+For one electron, we choose the logical basis
+\begin{equation}
+  \ket{0}=\ket{\chi_0}\otimes\ket{\downarrow},
+  \qquad
+  \ket{1}=\ket{\chi_0}\otimes\ket{\uparrow}.
+  \label{eq:qubit-basis}
+\end{equation}
+The computational space is
+$\Hilb_{\mathrm q}=\operatorname{span}\{\ket0,\ket1\}$,
+and a pure qubit state is $\ket{\psi}=a\ket0+b\ket1$, with
+$|a|^2+|b|^2=1$.
+Leakage involves charge, orbital, or valley excitations.
+
+Charge preparation alone does not fix the spin state.
+For example, the two-dot $(1,1)$ charge configuration introduced
+in Section~\ref{sec:multiple-quantum-dots}, with one orbital--valley
+state per dot, contains four spin states:
+\begin{equation}
+  \ket{\downarrow\downarrow},\quad
+  \ket{\downarrow\uparrow},\quad
+  \ket{\uparrow\downarrow},\quad
+  \ket{\uparrow\uparrow}.
+  \label{eq:two-spin-basis}
+\end{equation}
+The arrows refer to dots 1 and 2. A charge stability diagram identifies
+charge occupations and transitions, not the spin state within a charge
+sector; its boundaries are derived in
+Appendix~\ref{sec:measurement-double-dot-csd}.
+The four states can represent two single-spin qubits or supply
+a subspace for one encoded qubit~\cite{Burkard2023}.
+
+\subsection{Singlet--triplet qubits}
+\label{sec:singlet-triplet-qubits}
+
+Two spins decompose as $\tfrac12\otimes\tfrac12=0\oplus1$.
+We encode one qubit in the $m=0$ states: the singlet ($S=0$) and
+the triplet ($S=1$),\footnote{The label $S$ in $\ket S$ stands for
+``singlet''; the total-spin quantum number of this state is $S=0$.}
+\begin{equation}
+  \begin{aligned}
+    \ket{0_{\mathrm{ST}}}=\ket{S}
+      &=\frac{\ket{\uparrow\downarrow}-\ket{\downarrow\uparrow}}{\sqrt{2}},\\
+    \ket{1_{\mathrm{ST}}}=\ket{T_0}
+      &=\frac{\ket{\uparrow\downarrow}+\ket{\downarrow\uparrow}}{\sqrt{2}}.
+  \end{aligned}
+  \label{eq:st-basis}
+\end{equation}
+The remaining triplets
+$\ket{T_+}=\ket{\uparrow\uparrow}$ and
+$\ket{T_-}=\ket{\downarrow\downarrow}$ are spin-leakage states.
+
+\subsection{Exchange-only qubits}
+\label{sec:exchange-only-qubits}
+
+Three spin-$1/2$ electrons can encode one logical qubit. Their spin
+space decomposes as
+\[
+ \tfrac12\otimes\tfrac12\otimes\tfrac12
+   =\tfrac12\oplus\tfrac12\oplus\tfrac32.
+\]
+Taking the $m=+1/2$ state from each of the two $S=1/2$
+representations gives a two-dimensional computational space.
+We choose the basis
+\begin{equation}
+  \begin{aligned}
+    \ket{0_{\mathrm E}}&=
+       \frac{\ket{\uparrow\downarrow\uparrow}
+             -\ket{\downarrow\uparrow\uparrow}}{\sqrt{2}},\\
+    \ket{1_{\mathrm E}}&=
+       \frac{2\ket{\uparrow\uparrow\downarrow}
+             -\ket{\uparrow\downarrow\uparrow}
+             -\ket{\downarrow\uparrow\uparrow}}{\sqrt{6}}.
+  \end{aligned}
+  \label{eq:exchange-only-basis}
+\end{equation}
+The arrows refer to spins 1, 2, and 3.
+Spins 1 and 2 form a singlet in $\ket{0_{\mathrm E}}$ and a triplet
+in $\ket{1_{\mathrm E}}$, distinguishing the two $S=1/2$ representations.
+The spin-rotation-invariant interaction derived in
+Section~\ref{sec:exchange-virtual-tunneling} is called isotropic exchange.
+It preserves $S,m$ but can mix these two states, allowing logical
+rotations using exchange alone (Section~\ref{sec:encoded-gates}).
+
